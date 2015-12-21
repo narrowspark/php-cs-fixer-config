@@ -1,7 +1,6 @@
 # php-cs-fixer-config
 
 [![Author](http://img.shields.io/badge/author-@anolilab-blue.svg?style=flat-square)](https://twitter.com/anolilab)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/narrowspark/php-cs-fixer-config.svg?style=flat-square)](https://packagist.org/packages/narrowspark/php-cs-fixer-config)
 [![Total Downloads](https://img.shields.io/packagist/dt/narrowspark/php-cs-fixer-config.svg?style=flat-square)](https://packagist.org/packages/narrowspark/php-cs-fixer-config)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
