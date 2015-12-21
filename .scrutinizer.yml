@@ -99,5 +99,6 @@ build:
             - 'composer install'
 
 tools:
-    external_code_coverage: true
+    external_code_coverage:
+      timeout: 600    # Timeout in seconds.
     php_code_coverage: false
