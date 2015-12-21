@@ -100,5 +100,5 @@ build:
 
 tools:
     external_code_coverage:
-      timeout: 600    # Timeout in seconds.
-    php_code_coverage: false
+      timeout: 600
+      run: 3
