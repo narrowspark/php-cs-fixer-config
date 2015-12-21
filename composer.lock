@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4390ce84bd75898f7086f44daf0c8a07",
-    "content-hash": "24c51474991e5bebc3334a2ebfe8be5e",
+    "hash": "5426a7ac4e3f4d9f81cf29624c9251c1",
+    "content-hash": "486135d82946726b95d2f36d91f14446",
     "packages": [
         {
             "name": "fabpot/php-cs-fixer",
-            "version": "v1.11",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "bd3ec2c2b774e0e127ac2c737ec646d9cf2f9eef"
+                "reference": "8fe3165dd01f254791665bd49a6e8c2eb825bf24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/bd3ec2c2b774e0e127ac2c737ec646d9cf2f9eef",
-                "reference": "bd3ec2c2b774e0e127ac2c737ec646d9cf2f9eef",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/8fe3165dd01f254791665bd49a6e8c2eb825bf24",
+                "reference": "8fe3165dd01f254791665bd49a6e8c2eb825bf24",
                 "shasum": ""
             },
             "require": {
@@ -39,6 +39,11 @@
                 "php-cs-fixer"
             ],
             "type": "application",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Symfony\\CS\\": "Symfony/CS/"
@@ -59,7 +64,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2015-12-01 22:34:33"
+            "time": "2015-12-20 22:09:43"
         },
         {
             "name": "sebastian/diff",
