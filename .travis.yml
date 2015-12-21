@@ -1,0 +1,42 @@
+language: php
+
+sudo: false
+
+php:
+  - 5.6
+  - 7.0
+  - nightly
+
+matrix:
+  include:
+    - php: 5.6
+      env: COLLECT_COVERAGE=true CHECK_CS=true
+    - php: 7.0
+  allow_failures:
+    - php: nightly
+  fast_finish: true
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.php-cs-fixer
+
+before_install:
+  - composer self-update
+  - composer validate
+  - OCULAR_ENV='5.6'
+
+install:
+  - composer install --prefer-dist
+
+before_script:
+  - if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$TRAVIS_BRANCH" == "master" ]]; then IS_MERGE_TO_MASTER=true; fi
+  - mkdir -p "$HOME/.php-cs-fixer"
+
+script:
+  - mkdir -p build/logs
+  - if [[ "$COLLECT_COVERAGE" == "true" && "$IS_MERGE_TO_MASTER" == "true" ]]; then vendor/bin/phpunit -c phpunit.xml.dist --verbose; fi
+  - if [[ "$CHECK_CS" == "true" ]]; then vendor/bin/php-cs-fixer fix --config-file=.php_cs --verbose --diff --dry-run; fi
+
+after_success:
+  - if [[ "$COLLECT_COVERAGE" == "true" && "$IS_MERGE_TO_MASTER" == "true" ]]; then travis_retry php vendor/bin/coveralls --coverage_clover=build/logs/clover.xml; fi
