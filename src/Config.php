@@ -133,7 +133,7 @@ class Config extends CsConfig
             'ternary_spaces'                        => true,
             'trim_array_spaces'                     => true,
             'unalign_double_arrow'                  => false,
-            'unalign_equals'                        => true,
+            'unalign_equals'                        => false,
             'unneeded_control_parentheses'          => true,
             'unused_use'                            => true,
             'whitespacy_lines'                      => true,
