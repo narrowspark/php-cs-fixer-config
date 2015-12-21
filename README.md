@@ -44,7 +44,6 @@ $cacheDir = getenv('TRAVIS') ? getenv('HOME') . '/.php-cs-fixer' : __DIR__;
 
 $config->setCacheFile($cacheDir . '/.php_cs.cache');
 
-
 return $config;
 
 ```
@@ -80,10 +79,9 @@ If you only want to run `php-cs-fixer` on one PHP version, update your build mat
 ```yml
 matrix:
   include:
-    - php: 5.4
-    - php: 5.5
     - php: 5.6
       env: CHECK_CS=true
+    - php: 7.0
 
 script:
   - if [[ "$CHECK_CS" == "true" ]]; then vendor/bin/php-cs-fixer fix --config-file=.php_cs --verbose --diff --dry-run; fi
