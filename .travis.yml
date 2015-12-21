@@ -10,7 +10,7 @@ php:
 matrix:
   include:
     - php: 5.6
-      env: COLLECT_COVERAGE=true CHECK_CS=true
+      env: CHECK_CS=true
     - php: 7.0
   allow_failures:
     - php: nightly
@@ -34,7 +34,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - if [[ "$COLLECT_COVERAGE" == "true" && "$IS_MERGE_TO_MASTER" == "true" ]]; then vendor/bin/phpunit -c phpunit.xml.dist --verbose; fi
+  - if [[ "$IS_MERGE_TO_MASTER" == "true" ]]; then vendor/bin/phpunit -c phpunit.xml.dist --verbose; fi
   - if [[ "$CHECK_CS" == "true" ]]; then vendor/bin/php-cs-fixer fix --config-file=.php_cs --verbose --diff --dry-run; fi
 
 after_script:
