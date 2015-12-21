@@ -5,8 +5,10 @@ use Symfony\CS\Config\Config as CsConfig;
 
 class Config extends CsConfig
 {
-    public function __construct($name = 'narrowspark', $description = 'The configuration for Narrowspark PHP applications')
-    {
+    public function __construct(
+        $name = 'narrowspark',
+        $description = 'The configuration for Narrowspark PHP applications'
+    ) {
         parent::__construct($name, $description);
     }
 
@@ -35,7 +37,7 @@ class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string,boolean>
      */
     protected function getContribRules()
     {
@@ -67,7 +69,7 @@ class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string,boolean>
      */
     private function getPsr2Rules()
     {
@@ -77,7 +79,7 @@ class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string,boolean>
      */
     private function getSymfonyRules()
     {
