@@ -75,7 +75,7 @@ script:
 ```
 
 ### StyleCi
-If you using (StyleCi)[https://styleci.io] just copy (.styleci.yml)[.styleci.yml] to you repository and enable styleci. Or copy this setting to StyleCi
+If you using [StyleCi](https://styleci.io) just copy [.styleci.yml](.styleci.yml) to you repository and enable styleci. Or copy this setting to StyleCi
 
 ~~~yml
 preset: psr2
