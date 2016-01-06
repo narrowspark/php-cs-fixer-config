@@ -18,7 +18,6 @@ we use to verify and enforce a single coding standard for PHP code within Narrow
 Via Composer
 
 ``` bash
-$ composer require --dev "fabpot/php-cs-fixer:2.0.*@dev"
 $ composer require narrowspark/php-cs-fixer-config
 ```
 
@@ -36,7 +35,8 @@ $config->getFinder()
     ->in(__DIR__)
     ->exclude('build')
     ->exclude('vendor')
-    ->notName('CONTRIBUTING')
+    ->exclude('tests')
+    ->name('*.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
@@ -74,18 +74,77 @@ script:
   - vendor/bin/php-cs-fixer fix --config-file=.php_cs --verbose --diff --dry-run
 ```
 
-If you only want to run `php-cs-fixer` on one PHP version, update your build matrix and use a condition:
+### StyleCi
+If you using (StyleCi)[https://styleci.io] just copy (.styleci.yml)[.styleci.yml] to you repository and enable styleci. Or copy this setting to StyleCi
 
-```yml
-matrix:
-  include:
-    - php: 5.6
-      env: CHECK_CS=true
-    - php: 7.0
+~~~yml
+preset: psr2
 
-script:
-  - if [[ "$CHECK_CS" == "true" ]]; then vendor/bin/php-cs-fixer fix --config-file=.php_cs --verbose --diff --dry-run; fi
-```
+risky: false
+
+linting: true
+
+enabled:
+  - concat_with_spaces
+  - function_typehint_space
+  - newline_after_open_tag
+  - no_blank_lines_before_namespace
+  - ordered_use
+  - phpdoc_order
+  - short_array_syntax
+  - alias_functions
+  - array_element_no_space_before_comma
+  - array_element_white_space_after_comma
+  - double_arrow_multiline_whitespaces
+  - duplicate_semicolon
+  - empty_return
+  - extra_empty_lines
+  - include
+  - list_commas
+  - method_separation
+  - multiline_array_trailing_comma
+  - namespace_no_leading_whitespace
+  - new_with_braces
+  - no_blank_lines_after_class_opening
+  - no_empty_lines_after_phpdocs
+  - object_operator
+  - operators_spaces
+  - phpdoc_align
+  - phpdoc_indent
+  - phpdoc_inline_tag
+  - phpdoc_no_access
+  - phpdoc_no_empty_return
+  - phpdoc_no_package
+  - phpdoc_scalar
+  - phpdoc_separation
+  - phpdoc_to_comment
+  - phpdoc_trim
+  - phpdoc_types
+  - phpdoc_type_to_var
+  - phpdoc_var_without_name
+  - remove_leading_slash_use
+  - remove_lines_between_uses
+  - return
+  - short_bool_cast
+  - single_array_no_trailing_comma
+  - single_quote
+  - spaces_after_semicolon
+  - spaces_before_semicolon
+  - spaces_cast
+  - standardize_not_equal
+  - ternary_spaces
+  - trim_array_spaces
+  - unneeded_control_parentheses
+  - whitespacy_lines
+
+finder:
+  exclude:
+    - "build"
+    - "vendor"
+    - "tests"
+  name:
+    - "*.php"
+~~~
 
 ## Change log
 
@@ -103,7 +162,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
-- [Daniel Bannert](https://github.com/prisis)
+- [refinery29](https://github.com/refinery29/php-cs-fixer-config)
 - [All Contributors](../../contributors)
 
 ## License

@@ -8,10 +8,6 @@ php:
   - nightly
 
 matrix:
-  include:
-    - php: 5.6
-      env: CHECK_CS=true
-    - php: 7.0
   allow_failures:
     - php: nightly
   fast_finish: true
@@ -29,13 +25,12 @@ install:
   - composer install --prefer-dist
 
 before_script:
-  - if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$TRAVIS_BRANCH" == "master" ]]; then IS_MERGE_TO_MASTER=true; fi
   - mkdir -p "$HOME/.php-cs-fixer"
 
 script:
   - mkdir -p build/logs
-  - if [[ "$IS_MERGE_TO_MASTER" == "true" ]]; then vendor/bin/phpunit -c phpunit.xml.dist --verbose; fi
-  - if [[ "$CHECK_CS" == "true" ]]; then vendor/bin/php-cs-fixer fix --config-file=.php_cs --verbose --diff --dry-run; fi
+  - then vendor/bin/phpunit -c phpunit.xml.dist --verbose; fi
+  - vendor/bin/php-cs-fixer fix --config-file=.php_cs --verbose --diff --dry-run
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

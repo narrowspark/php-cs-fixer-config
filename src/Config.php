@@ -135,7 +135,7 @@ class Config extends CsConfig
             'unalign_double_arrow'                  => false,
             'unalign_equals'                        => false,
             'unneeded_control_parentheses'          => true,
-            'unused_use'                            => true,
+            'unused_use'                            => false,
             'whitespacy_lines'                      => true,
         ];
     }
