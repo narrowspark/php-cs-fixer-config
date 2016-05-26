@@ -55,6 +55,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('header_comment', $rules);
         $this->assertFalse($rules['header_comment']);
         $this->assertTrue($rules['no_blank_lines_before_namespace']);
+        $this->assertFalse($rules['single_blank_line_before_namespace']);
     }
 
     public function testHasHeaderCommentFixerIfProvided()
@@ -71,6 +72,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
         ];
         $this->assertSame($expected, $rules['header_comment']);
         $this->assertFalse($rules['no_blank_lines_before_namespace']);
+        $this->assertTrue($rules['single_blank_line_before_namespace']);
     }
 
     /**
@@ -211,7 +213,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
             'self_accessor'                               => false,
             'short_scalar_cast'                           => true,
             'simplified_null_return'                      => true,
-            'single_blank_line_before_namespace'          => true,
+            'single_blank_line_before_namespace'          => false,
             'single_quote'                                => true,
             'space_after_semicolon'                       => true,
             'standardize_not_equals'                      => true,

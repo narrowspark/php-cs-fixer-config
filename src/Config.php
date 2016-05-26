@@ -123,7 +123,7 @@ class Config extends CsConfig
      */
     private function getSymfonyRules()
     {
-        return [
+        $rules = [
             'blank_line_after_opening_tag'                => true,
             'blank_line_before_return'                    => true,
             'cast_spaces'                                 => true,
@@ -177,7 +177,6 @@ class Config extends CsConfig
             'self_accessor'                               => false,
             'short_scalar_cast'                           => true,
             'simplified_null_return'                      => true,
-            'single_blank_line_before_namespace'          => true,
             'single_quote'                                => true,
             'space_after_semicolon'                       => true,
             'standardize_not_equals'                      => true,
@@ -189,5 +188,13 @@ class Config extends CsConfig
             'unary_operator_spaces'                       => true,
             'whitespace_after_comma_in_array'             => true,
         ];
+
+        if ($this->header !== null) {
+            $rules['single_blank_line_before_namespace'] = true;
+        } else {
+            $rules['single_blank_line_before_namespace'] = false;
+        }
+
+        return $rules;
     }
 }
