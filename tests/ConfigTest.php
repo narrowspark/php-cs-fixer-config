@@ -2,7 +2,7 @@
 namespace Narrowspark\CS\Config\Tests;
 
 use Narrowspark\CS\Config\Config;
-use Symfony\CS\ConfigInterface;
+use PhpCsFixer\ConfigInterface;
 
 class Refinery29Test extends \PHPUnit_Framework_TestCase
 {

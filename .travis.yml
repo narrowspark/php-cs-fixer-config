@@ -22,7 +22,7 @@ before_install:
   - composer validate
 
 install:
-  - composer install --prefer-dist
+  - composer install --no-interaction --prefer-dist --no-progress --profile
 
 before_script:
   - mkdir -p "$HOME/.php-cs-fixer"

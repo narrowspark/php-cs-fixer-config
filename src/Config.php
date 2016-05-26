@@ -1,7 +1,7 @@
 <?php
 namespace Narrowspark\CS\Config;
 
-use Symfony\CS\Config\Config as CsConfig;
+use PhpCsFixer\Config as CsConfig;
 
 class Config extends CsConfig
 {
