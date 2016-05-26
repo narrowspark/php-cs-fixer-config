@@ -220,7 +220,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
             'ternary_operator_spaces'                     => true,
             'trailing_comma_in_multiline_array'           => true,
             'trim_array_spaces'                           => true,
-            'unalign_double_arrow'                        => true,
+            'unalign_double_arrow'                        => false,
             'unalign_equals'                              => true,
             'unary_operator_spaces'                       => true,
             'whitespace_after_comma_in_array'             => true,
