@@ -10,7 +10,7 @@
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/narrowspark/php-cs-fixer-config.svg?style=flat-square)](https://scrutinizer-ci.com/g/narrowspark/php-cs-fixer-config/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/narrowspark/php-cs-fixer-config.svg?style=flat-square)](https://scrutinizer-ci.com/g/narrowspark/php-cs-fixer-config)
 
-This repository provides a configuration for [`fabpot/php-cs-fixer`](http://github.com/FriendsOfPHP/PHP-CS-Fixer), which
+This repository provides a configuration for [`friendsofphp/php-cs-fixer`](http://github.com/FriendsOfPHP/PHP-CS-Fixer), which
 we use to verify and enforce a single coding standard for PHP code within Narrowspark.
 
 ## Install
