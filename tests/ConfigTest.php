@@ -18,7 +18,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
         $this->assertSame('The configuration for Narrowspark PHP applications', $config->getDescription());
         $this->assertTrue($config->usingCache());
         $this->assertTrue($config->usingLinter());
-        $this->assertFalse($config->getRiskyAllowed());
+        $this->assertTrue($config->getRiskyAllowed());
     }
 
     public function testHasPsr2Rules()
@@ -109,13 +109,10 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
         $contribFixers = [
             'align_double_arrow'                        => 'it conflicts with unalign_double_arrow (which is enabled)',
             'align_equals'                              => 'it conflicts with unalign_double (yet to be enabled)',
-            'dir_constant'                              => 'it is a risky fixer',
             'echo_to_print'                             => 'we dont use it',
             'ereg_to_preg'                              => 'it changes behaviour',
             'header_comment'                            => 'it is not enabled by default',
             'long_array_syntax'                         => 'it conflicts with short_array_syntax (which is enabled)',
-            'modernize_types_casting'                   => 'it is a risky fixer',
-            'no_useless_else'                           => 'buggy',
             'no_multiline_whitespace_before_semicolons' => 'we have not decided to use this one (yet)',
             'no_php4_constructor'                       => 'it changes behaviour',
             'not_operator_with_space'                   => 'we do not need leading and trailing whitespace before !',
@@ -161,6 +158,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
     private function getSymfonyRules()
     {
         return [
+            'binary_operator_spaces'                      => true,
             'blank_line_after_opening_tag'                => true,
             'blank_line_before_return'                    => true,
             'cast_spaces'                                 => true,
@@ -238,15 +236,15 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
             'concat_with_spaces'                         => true,
             'ereg_to_preg'                               => false,
             'echo_to_print'                              => false,
-            'dir_constant'                               => false,
+            'dir_constant'                               => true,
             'header_comment'                             => false,
             'linebreak_after_opening_tag'                => true,
             'long_array_syntax'                          => false,
-            'modernize_types_casting'                    => false,
+            'modernize_types_casting'                    => true,
             'no_multiline_whitespace_before_semicolons'  => false,
             'no_php4_constructor'                        => false,
             'no_short_echo_tag'                          => true,
-            'no_useless_else'                            => false,
+            'no_useless_else'                            => true,
             'no_useless_return'                          => true,
             'not_operator_with_space'                    => false,
             'not_operator_with_successor_space'          => true,

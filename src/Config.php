@@ -38,7 +38,7 @@ class Config extends CsConfig
      */
     public function getRiskyAllowed()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -68,17 +68,18 @@ class Config extends CsConfig
             'align_equals'                               => false,
             'combine_consecutive_unsets'                 => true,
             'concat_with_spaces'                         => true,
+            'declare_strict_types'                       => true,
+            'dir_constant'                               => true,
             'ereg_to_preg'                               => false,
             'echo_to_print'                              => false,
-            'dir_constant'                               => false,
             'header_comment'                             => false,
             'linebreak_after_opening_tag'                => true,
             'long_array_syntax'                          => false,
-            'modernize_types_casting'                    => false,
+            'modernize_types_casting'                    => true,
             'no_multiline_whitespace_before_semicolons'  => false,
             'no_php4_constructor'                        => false,
             'no_short_echo_tag'                          => true,
-            'no_useless_else'                            => false,
+            'no_useless_else'                            => true,
             'no_useless_return'                          => true,
             'not_operator_with_space'                    => false,
             'not_operator_with_successor_space'          => true,
@@ -125,6 +126,7 @@ class Config extends CsConfig
     private function getSymfonyRules()
     {
         $rules = [
+            'binary_operator_spaces'                      => true,
             'blank_line_after_opening_tag'                => true,
             'blank_line_before_return'                    => true,
             'cast_spaces'                                 => true,
