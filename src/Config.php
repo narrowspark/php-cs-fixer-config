@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Narrowspark\CS\Config;
 
 use PhpCsFixer\Config as CsConfig;
@@ -11,8 +12,8 @@ class Config extends CsConfig
     private $header;
 
     public function __construct(
-        $name = 'narrowspark',
-        $description = 'The configuration for Narrowspark PHP applications'
+        string $name = 'narrowspark',
+        string $description = 'The configuration for Narrowspark PHP applications'
     ) {
         parent::__construct($name, $description);
     }
@@ -53,7 +54,7 @@ class Config extends CsConfig
         );
     }
 
-    public function setHeader($header)
+    public function setHeader(string $header)
     {
         $this->header = $header;
     }
@@ -113,7 +114,7 @@ class Config extends CsConfig
     /**
      * @return array
      */
-    private function getPsr2Rules()
+    private function getPsr2Rules(): array
     {
         return [
             '@PSR2' => true,
@@ -123,7 +124,7 @@ class Config extends CsConfig
     /**
      * @return array
      */
-    private function getSymfonyRules()
+    private function getSymfonyRules(): array
     {
         $rules = [
             'binary_operator_spaces'                      => true,
