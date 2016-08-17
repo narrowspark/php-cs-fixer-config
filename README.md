@@ -28,7 +28,7 @@ There are two possibilities here
 * you require that same commit in your repository
 
     ```
-    $ composer require fabpot/php-cs-fixer-config:dev-master#d3b83bc.
+    $ composer require fabpot/php-cs-fixer-config:dev-master#9688875.
     ```
 
 * you configure `composer.json` in your root package with
@@ -46,7 +46,7 @@ There are two possibilities here
     ```
   trusting us to pull in a working version.
 
-For reference, see [`fabpot/php-cs-fixer-config:dev-master#d3b83bc`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/commit/d3b83bc).
+For reference, see [`fabpot/php-cs-fixer-config:dev-master#9688875`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/commit/9688875).
 
 ## Usage
 
