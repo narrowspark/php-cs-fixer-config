@@ -21,6 +21,33 @@ Via Composer
 $ composer require narrowspark/php-cs-fixer-config
 ```
 
+:exclamation: Since `fabpot/php-cs-fixer:2.0.x-dev` isn't stable, we're pinning the dependency to a known commit.
+
+There are two possibilities here
+
+* you require that same commit in your repository
+
+    ```
+    $ composer require fabpot/php-cs-fixer-config:dev-master#9688875.
+    ```
+
+* you configure `composer.json` in your root package with
+
+    ```json
+    {
+        "minimum-stability": "dev",
+        "prefer-stable": true
+    }
+    ```
+  and remove `fabpot/php-cs-fixer` with
+
+    ```
+    $ composer remove fabpot/php-cs-fixer
+    ```
+  trusting us to pull in a working version.
+
+For reference, see [`fabpot/php-cs-fixer-config:dev-master#9688875`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/commit/9688875).
+
 ## Usage
 
 Create a configuration file '.php_cs' in the root of your project:
@@ -152,7 +179,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 ## Testing
 
 ``` bash
-$ composer test
+$ vendor/bin/phpunit
 ```
 
 ## Contributing

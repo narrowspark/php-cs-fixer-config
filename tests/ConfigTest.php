@@ -18,7 +18,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
         $this->assertSame('The configuration for Narrowspark PHP applications', $config->getDescription());
         $this->assertTrue($config->usingCache());
         $this->assertTrue($config->usingLinter());
-        $this->assertFalse($config->getRiskyAllowed());
+        $this->assertTrue($config->getRiskyAllowed());
     }
 
     public function testHasPsr2Rules()
@@ -109,13 +109,10 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
         $contribFixers = [
             'align_double_arrow'                        => 'it conflicts with unalign_double_arrow (which is enabled)',
             'align_equals'                              => 'it conflicts with unalign_double (yet to be enabled)',
-            'dir_constant'                              => 'it is a risky fixer',
             'echo_to_print'                             => 'we dont use it',
             'ereg_to_preg'                              => 'it changes behaviour',
             'header_comment'                            => 'it is not enabled by default',
             'long_array_syntax'                         => 'it conflicts with short_array_syntax (which is enabled)',
-            'modernize_types_casting'                   => 'it is a risky fixer',
-            'no_useless_else'                           => 'buggy',
             'no_multiline_whitespace_before_semicolons' => 'we have not decided to use this one (yet)',
             'no_php4_constructor'                       => 'it changes behaviour',
             'not_operator_with_space'                   => 'we do not need leading and trailing whitespace before !',
@@ -161,6 +158,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
     private function getSymfonyRules()
     {
         return [
+            'binary_operator_spaces'                      => true,
             'blank_line_after_opening_tag'                => true,
             'blank_line_before_return'                    => true,
             'cast_spaces'                                 => true,
@@ -190,7 +188,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
             'no_unreachable_default_argument_value'       => true,
             'no_unused_imports'                           => true,
             'no_whitespace_before_comma_in_array'         => true,
-            'no_whitespace_in_blank_lines'                => true,
+            'no_whitespace_in_blank_line'                 => true,
             'object_operator_without_whitespace'          => true,
             'phpdoc_align'                                => true,
             'phpdoc_indent'                               => true,
@@ -211,7 +209,6 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
             'print_to_echo'                               => false,
             'self_accessor'                               => false,
             'short_scalar_cast'                           => true,
-            'simplified_null_return'                      => true,
             'single_blank_line_before_namespace'          => false,
             'single_quote'                                => true,
             'space_after_semicolon'                       => true,
@@ -232,37 +229,38 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
     protected function getContribRules()
     {
         return [
-            'align_double_arrow'                         => false,
-            'align_equals'                               => false,
-            'combine_consecutive_unsets'                 => true,
-            'concat_with_spaces'                         => true,
-            'ereg_to_preg'                               => false,
-            'echo_to_print'                              => false,
-            'dir_constant'                               => false,
-            'header_comment'                             => false,
-            'linebreak_after_opening_tag'                => true,
-            'long_array_syntax'                          => false,
-            'modernize_types_casting'                    => false,
-            'no_multiline_whitespace_before_semicolons'  => false,
-            'no_php4_constructor'                        => false,
-            'no_short_echo_tag'                          => true,
-            'no_useless_else'                            => false,
-            'no_useless_return'                          => true,
-            'not_operator_with_space'                    => false,
-            'not_operator_with_successor_space'          => true,
-            'ordered_class_elements'                     => true,
-            'ordered_imports'                            => true,
-            'phpdoc_order'                               => true,
-            'phpdoc_property'                            => false,
-            'phpdoc_var_to_type'                         => false,
-            'php_unit_construct'                         => false,
-            'php_unit_dedicate_assert'                   => false,
-            'php_unit_strict'                            => false,
-            'psr0'                                       => false,
-            'random_api_migration'                       => false,
-            'short_array_syntax'                         => true,
-            'strict_comparison'                          => false,
-            'strict_param'                               => false,
+            'align_double_arrow'                        => false,
+            'align_equals'                              => false,
+            'combine_consecutive_unsets'                => true,
+            'concat_with_spaces'                        => true,
+            'ereg_to_preg'                              => false,
+            'echo_to_print'                             => false,
+            'dir_constant'                              => true,
+            'header_comment'                            => false,
+            'linebreak_after_opening_tag'               => true,
+            'long_array_syntax'                         => false,
+            'modernize_types_casting'                   => true,
+            'no_multiline_whitespace_before_semicolons' => false,
+            'no_php4_constructor'                       => false,
+            'no_short_echo_tag'                         => true,
+            'no_useless_else'                           => true,
+            'no_useless_return'                         => true,
+            'not_operator_with_space'                   => false,
+            'not_operator_with_successor_space'         => true,
+            'ordered_class_elements'                    => true,
+            'ordered_imports'                           => true,
+            'phpdoc_order'                              => true,
+            'phpdoc_property'                           => false,
+            'phpdoc_var_to_type'                        => false,
+            'php_unit_construct'                        => false,
+            'php_unit_dedicate_assert'                  => false,
+            'php_unit_strict'                           => false,
+            'psr0'                                      => false,
+            'random_api_migration'                      => false,
+            'short_array_syntax'                        => true,
+            'simplified_null_return'                    => true,
+            'strict_comparison'                         => false,
+            'strict_param'                              => false,
         ];
     }
 
