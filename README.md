@@ -21,15 +21,7 @@ Via Composer
 $ composer require narrowspark/php-cs-fixer-config
 ```
 
-:exclamation: Since `fabpot/php-cs-fixer:2.0.x-dev` isn't stable, we're pinning the dependency to a known commit.
-
-There are two possibilities here
-
-* you require that same commit in your repository
-
-    ```
-    $ composer require fabpot/php-cs-fixer-config:dev-master#9688875.
-    ```
+:exclamation: Since `fabpot/php-cs-fixer:2.0.0-beta` isn't stable, we're pinning the dependency to a known commit.
 
 * you configure `composer.json` in your root package with
 
@@ -45,8 +37,6 @@ There are two possibilities here
     $ composer remove fabpot/php-cs-fixer
     ```
   trusting us to pull in a working version.
-
-For reference, see [`fabpot/php-cs-fixer-config:dev-master#9688875`](https://github.com/FriendsOfPHP/PHP-CS-Fixer/commit/9688875).
 
 ## Usage
 

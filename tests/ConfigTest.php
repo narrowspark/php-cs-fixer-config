@@ -4,7 +4,7 @@ namespace Narrowspark\CS\Config\Tests;
 use Narrowspark\CS\Config\Config;
 use PhpCsFixer\ConfigInterface;
 
-class Refinery29Test extends \PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testImplementsInterface()
     {
@@ -14,8 +14,8 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
     public function testValues()
     {
         $config = new Config();
+
         $this->assertSame('narrowspark', $config->getName());
-        $this->assertSame('The configuration for Narrowspark PHP applications', $config->getDescription());
         $this->assertTrue($config->usingCache());
         $this->assertTrue($config->usingLinter());
         $this->assertTrue($config->getRiskyAllowed());
@@ -181,7 +181,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
             'no_multiline_whitespace_around_double_arrow' => true,
             'no_short_bool_cast'                          => true,
             'no_singleline_whitespace_before_semicolons'  => true,
-            'no_spaces_inside_offset'                     => true,
+            'no_spaces_around_offset'                     => true,
             'no_trailing_comma_in_list_call'              => true,
             'no_trailing_comma_in_singleline_array'       => true,
             'no_unneeded_control_parentheses'             => true,
@@ -217,7 +217,7 @@ class Refinery29Test extends \PHPUnit_Framework_TestCase
             'trailing_comma_in_multiline_array'           => true,
             'trim_array_spaces'                           => true,
             'unalign_double_arrow'                        => false,
-            'unalign_equals'                              => true,
+            'binary_operator_spaces'                      => true,
             'unary_operator_spaces'                       => true,
             'whitespace_after_comma_in_array'             => true,
         ];
