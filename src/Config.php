@@ -11,9 +11,11 @@ class Config extends CsConfig
      */
     private $header;
 
-    public function __construct(string $name = 'narrowspark')
-    {
-        parent::__construct($name);
+    public function __construct(
+        string $name = 'narrowspark',
+        string $description = 'The configuration for Narrowspark PHP applications'
+    ) {
+        parent::__construct($name, $description);
     }
 
     /**
@@ -149,7 +151,7 @@ class Config extends CsConfig
             'no_multiline_whitespace_around_double_arrow' => true,
             'no_short_bool_cast' => true,
             'no_singleline_whitespace_before_semicolons' => true,
-            'no_spaces_around_offset' => true,
+            'no_spaces_inside_offset' => true,
             'no_trailing_comma_in_list_call' => true,
             'no_trailing_comma_in_singleline_array' => true,
             'no_unneeded_control_parentheses' => true,
@@ -184,7 +186,7 @@ class Config extends CsConfig
             'trailing_comma_in_multiline_array' => true,
             'trim_array_spaces' => true,
             'unalign_double_arrow' => false,
-            'binary_operator_spaces' => true,
+            'unalign_equals' => true,
             'unary_operator_spaces' => true,
             'whitespace_after_comma_in_array' => true,
         ];
