@@ -25,10 +25,10 @@
     ],
     "require": {
         "php"                                 : "^7.0",
-        "friendsofphp/php-cs-fixer"           : "dev-master#9688875"
+        "friendsofphp/php-cs-fixer"           : "2.0.0-beta"
     },
     "require-dev": {
-        "phpunit/phpunit"                     : "^5.3"
+        "phpunit/phpunit"                     : "^5.1"
     },
     "autoload": {
         "psr-4": {
