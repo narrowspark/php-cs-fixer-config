@@ -141,7 +141,7 @@ class Config extends CsConfig
             'psr4'                               => true,
             'random_api_migration'               => true,
             'return_type_declaration'            => true,
-            'self_accessor'                      => true,
+            'self_accessor'                      => false,
             'semicolon_after_instruction'        => true,
             'short_scalar_cast'                  => true,
             'silenced_deprecation_error'         => false,

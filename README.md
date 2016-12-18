@@ -116,6 +116,7 @@ disabled:
   - blank_line_after_opening_tag
   - class_keyword_remove
   - phpdoc_no_empty_return
+  - self_accessor
 
 finder:
   exclude:
