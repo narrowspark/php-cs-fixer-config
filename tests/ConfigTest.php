@@ -118,7 +118,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $fixer => false,
         ];
 
-        if (! is_array($reason)) {
+        if ($fixer === 'array_syntax') {
+            $this->assertNotSame(['syntax' => 'long'], $config->getRules()['array_syntax'], sprintf(
+                'Fixer "%s" should not be enabled, because "%s"',
+                $fixer,
+                $reason['long']
+            ));
+        } else {
             $this->assertArraySubset($rule, $config->getRules(), true, sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
@@ -133,7 +139,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function providerDoesNotHaveFixerEnabled(): array
     {
         $symfonyFixers = [
-            'self_accessor'         => 'it causes an edge case error',
+            'self_accessor' => 'it causes an edge case error',
         ];
 
         $contribFixers = [
@@ -148,6 +154,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'psr0'                                      => 'we are using PSR-4',
             'strict_comparison'                         => 'it changes behaviour',
             'strict_param'                              => 'it changes behaviour',
+            'simplified_null_return'                    => 'it changes behaviour on void return'
         ];
 
         $fixers = array_merge($contribFixers, $symfonyFixers);
@@ -311,7 +318,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'psr0'                                      => false,
             'psr4'                                      => true,
             'semicolon_after_instruction'               => true,
-            'simplified_null_return'                    => true,
+            'simplified_null_return'                    => false,
             'strict_comparison'                         => false,
             'strict_param'                              => false,
         ];
