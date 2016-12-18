@@ -21,23 +21,6 @@ Via Composer
 $ composer require narrowspark/php-cs-fixer-config
 ```
 
-:exclamation: Since `fabpot/php-cs-fixer:2.0.0-beta` isn't stable, we're pinning the dependency to a known commit.
-
-* you configure `composer.json` in your root package with
-
-    ```json
-    {
-        "minimum-stability": "dev",
-        "prefer-stable": true
-    }
-    ```
-  and remove `fabpot/php-cs-fixer` with
-
-    ```
-    $ composer remove fabpot/php-cs-fixer
-    ```
-  trusting us to pull in a working version.
-
 ## Usage
 
 Create a configuration file '.php_cs' in the root of your project:
@@ -95,63 +78,44 @@ script:
 If you using [StyleCi](https://styleci.io) just copy [.styleci.yml](.styleci.yml) to you repository and enable styleci. Or copy this setting to [StyleCi](https://styleci.io)
 
 ~~~yml
-preset: psr2
+preset: recommended
 
-risky: false
+risky: true
 
 linting: true
 
 enabled:
+  - align_equals
+  - combine_consecutive_unsets
   - concat_with_spaces
-  - function_typehint_space
-  - newline_after_open_tag
+  - const_visibility_required
+  - declare_strict_types
+  - dir_constant
+  - echo_to_print
+  - ereg_to_preg
+  - mb_str_functions
+  - modernize_types_casting
+  - no_blank_lines_after_return
+  - no_trailing_whitespace_in_comment
   - no_blank_lines_before_namespace
-  - ordered_use
-  - phpdoc_order
-  - short_array_syntax
-  - alias_functions
-  - array_element_no_space_before_comma
-  - array_element_white_space_after_comma
-  - double_arrow_multiline_whitespaces
-  - duplicate_semicolon
-  - empty_return
-  - extra_empty_lines
-  - include
-  - list_commas
-  - method_separation
-  - multiline_array_trailing_comma
-  - namespace_no_leading_whitespace
-  - new_with_braces
-  - no_blank_lines_after_class_opening
-  - no_empty_lines_after_phpdocs
-  - object_operator
-  - operators_spaces
-  - phpdoc_align
-  - phpdoc_indent
-  - phpdoc_inline_tag
-  - phpdoc_no_access
+  - no_empty_comment
+  - no_unneeded_control_parentheses
+  - no_unreachable_default_argument_value
+  - no_unused_imports
+  - no_useless_else
+  - ordered_class_elements
+  - php_unit_construct
+  - php_unit_dedicate_assert
+  - phpdoc_add_missing_param_annotation
+  - pow_to_exponentiation
+  - protected_to_private
+  - random_api_migration
+  - return_type_declaration
+
+disabled:
+  - blank_line_after_opening_tag
+  - class_keyword_remove
   - phpdoc_no_empty_return
-  - phpdoc_no_package
-  - phpdoc_scalar
-  - phpdoc_separation
-  - phpdoc_to_comment
-  - phpdoc_trim
-  - phpdoc_types
-  - phpdoc_type_to_var
-  - phpdoc_var_without_name
-  - remove_leading_slash_use
-  - return
-  - short_bool_cast
-  - single_array_no_trailing_comma
-  - single_quote
-  - spaces_after_semicolon
-  - spaces_before_semicolon
-  - spaces_cast
-  - standardize_not_equal
-  - ternary_spaces
-  - trim_array_spaces
-  - unneeded_control_parentheses
-  - whitespacy_lines
 
 finder:
   exclude:
@@ -160,11 +124,8 @@ finder:
     - "tests"
   name:
     - "*.php"
+
 ~~~
-
-## Change log
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
 ## Testing
 
