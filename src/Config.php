@@ -56,11 +56,16 @@ class Config extends CsConfig
             'heredoc_to_nowdoc'                  => true,
             'include'                            => true,
             'linebreak_after_opening_tag'        => true,
+            'list_syntax'                        => [
+                'syntax' => 'short',
+            ],
             'lowercase_cast'                     => true,
             'mb_str_functions'                   => true,
+            'magic_constant_casing'              => true,
             'method_separation'                  => true,
             'modernize_types_casting'            => true,
             'native_function_casing'             => true,
+            'native_function_invocation'         => true,
             'new_with_braces'                    => true,
             'no_alias_functions'                 => true,
             'no_blank_lines_after_class_opening' => true,
@@ -125,6 +130,8 @@ class Config extends CsConfig
             ],
             'phpdoc_no_empty_return'             => false,
             'phpdoc_no_package'                  => true,
+            'phpdoc_no_useless_inheritdoc'       => true,
+            'phpdoc_return_self_reference'       => true,
             'phpdoc_order'                       => true,
             'phpdoc_scalar'                      => true,
             'phpdoc_separation'                  => true,
@@ -141,7 +148,7 @@ class Config extends CsConfig
             'psr4'                               => true,
             'random_api_migration'               => true,
             'return_type_declaration'            => true,
-            'self_accessor'                      => false,
+            'self_accessor'                      => false, // it causes an edge case error
             'semicolon_after_instruction'        => true,
             'short_scalar_cast'                  => true,
             'silenced_deprecation_error'         => false,
@@ -150,12 +157,18 @@ class Config extends CsConfig
             'single_quote'                       => true,
             'space_after_semicolon'              => true,
             'standardize_not_equals'             => true,
-            'strict_comparison'                  => false,
-            'strict_param'                       => false,
+            'strict_comparison'                  => false, // risky
+            'strict_param'                       => true, // risky
             'ternary_operator_spaces'            => true,
+            'ternary_to_null_coalescing'         => true,
             'trailing_comma_in_multiline_array'  => true,
             'trim_array_spaces'                  => true,
             'unary_operator_spaces'              => true,
+            'visibility_required'                => [
+                'const',
+                'property',
+                'method',
+            ],
             'whitespace_after_comma_in_array'    => true,
         ];
 
@@ -170,7 +183,12 @@ class Config extends CsConfig
         return $rules;
     }
 
-    public function setHeader(string $header)
+    /**
+     * @param string $header
+     *
+     * @return void
+     */
+    public function setHeader(string $header): void
     {
         $this->header = $header;
     }
