@@ -1,19 +1,16 @@
-# php-cs-fixer-config
-
-[![Author](http://img.shields.io/badge/author-@anolilab-blue.svg?style=flat-square)](https://twitter.com/anolilab)
-[![Total Downloads](https://img.shields.io/packagist/dt/narrowspark/php-cs-fixer-config.svg?style=flat-square)](https://packagist.org/packages/narrowspark/php-cs-fixer-config)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-
-## Master
-
-[![Build Status](https://img.shields.io/travis/narrowspark/php-cs-fixer-config/master.svg?style=flat-square)](https://travis-ci.org/narrowspark/php-cs-fixer-config)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/narrowspark/php-cs-fixer-config.svg?style=flat-square)](https://scrutinizer-ci.com/g/narrowspark/php-cs-fixer-config/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/narrowspark/php-cs-fixer-config.svg?style=flat-square)](https://scrutinizer-ci.com/g/narrowspark/php-cs-fixer-config)
-
+<h1 align="center">Narrowspark php-cs-fixer Config</h1>
+<p align="center">
+    <a href="https://github.com/narrowspark/php-cs-fixer-config/releases"><img src="https://img.shields.io/packagist/v/narrowspark/php-cs-fixer-config.svg?style=flat-square"></a>
+    <a href="https://php.net/"><img src="https://img.shields.io/badge/php-%5E7.1.0-8892BF.svg?style=flat-square"></a>
+    <a href="https://codecov.io/gh/narrowspark/php-cs-fixer-config"><img src="https://img.shields.io/codecov/c/github/narrowspark/php-cs-fixer-config/master.svg?style=flat-square"></a>
+    <a href="https://gitter.im/narrowspark/framework"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square"></a>
+    <a href="http://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
+</p>
 This repository provides a configuration for [`friendsofphp/php-cs-fixer`](http://github.com/FriendsOfPHP/PHP-CS-Fixer), which
 we use to verify and enforce a single coding standard for PHP code within Narrowspark.
 
-## Install
+Installation
+-------------
 
 Via Composer
 
@@ -21,7 +18,8 @@ Via Composer
 $ composer require narrowspark/php-cs-fixer-config
 ```
 
-## Usage
+Usage
+-------------
 
 Create a configuration file '.php_cs' in the root of your project:
 
@@ -35,7 +33,6 @@ $config->getFinder()
     ->in(__DIR__)
     ->exclude('build')
     ->exclude('vendor')
-    ->exclude('tests')
     ->name('*.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
@@ -48,8 +45,21 @@ return $config;
 
 ```
 
-### Git
+:bulb: Optionally, you can specify a header comment to use, which will automatically enable the `header_comment` fixer:
 
+```php
+$header = <<<EOF
+Copyright (c) 2016 Narrowspark
+
+For the full copyright and license information, please view
+the LICENSE file that was distributed with this source code.
+EOF;
+
+$config = new Narrowspark\CS\Config\Config($header);
+```
+
+Git
+-------------
 Add `.php_cs.cache` (this is the cache file created by `php-cs-fixer`) to `.gitignore`:
 
 ```
@@ -57,24 +67,39 @@ vendor/
 .php_cs.cache
 ```
 
-### Travis
-
+Travis
+-------------
 Update your `.travis.yml` to cache the `php_cs.cache` file:
 
 ```yml
 cache:
   directories:
-    - $HOME/.composer/cache
+    - $HOME/.php-cs-fixer
 ```
 
 Then run `php-cs-fixer` in the `script` section:
 
 ```yml
 script:
-  - vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run
+  - ./vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run
+```
+If you only want to run `php-cs-fixer` on one PHP version, update your build matrix and use a condition:
+
+```yml
+matrix:
+  include:
+    - php: 7.1
+      env: WITH_CS=true
+    - php: 7.2
+      env: WITH_COVERAGE=true
+
+script:
+  - if [[ "$WITH_CS" == "true" ]]; then ./vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run; fi
 ```
 
-### StyleCi
+#StyleCi
+-------------
+
 If you using [StyleCi](https://styleci.io) just copy [.styleci.yml](.styleci.yml) to you repository and enable styleci. Or copy this setting to [StyleCi](https://styleci.io)
 
 ~~~yml
@@ -128,21 +153,28 @@ finder:
 
 ~~~
 
-## Testing
+Testing
+-------------
 
 ``` bash
 $ vendor/bin/phpunit
 ```
 
-## Contributing
+Contributing
+------------
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+If you would like to help take a look at the [list of issues](http://github.com/narrowspark/testing-helper/issues) and check our [Contributing](CONTRIBUTING.md) guild.
 
-## Credits
+> **Note:** Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
+Credits
+-------------
+
+- [Daniel Bannert](https://github.com/prisis)
 - [refinery29](https://github.com/refinery29/php-cs-fixer-config)
 - [All Contributors](../../contributors)
 
-## License
+License
+-------------
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
