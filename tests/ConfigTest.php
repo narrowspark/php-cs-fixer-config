@@ -1,13 +1,15 @@
 <?php
+declare(strict_types=1);
 namespace Narrowspark\CS\Config\Tests;
 
 use Narrowspark\CS\Config\Config;
 use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\FixerFactory;
 use PhpCsFixer\RuleSet;
+use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends TestCase
 {
     public function testImplementsInterface()
     {
@@ -50,19 +52,20 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testIfAllRulesAreTested()
     {
-        $testRules = array_merge(
+        $testRules = \array_merge(
             $this->getPsr2Rules(),
             $this->getContribRules(),
             $this->getSymfonyRules(),
-            $this->getPhp7Rules()
+            $this->getPhp7Rules(),
+            $this->getPhp71Rules()
         );
         $rules = (new Config())->getRules();
 
-        foreach ($testRules as $key => $value) {
-            $this->assertTrue(isset($rules[$key]), '[' . $key . '] Rule is missing.');
+        foreach ($rules as $key => $value) {
+            $this->assertTrue(isset($testRules[$key]), '[' . $key . '] Rule is missing.');
         }
 
-        $this->assertSame(count($rules), (count($testRules)));
+        $this->assertSame(\count($rules), (\count($testRules)));
     }
 
     public function testDoesNotHaveHeaderCommentFixerByDefault()
@@ -94,14 +97,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testAllConfiguredRulesAreBuiltIn()
     {
-        $fixersNotBuiltIn = array_diff(
+        $fixersNotBuiltIn = \array_diff(
             $this->configuredFixers(),
             $this->builtInFixers()
         );
 
-        $this->assertEmpty($fixersNotBuiltIn, sprintf(
+        $this->assertEmpty($fixersNotBuiltIn, \sprintf(
             'Failed to assert that fixers for the rules "%s" are built in',
-            implode('", "', $fixersNotBuiltIn)
+            \implode('", "', $fixersNotBuiltIn)
         ));
     }
 
@@ -114,18 +117,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testDoesNotHaveRulesEnabled(string $fixer, $reason)
     {
         $config = new Config();
-        $rule = [
+        $rule   = [
             $fixer => false,
         ];
 
         if ($fixer === 'array_syntax') {
-            $this->assertNotSame(['syntax' => 'long'], $config->getRules()['array_syntax'], sprintf(
+            $this->assertNotSame(['syntax' => 'long'], $config->getRules()['array_syntax'], \sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason['long']
             ));
         } else {
-            $this->assertArraySubset($rule, $config->getRules(), true, sprintf(
+            $this->assertArraySubset($rule, $config->getRules(), true, \sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason
@@ -145,7 +148,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $contribFixers = [
             'ereg_to_preg'                              => 'it changes behaviour',
             'header_comment'                            => 'it is not enabled by default',
-            'array_syntax' => [
+            'array_syntax'                              => [
                 'long'                                  => 'it conflicts with short array syntax (which is enabled)',
             ],
             'no_php4_constructor'                       => 'it changes behaviour',
@@ -153,11 +156,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'php_unit_strict'                           => 'it changes behaviour',
             'psr0'                                      => 'we are using PSR-4',
             'strict_comparison'                         => 'it changes behaviour',
-            'strict_param'                              => 'it changes behaviour',
-            'simplified_null_return'                    => 'it changes behaviour on void return'
+            'simplified_null_return'                    => 'it changes behaviour on void return',
         ];
 
-        $fixers = array_merge($contribFixers, $symfonyFixers);
+        $fixers = \array_merge($contribFixers, $symfonyFixers);
 
         $data = [];
 
@@ -169,6 +171,80 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         }
 
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPhp7Rules(): array
+    {
+        return [
+            'pow_to_exponentiation' => true,
+            'random_api_migration'  => true,
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getPhp71Rules(): array
+    {
+        return [
+            'visibility_required' => [
+                'const',
+                'property',
+                'method',
+            ],
+            'list_syntax'         => [
+                'syntax' => 'short',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getContribRules(): array
+    {
+        return [
+            'array_syntax'                              => [
+                'syntax' => 'short',
+            ],
+            'class_keyword_remove'                      => false,
+            'combine_consecutive_unsets'                => true,
+            'declare_strict_types'                      => true,
+            'dir_constant'                              => true,
+            'ereg_to_preg'                              => false,
+            'general_phpdoc_annotation_remove'          => false,
+            'header_comment'                            => false,
+            'linebreak_after_opening_tag'               => true,
+            'mb_str_functions'                          => true,
+            'magic_constant_casing'                     => true,
+            'modernize_types_casting'                   => true,
+            'no_blank_lines_before_namespace'           => true,
+            'no_multiline_whitespace_before_semicolons' => true,
+            'no_php4_constructor'                       => false,
+            'no_short_echo_tag'                         => true,
+            'no_useless_else'                           => true,
+            'no_useless_return'                         => true,
+            'not_operator_with_space'                   => false,
+            'not_operator_with_successor_space'         => true,
+            'ordered_class_elements'                    => true,
+            'ordered_imports'                           => true,
+            'php_unit_strict'                           => false,
+            'php_unit_test_class_requires_covers'       => false,
+            'phpdoc_add_missing_param_annotation'       => [
+                'only_untyped'                          => false,
+            ],
+            'phpdoc_order'                              => true,
+            'protected_to_private'                      => true,
+            'psr0'                                      => false,
+            'psr4'                                      => true,
+            'semicolon_after_instruction'               => true,
+            'simplified_null_return'                    => false,
+            'strict_comparison'                         => false,
+            'strict_param'                              => true,
+        ];
     }
 
     /**
@@ -194,17 +270,23 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'blank_line_after_opening_tag'                => false,
             'blank_line_before_return'                    => true,
             'cast_spaces'                                 => true,
-            'concat_space' => [
+            'concat_space'                                => [
                 'spacing'                                 => 'one',
             ],
             'declare_equal_normalize'                     => true,
+            'doctrine_annotation_braces'                  => true,
+            'doctrine_annotation_indentation'             => true,
+            'doctrine_annotation_spaces'                  => true,
+            'function_to_constant'                        => true,
             'function_typehint_space'                     => true,
             'hash_to_slash_comment'                       => true,
             'heredoc_to_nowdoc'                           => true,
+            'is_null'                                     => true,
             'include'                                     => true,
             'lowercase_cast'                              => true,
             'method_separation'                           => true,
             'native_function_casing'                      => true,
+            'native_function_invocation'                  => true,
             'new_with_braces'                             => true,
             'no_alias_functions'                          => true,
             'no_blank_lines_after_class_opening'          => true,
@@ -240,6 +322,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'no_unused_imports'                           => true,
             'no_whitespace_before_comma_in_array'         => true,
             'no_whitespace_in_blank_line'                 => true,
+            'non_printable_character'                     => true,
             'normalize_index_brace'                       => true,
             'object_operator_without_whitespace'          => true,
             'php_unit_construct'                          => true,
@@ -255,6 +338,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ],
             'phpdoc_no_empty_return'                      => false,
             'phpdoc_no_package'                           => true,
+            'phpdoc_no_useless_inheritdoc'                => true,
+            'phpdoc_return_self_reference'                => true,
             'phpdoc_scalar'                               => true,
             'phpdoc_separation'                           => true,
             'phpdoc_single_line_var_spacing'              => true,
@@ -273,65 +358,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'space_after_semicolon'                       => true,
             'standardize_not_equals'                      => true,
             'ternary_operator_spaces'                     => true,
+            'ternary_to_null_coalescing'                  => true,
             'trailing_comma_in_multiline_array'           => true,
             'trim_array_spaces'                           => true,
             'unary_operator_spaces'                       => true,
             'whitespace_after_comma_in_array'             => true,
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    protected function getContribRules(): array
-    {
-        return [
-            'array_syntax'                              => [
-                'syntax' => 'short',
-            ],
-            'class_keyword_remove'                      => false,
-            'combine_consecutive_unsets'                => true,
-            'declare_strict_types'                      => true,
-            'dir_constant'                              => true,
-            'ereg_to_preg'                              => false,
-            'general_phpdoc_annotation_remove'          => false,
-            'header_comment'                            => false,
-            'linebreak_after_opening_tag'               => true,
-            'mb_str_functions'                          => true,
-            'modernize_types_casting'                   => true,
-            'no_blank_lines_before_namespace'           => true,
-            'no_multiline_whitespace_before_semicolons' => true,
-            'no_php4_constructor'                       => false,
-            'no_short_echo_tag'                         => true,
-            'no_useless_else'                           => true,
-            'no_useless_return'                         => true,
-            'not_operator_with_space'                   => false,
-            'not_operator_with_successor_space'         => true,
-            'ordered_class_elements'                    => true,
-            'ordered_imports'                           => true,
-            'php_unit_strict'                           => false,
-            'phpdoc_add_missing_param_annotation'       => [
-                'only_untyped'                          => false,
-            ],
-            'phpdoc_order'                              => true,
-            'protected_to_private'                      => true,
-            'psr0'                                      => false,
-            'psr4'                                      => true,
-            'semicolon_after_instruction'               => true,
-            'simplified_null_return'                    => false,
-            'strict_comparison'                         => false,
-            'strict_param'                              => false,
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getPhp7Rules(): array
-    {
-        return [
-            'pow_to_exponentiation' => true,
-            'random_api_migration'  => true,
         ];
     }
 
@@ -343,12 +374,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     private function assertHasRules(array $expected, array $actual, string $set)
     {
         foreach ($expected as $fixer => $isEnabled) {
-            $this->assertArrayHasKey($fixer, $actual, sprintf(
+            $this->assertArrayHasKey($fixer, $actual, \sprintf(
                 'Failed to assert that a rule for fixer "%s" (in set "%s") exists.,',
                 $fixer,
                 $set
             ));
-            $this->assertSame($isEnabled, $actual[$fixer], sprintf(
+            $this->assertSame($isEnabled, $actual[$fixer], \sprintf(
                 'Failed to assert that fixer "%s" (in set "%s") is %s.',
                 $fixer,
                 $set,
@@ -369,11 +400,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
          *
          * @see https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/2361
          */
-        $rules = array_map(function () {
+        $rules = \array_map(function () {
             return true;
         }, $config->getRules());
 
-        return array_keys(RuleSet::create($rules)->getRules());
+        return \array_keys(RuleSet::create($rules)->getRules());
     }
 
     /**
@@ -387,6 +418,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $reflection = new ReflectionProperty(FixerFactory::class, 'fixersByName');
         $reflection->setAccessible(true);
 
-        return array_keys($reflection->getValue($fixerFactory));
+        return \array_keys($reflection->getValue($fixerFactory));
     }
 }

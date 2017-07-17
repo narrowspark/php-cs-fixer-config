@@ -1,3 +1,7 @@
-vendor/
+/vendor
+/build
+
+composer.phar
 .php_cs.cache
-build/
+.DS_Store
+Thumbs.db
