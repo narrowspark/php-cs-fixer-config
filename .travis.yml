@@ -1,15 +1,23 @@
 language: php
 
-sudo: false
-
 php:
   - 7.1
-  - nightly
+
+env:
+  global:
+    - SEND_COVERAGE=false
+    - PHPSTAN=false
 
 matrix:
-  allow_failures:
-    - php: nightly
   fast_finish: true
+  include:
+    - php: 7.1
+      env: SEND_COVERAGE=true
+    # phpstan
+    - php: 7.1
+      env: PHPSTAN=true
+
+sudo: false
 
 cache:
   directories:
@@ -17,7 +25,6 @@ cache:
     - $HOME/.php-cs-fixer
 
 before_install:
-  - composer self-update
   - composer validate
 
 install:
@@ -28,9 +35,10 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - vendor/bin/phpunit -c phpunit.xml.dist --verbose
-  - vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run
+  - if [[ "$PHPSTAN" = false && "$SEND_COVERAGE" = true ]]; then ./vendor/bin/php-cs-fixer fix --verbose --diff --dry-run; fi
+  - if [[ "$PHPSTAN" = false && "$SEND_COVERAGE" = true ]]; then ./vendor/bin/phpunit -c phpunit.xml.dist --verbose --coverage-clover=coverage.xml; fi
+  - if [[ "$PHPSTAN" = true && "$SEND_COVERAGE" = false ]]; then ./vendor/bin/phpstan analyse -c phpstan.neon -l 6 src; fi
+  - if [[ "$PHPSTAN" = true && "$SEND_COVERAGE" = false ]]; then ./vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run; fi
 
-after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover build/logs/coverage.clover
+after_success:
+  - if [[ "$PHPSTAN" = false && "$SEND_COVERAGE" = true ]]; then bash <(curl -s https://codecov.io/bash); fi
