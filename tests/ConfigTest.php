@@ -11,19 +11,19 @@ use ReflectionProperty;
 
 class ConfigTest extends TestCase
 {
-    public function testImplementsInterface()
+    public function testImplementsInterface(): void
     {
         $this->assertInstanceOf(ConfigInterface::class, (new Config()));
     }
 
-    public function testValues()
+    public function testValues(): void
     {
         $config = new Config();
 
         $this->assertSame('narrowspark', $config->getName());
     }
 
-    public function testHasPsr2Rules()
+    public function testHasPsr2Rules(): void
     {
         $this->assertHasRules(
             $this->getPsr2Rules(),
@@ -32,7 +32,7 @@ class ConfigTest extends TestCase
         );
     }
 
-    public function testHasSymfonyRules()
+    public function testHasSymfonyRules(): void
     {
         $this->assertHasRules(
             $this->getSymfonyRules(),
@@ -41,7 +41,7 @@ class ConfigTest extends TestCase
         );
     }
 
-    public function testHasContribRules()
+    public function testHasContribRules(): void
     {
         $this->assertHasRules(
             $this->getContribRules(),
@@ -50,13 +50,12 @@ class ConfigTest extends TestCase
         );
     }
 
-    public function testIfAllRulesAreTested()
+    public function testIfAllRulesAreTested(): void
     {
         $testRules = \array_merge(
             $this->getPsr2Rules(),
             $this->getContribRules(),
             $this->getSymfonyRules(),
-            $this->getPhp7Rules(),
             $this->getPhp71Rules()
         );
         $rules = (new Config())->getRules();
@@ -68,7 +67,7 @@ class ConfigTest extends TestCase
         $this->assertSame(\count($rules), (\count($testRules)));
     }
 
-    public function testDoesNotHaveHeaderCommentFixerByDefault()
+    public function testDoesNotHaveHeaderCommentFixerByDefault(): void
     {
         $rules = (new Config())->getRules();
 
@@ -78,7 +77,7 @@ class ConfigTest extends TestCase
         $this->assertFalse($rules['single_blank_line_before_namespace']);
     }
 
-    public function testHasHeaderCommentFixerIfProvided()
+    public function testHasHeaderCommentFixerIfProvided(): void
     {
         $header = 'foo';
         $config = new Config();
@@ -95,7 +94,7 @@ class ConfigTest extends TestCase
         $this->assertTrue($rules['single_blank_line_before_namespace']);
     }
 
-    public function testAllConfiguredRulesAreBuiltIn()
+    public function testAllConfiguredRulesAreBuiltIn(): void
     {
         $fixersNotBuiltIn = \array_diff(
             $this->configuredFixers(),
@@ -112,9 +111,9 @@ class ConfigTest extends TestCase
      * @dataProvider providerDoesNotHaveFixerEnabled
      *
      * @param string       $fixer
-     * @param string|array $reason
+     * @param array|string $reason
      */
-    public function testDoesNotHaveRulesEnabled(string $fixer, $reason)
+    public function testDoesNotHaveRulesEnabled(string $fixer, $reason): void
     {
         $config = new Config();
         $rule   = [
@@ -176,26 +175,11 @@ class ConfigTest extends TestCase
     /**
      * @return array
      */
-    public function getPhp7Rules(): array
-    {
-        return [
-            'pow_to_exponentiation' => true,
-            'random_api_migration'  => true,
-        ];
-    }
-
-    /**
-     * @return array
-     */
     public function getPhp71Rules(): array
     {
         return [
-            'visibility_required' => [
-                'const',
-                'property',
-                'method',
-            ],
-            'list_syntax'         => [
+            '@PHP71Migration:risky' => true,
+            'list_syntax'           => [
                 'syntax' => 'short',
             ],
         ];
@@ -218,8 +202,12 @@ class ConfigTest extends TestCase
             'general_phpdoc_annotation_remove'          => false,
             'header_comment'                            => false,
             'linebreak_after_opening_tag'               => true,
-            'mb_str_functions'                          => true,
             'magic_constant_casing'                     => true,
+            'mb_str_functions'                          => true,
+            'method_argument_space'                     => [
+                'ensure_fully_multiline'           => true,
+                'keep_multiple_spaces_after_comma' => false,
+            ],
             'modernize_types_casting'                   => true,
             'no_blank_lines_before_namespace'           => true,
             'no_multiline_whitespace_before_semicolons' => true,
@@ -237,6 +225,7 @@ class ConfigTest extends TestCase
                 'only_untyped'                          => false,
             ],
             'phpdoc_order'                              => true,
+            'phpdoc_types_order'                        => true,
             'protected_to_private'                      => true,
             'psr0'                                      => false,
             'psr4'                                      => true,
@@ -268,18 +257,18 @@ class ConfigTest extends TestCase
                 'align_equals'                            => true,
             ],
             'blank_line_after_opening_tag'                => false,
-            'blank_line_before_return'                    => true,
+            'blank_line_before_statement'                 => true,
             'cast_spaces'                                 => true,
             'concat_space'                                => [
                 'spacing'                                 => 'one',
             ],
             'declare_equal_normalize'                     => true,
+            'doctrine_annotation_array_assignment'        => true,
             'doctrine_annotation_braces'                  => true,
             'doctrine_annotation_indentation'             => true,
             'doctrine_annotation_spaces'                  => true,
             'function_to_constant'                        => true,
             'function_typehint_space'                     => true,
-            'hash_to_slash_comment'                       => true,
             'heredoc_to_nowdoc'                           => true,
             'is_null'                                     => true,
             'include'                                     => true,
@@ -306,6 +295,7 @@ class ConfigTest extends TestCase
                 'use',
                 'useTrait',
             ],
+            'no_null_property_initialization'             => true,
             'no_leading_import_slash'                     => true,
             'no_leading_namespace_whitespace'             => true,
             'no_mixed_echo_print'                         => [
@@ -322,7 +312,6 @@ class ConfigTest extends TestCase
             'no_unused_imports'                           => true,
             'no_whitespace_before_comma_in_array'         => true,
             'no_whitespace_in_blank_line'                 => true,
-            'non_printable_character'                     => true,
             'normalize_index_brace'                       => true,
             'object_operator_without_whitespace'          => true,
             'php_unit_construct'                          => true,
@@ -356,6 +345,7 @@ class ConfigTest extends TestCase
             'single_blank_line_before_namespace'          => false,
             'single_quote'                                => true,
             'space_after_semicolon'                       => true,
+            'single_line_comment_style'                   => true,
             'standardize_not_equals'                      => true,
             'ternary_operator_spaces'                     => true,
             'ternary_to_null_coalescing'                  => true,
@@ -371,7 +361,7 @@ class ConfigTest extends TestCase
      * @param array  $actual
      * @param string $set
      */
-    private function assertHasRules(array $expected, array $actual, string $set)
+    private function assertHasRules(array $expected, array $actual, string $set): void
     {
         foreach ($expected as $fixer => $isEnabled) {
             $this->assertArrayHasKey($fixer, $actual, \sprintf(

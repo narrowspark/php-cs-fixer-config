@@ -7,7 +7,7 @@ use PhpCsFixer\Config as CsConfig;
 class Config extends CsConfig
 {
     /**
-     * @var string|null
+     * @var null|string
      */
     private $header;
 
@@ -29,8 +29,9 @@ class Config extends CsConfig
     public function getRules(): array
     {
         $rules = [
-            '@PSR2'        => true,
-            'array_syntax' => [
+            '@PSR2'                 => true,
+            '@PHP71Migration:risky' => true,
+            'array_syntax'          => [
                 'syntax' => 'short',
             ],
             'binary_operator_spaces' => [
@@ -38,31 +39,35 @@ class Config extends CsConfig
                 'align_equals'       => true,
             ],
             'blank_line_after_opening_tag' => false,
-            'blank_line_before_return'     => true,
+            'blank_line_before_statement'  => true,
             'cast_spaces'                  => true,
             'class_keyword_remove'         => false,
             'combine_consecutive_unsets'   => true,
             'concat_space'                 => [
                 'spacing' => 'one',
             ],
-            'declare_equal_normalize'            => true,
-            'declare_strict_types'               => true,
-            'dir_constant'                       => true,
-            'doctrine_annotation_braces'         => true,
-            'doctrine_annotation_indentation'    => true,
-            'doctrine_annotation_spaces'         => true,
-            'ereg_to_preg'                       => false,
-            'function_to_constant'               => true,
-            'function_typehint_space'            => true,
-            'general_phpdoc_annotation_remove'   => false,
-            'hash_to_slash_comment'              => true,
-            'header_comment'                     => false,
-            'heredoc_to_nowdoc'                  => true,
-            'include'                            => true,
-            'is_null'                            => true,
-            'linebreak_after_opening_tag'        => true,
-            'list_syntax'                        => [
+            'declare_equal_normalize'              => true,
+            'declare_strict_types'                 => true,
+            'dir_constant'                         => true,
+            'doctrine_annotation_braces'           => true,
+            'doctrine_annotation_array_assignment' => true,
+            'doctrine_annotation_indentation'      => true,
+            'doctrine_annotation_spaces'           => true,
+            'ereg_to_preg'                         => false,
+            'function_to_constant'                 => true,
+            'function_typehint_space'              => true,
+            'general_phpdoc_annotation_remove'     => false,
+            'header_comment'                       => false,
+            'heredoc_to_nowdoc'                    => true,
+            'include'                              => true,
+            'is_null'                              => true,
+            'linebreak_after_opening_tag'          => true,
+            'list_syntax'                          => [
                 'syntax' => 'short',
+            ],
+            'method_argument_space'                => [
+                'ensure_fully_multiline'           => true,
+                'keep_multiple_spaces_after_comma' => false,
             ],
             'lowercase_cast'                     => true,
             'mb_str_functions'                   => true,
@@ -91,6 +96,7 @@ class Config extends CsConfig
                 'use',
                 'useTrait',
             ],
+            'no_null_property_initialization' => true,
             'no_leading_import_slash'         => true,
             'no_leading_namespace_whitespace' => true,
             'no_mixed_echo_print'             => [
@@ -112,7 +118,6 @@ class Config extends CsConfig
             'no_useless_return'                           => true,
             'no_whitespace_before_comma_in_array'         => true,
             'no_whitespace_in_blank_line'                 => true,
-            'non_printable_character'                     => true,
             'normalize_index_brace'                       => true,
             'not_operator_with_space'                     => false,
             'not_operator_with_successor_space'           => true,
@@ -127,12 +132,12 @@ class Config extends CsConfig
             'phpdoc_add_missing_param_annotation'         => [
                 'only_untyped' => false,
             ],
-            'phpdoc_align'                  => true,
-            'phpdoc_annotation_without_dot' => true,
-            'phpdoc_indent'                 => true,
-            'phpdoc_inline_tag'             => true,
-            'phpdoc_no_access'              => true,
-            'phpdoc_no_alias_tag'           => [
+            'phpdoc_align'                                => true,
+            'phpdoc_annotation_without_dot'               => true,
+            'phpdoc_indent'                               => true,
+            'phpdoc_inline_tag'                           => true,
+            'phpdoc_no_access'                            => true,
+            'phpdoc_no_alias_tag'                         => [
                 'type' => 'var',
             ],
             'phpdoc_no_empty_return'             => false,
@@ -140,6 +145,7 @@ class Config extends CsConfig
             'phpdoc_no_useless_inheritdoc'       => true,
             'phpdoc_return_self_reference'       => true,
             'phpdoc_order'                       => true,
+            'phpdoc_types_order'                 => true,
             'phpdoc_scalar'                      => true,
             'phpdoc_separation'                  => true,
             'phpdoc_single_line_var_spacing'     => true,
@@ -148,15 +154,14 @@ class Config extends CsConfig
             'phpdoc_trim'                        => true,
             'phpdoc_types'                       => true,
             'phpdoc_var_without_name'            => true,
-            'pow_to_exponentiation'              => true,
             'pre_increment'                      => true,
             'protected_to_private'               => true,
             'psr0'                               => false,
             'psr4'                               => true,
-            'random_api_migration'               => true,
             'return_type_declaration'            => true,
             'self_accessor'                      => false, // it causes an edge case error
             'semicolon_after_instruction'        => true,
+            'single_line_comment_style'          => true,
             'short_scalar_cast'                  => true,
             'silenced_deprecation_error'         => false,
             'simplified_null_return'             => false,
@@ -171,11 +176,6 @@ class Config extends CsConfig
             'trailing_comma_in_multiline_array'  => true,
             'trim_array_spaces'                  => true,
             'unary_operator_spaces'              => true,
-            'visibility_required'                => [
-                'const',
-                'property',
-                'method',
-            ],
             'whitespace_after_comma_in_array'    => true,
         ];
 
