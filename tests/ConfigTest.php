@@ -283,7 +283,7 @@ class ConfigTest extends TestCase
             'no_empty_comment'                            => true,
             'no_empty_phpdoc'                             => true,
             'no_empty_statement'                          => true,
-            'no_extra_consecutive_blank_lines'   => [
+            'no_extra_consecutive_blank_lines'            => [
                 'tokens' => [
                     'break',
                     'continue',
@@ -295,7 +295,7 @@ class ConfigTest extends TestCase
                     'throw',
                     'use',
                     'use_trait',
-                ]
+                ],
             ],
             'no_null_property_initialization'             => true,
             'no_leading_import_slash'                     => true,
