@@ -275,7 +275,7 @@ class ConfigTest extends TestCase
             'lowercase_cast'                              => true,
             'method_separation'                           => true,
             'native_function_casing'                      => true,
-            'native_function_invocation'                  => true,
+            'native_function_invocation'                  => false,
             'new_with_braces'                             => true,
             'no_alias_functions'                          => false,
             'no_blank_lines_after_class_opening'          => true,
