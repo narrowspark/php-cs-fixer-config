@@ -75,7 +75,7 @@ class Config extends CsConfig
             'method_separation'                  => true,
             'modernize_types_casting'            => true,
             'native_function_casing'             => true,
-            'native_function_invocation'         => true,
+            'native_function_invocation'         => false,
             'new_with_braces'                    => true,
             'no_alias_functions'                 => false,
             'no_blank_lines_after_class_opening' => true,
