@@ -13,7 +13,7 @@ class ConfigTest extends TestCase
 {
     public function testImplementsInterface(): void
     {
-        $this->assertInstanceOf(ConfigInterface::class, (new Config()));
+        $this->assertInstanceOf(ConfigInterface::class, new Config());
     }
 
     public function testValues(): void
@@ -64,7 +64,7 @@ class ConfigTest extends TestCase
             $this->assertTrue(isset($testRules[$key]), '[' . $key . '] Rule is missing.');
         }
 
-        $this->assertSame(\count($rules), (\count($testRules)));
+        $this->assertCount(\count($testRules), $rules);
     }
 
     public function testDoesNotHaveHeaderCommentFixerByDefault(): void
@@ -155,6 +155,7 @@ class ConfigTest extends TestCase
             'php_unit_strict'                           => 'it changes behaviour',
             'psr0'                                      => 'we are using PSR-4',
             'strict_comparison'                         => 'it changes behaviour',
+            'no_homoglyph_names'                        => 'renames classes and cannot rename the files. You might have string references to renamed code (``$$name``)',
             'simplified_null_return'                    => 'it changes behaviour on void return',
         ];
 
@@ -178,6 +179,7 @@ class ConfigTest extends TestCase
     public function getPhp71Rules(): array
     {
         return [
+            '@PHP71Migration'       => true,
             '@PHP71Migration:risky' => true,
             'list_syntax'           => [
                 'syntax' => 'short',
@@ -191,11 +193,14 @@ class ConfigTest extends TestCase
     protected function getContribRules(): array
     {
         return [
+            '@DoctrineAnnotation'                       => true,
             'array_syntax'                              => [
                 'syntax' => 'short',
             ],
             'class_keyword_remove'                      => false,
+            'combine_consecutive_issets'                => true,
             'combine_consecutive_unsets'                => true,
+            'compact_nullable_typehint'                 => true,
             'declare_strict_types'                      => true,
             'dir_constant'                              => true,
             'ereg_to_preg'                              => false,
@@ -217,6 +222,7 @@ class ConfigTest extends TestCase
             'no_useless_return'                         => true,
             'not_operator_with_space'                   => false,
             'not_operator_with_successor_space'         => true,
+            'no_homoglyph_names'                        => false,
             'ordered_class_elements'                    => true,
             'ordered_imports'                           => true,
             'php_unit_strict'                           => false,
@@ -253,8 +259,7 @@ class ConfigTest extends TestCase
     {
         return [
             'binary_operator_spaces'                      => [
-                'align_double_arrow'                      => true,
-                'align_equals'                            => true,
+                'default' => 'align',
             ],
             'blank_line_after_opening_tag'                => false,
             'blank_line_before_statement'                 => true,
@@ -270,8 +275,13 @@ class ConfigTest extends TestCase
             'function_to_constant'                        => true,
             'function_typehint_space'                     => true,
             'heredoc_to_nowdoc'                           => true,
-            'is_null'                                     => true,
+            'is_null'                                     => [
+                'use_yoda_style' => false,
+            ],
             'include'                                     => true,
+            'increment_style'                             => [
+                'style' => 'post',
+            ],
             'lowercase_cast'                              => true,
             'method_separation'                           => true,
             'native_function_casing'                      => true,
@@ -337,7 +347,6 @@ class ConfigTest extends TestCase
             'phpdoc_trim'                                 => true,
             'phpdoc_types'                                => true,
             'phpdoc_var_without_name'                     => true,
-            'pre_increment'                               => true,
             'return_type_declaration'                     => true,
             'self_accessor'                               => false,
             'short_scalar_cast'                           => true,

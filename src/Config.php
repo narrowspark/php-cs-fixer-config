@@ -29,20 +29,23 @@ class Config extends CsConfig
     public function getRules(): array
     {
         $rules = [
+            '@DoctrineAnnotation'   => true,
             '@PSR2'                 => true,
+            '@PHP71Migration'       => true,
             '@PHP71Migration:risky' => true,
             'array_syntax'          => [
                 'syntax' => 'short',
             ],
             'binary_operator_spaces' => [
-                'align_double_arrow' => true,
-                'align_equals'       => true,
+                'default' => 'align',
             ],
             'blank_line_after_opening_tag' => false,
             'blank_line_before_statement'  => true,
             'cast_spaces'                  => true,
             'class_keyword_remove'         => false,
+            'combine_consecutive_issets'   => true,
             'combine_consecutive_unsets'   => true,
+            'compact_nullable_typehint'    => true,
             'concat_space'                 => [
                 'spacing' => 'one',
             ],
@@ -60,7 +63,12 @@ class Config extends CsConfig
             'header_comment'                       => false,
             'heredoc_to_nowdoc'                    => true,
             'include'                              => true,
-            'is_null'                              => true,
+            'increment_style'                      => [
+                'style' => 'post',
+            ],
+            'is_null'                              => [
+                'use_yoda_style' => false,
+            ],
             'linebreak_after_opening_tag'          => true,
             'list_syntax'                          => [
                 'syntax' => 'short',
@@ -99,6 +107,7 @@ class Config extends CsConfig
                 ],
             ],
             'no_null_property_initialization' => true,
+            'no_homoglyph_names'              => false,
             'no_leading_import_slash'         => true,
             'no_leading_namespace_whitespace' => true,
             'no_mixed_echo_print'             => [
@@ -154,7 +163,6 @@ class Config extends CsConfig
             'phpdoc_trim'                                 => true,
             'phpdoc_types'                                => true,
             'phpdoc_var_without_name'                     => true,
-            'pre_increment'                               => true,
             'protected_to_private'                        => true,
             'psr0'                                        => false,
             'psr4'                                        => true,
