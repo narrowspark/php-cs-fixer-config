@@ -1,53 +1,57 @@
 {
-    "name"       : "narrowspark/php-cs-fixer-config",
+    "name": "narrowspark/php-cs-fixer-config",
+    "type": "library",
     "description": "Provides a configuration for friendsofphp/php-cs-fixer, used within Narrowspark.",
-    "type"       : "library",
-    "keywords"   : [
+    "keywords": [
         "narrowspark",
         "cs",
         "cs-fixer",
         "config",
         "php-cs-fixer"
     ],
-    "license"    : "MIT",
-    "homepage"   : "https://github.com/narrowspark/php-cs-fixer-config",
-    "support"    : {
-        "issues": "https://github.com/narrowspark/php-cs-fixer-config/issues",
-        "source": "https://github.com/narrowspark/php-cs-fixer-config"
-    },
-    "authors"    : [
+    "homepage": "https://github.com/narrowspark/php-cs-fixer-config",
+    "license": "MIT",
+    "authors": [
         {
-          "name"    : "Daniel Bannert",
-          "email"   : "d.bannert@anolilab.de",
-          "homepage": "http://www.anolilab.de",
-          "role"    : "Developer"
+            "name": "Daniel Bannert",
+            "email": "d.bannert@anolilab.de",
+            "homepage": "http://www.anolilab.de",
+            "role": "Developer"
         }
     ],
     "require": {
-        "php"                                 : "^7.1",
-        "friendsofphp/php-cs-fixer"           : "~2.8"
+        "php": "^7.1",
+        "localheinz/php-cs-fixer-config": "^1.13.1"
     },
     "require-dev": {
-        "phpstan/phpstan"                     : "^0.8",
-        "phpunit/phpunit"                     : "^6.1"
-    },
-    "autoload": {
-        "psr-4": {
-            "Narrowspark\\CS\\Config\\"       : "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Narrowspark\\CS\\Config\\Test\\" : "tests"
-        }
+        "phpstan/phpstan": "^0.9.0",
+        "phpstan/phpstan-phpunit": "^0.9.0",
+        "phpstan/phpstan-strict-rules": "^0.9.0",
+        "phpunit/phpunit": "^7.0.0"
     },
     "config": {
         "sort-packages": true
     },
-    "scripts": {
-        "cs"                                  : "sh vendor/bin/php-cs-fixer fix",
-        "phpstan"                             : "sh vendor/bin/phpstan analyse -c phpstan.neon -l 6 src/"
+    "autoload": {
+        "psr-4": {
+            "Narrowspark\\CS\\Config\\": "src"
+        }
     },
-    "minimum-stability"                       : "dev",
-    "prefer-stable"                           : true
+    "autoload-dev": {
+        "psr-4": {
+            "Narrowspark\\CS\\Config\\Test\\": "tests"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "coverage": "phpunit --coverage-html=\"build/logs\"",
+        "cs": "php-cs-fixer fix",
+        "phpstan": "phpstan analyse -c phpstan.neon -l 7 src --memory-limit=-1",
+        "test": "phpunit"
+    },
+    "support": {
+        "issues": "https://github.com/narrowspark/php-cs-fixer-config/issues",
+        "source": "https://github.com/narrowspark/php-cs-fixer-config"
+    }
 }

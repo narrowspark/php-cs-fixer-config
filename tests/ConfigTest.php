@@ -56,7 +56,8 @@ class ConfigTest extends TestCase
             $this->getPsr2Rules(),
             $this->getContribRules(),
             $this->getSymfonyRules(),
-            $this->getPhp71Rules()
+            $this->getPhp71Rules(),
+            $this->getPHPUnitRules()
         );
         $rules = (new Config())->getRules();
 
@@ -80,18 +81,20 @@ class ConfigTest extends TestCase
     public function testHasHeaderCommentFixerIfProvided(): void
     {
         $header = 'foo';
-        $config = new Config();
-        $config->setHeader($header);
-        $rules = $config->getRules();
+        $config = new Config($header);
+        $rules  = $config->getRules();
 
         $this->assertArrayHasKey('header_comment', $rules);
 
         $expected = [
-            'header' => $header,
+            'commentType' => 'PHPDoc',
+            'header'      => $header,
+            'location'    => 'after_declare_strict',
+            'separate'    => 'both',
         ];
         $this->assertSame($expected, $rules['header_comment']);
-        $this->assertFalse($rules['no_blank_lines_before_namespace']);
-        $this->assertTrue($rules['single_blank_line_before_namespace']);
+        $this->assertTrue($rules['no_blank_lines_before_namespace']);
+        $this->assertFalse($rules['single_blank_line_before_namespace']);
     }
 
     public function testAllConfiguredRulesAreBuiltIn(): void
@@ -145,7 +148,6 @@ class ConfigTest extends TestCase
         ];
 
         $contribFixers = [
-            'ereg_to_preg'                              => 'it changes behaviour',
             'header_comment'                            => 'it is not enabled by default',
             'array_syntax'                              => [
                 'long'                                  => 'it conflicts with short array syntax (which is enabled)',
@@ -154,7 +156,6 @@ class ConfigTest extends TestCase
             'not_operator_with_space'                   => 'we do not need leading and trailing whitespace before !',
             'php_unit_strict'                           => 'it changes behaviour',
             'psr0'                                      => 'we are using PSR-4',
-            'strict_comparison'                         => 'it changes behaviour',
             'no_homoglyph_names'                        => 'renames classes and cannot rename the files. You might have string references to renamed code (``$$name``)',
             'simplified_null_return'                    => 'it changes behaviour on void return',
         ];
@@ -179,11 +180,19 @@ class ConfigTest extends TestCase
     public function getPhp71Rules(): array
     {
         return [
-            '@PHP71Migration'       => true,
-            '@PHP71Migration:risky' => true,
             'list_syntax'           => [
                 'syntax' => 'short',
             ],
+            'pow_to_exponentiation' => true,
+            'random_api_migration'  => true,
+            'visibility_required'   => [
+                'elements' => [
+                    'const',
+                    'method',
+                    'property',
+                ],
+            ],
+            'void_return' => true,
         ];
     }
 
@@ -194,17 +203,32 @@ class ConfigTest extends TestCase
     {
         return [
             '@DoctrineAnnotation'                       => true,
+            'align_multiline_comment'                   => [
+                'comment_type' => 'all_multiline',
+            ],
+            'array_indentation'                         => true,
             'array_syntax'                              => [
                 'syntax' => 'short',
             ],
+            'pre_increment'                             => false,
+            'backtick_to_shell_exec'                    => true,
+            'blank_line_before_return'                  => true,
             'class_keyword_remove'                      => false,
             'combine_consecutive_issets'                => true,
             'combine_consecutive_unsets'                => true,
+            'comment_to_phpdoc'                         => true,
             'compact_nullable_typehint'                 => true,
+            'date_time_immutable'                       => false,
             'declare_strict_types'                      => true,
             'dir_constant'                              => true,
-            'ereg_to_preg'                              => false,
+            'ereg_to_preg'                              => true,
+            'escape_implicit_backslashes'               => true,
+            'explicit_indirect_variable'                => true,
+            'explicit_string_variable'                  => true,
+            'final_internal_class'                      => true,
+            'fully_qualified_strict_types'              => true,
             'general_phpdoc_annotation_remove'          => false,
+            'hash_to_slash_comment'                     => true,
             'header_comment'                            => false,
             'linebreak_after_opening_tag'               => true,
             'magic_constant_casing'                     => true,
@@ -213,13 +237,22 @@ class ConfigTest extends TestCase
                 'ensure_fully_multiline'           => true,
                 'keep_multiple_spaces_after_comma' => false,
             ],
+            'static_lambda'                             => false,
+            'string_line_ending'                        => true,
+            'method_chaining_indentation'               => true,
             'modernize_types_casting'                   => true,
+            'multiline_comment_opening_closing'         => true,
+            'multiline_whitespace_before_semicolons'    => [
+                'strategy' => 'no_multi_line',
+            ],
+            'no_alternative_syntax'                     => true,
             'no_blank_lines_before_namespace'           => true,
-            'no_multiline_whitespace_before_semicolons' => true,
+            'no_multiline_whitespace_before_semicolons' => false,
             'no_php4_constructor'                       => false,
             'no_short_echo_tag'                         => true,
             'no_useless_else'                           => true,
             'no_useless_return'                         => true,
+            'no_superfluous_elseif'                     => true,
             'not_operator_with_space'                   => false,
             'not_operator_with_successor_space'         => true,
             'no_homoglyph_names'                        => false,
@@ -231,13 +264,16 @@ class ConfigTest extends TestCase
                 'only_untyped'                          => false,
             ],
             'phpdoc_order'                              => true,
-            'phpdoc_types_order'                        => true,
+            'phpdoc_types_order'                        => [
+                'null_adjustment' => 'always_first',
+                'sort_algorithm'  => 'alpha',
+            ],
             'protected_to_private'                      => true,
             'psr0'                                      => false,
             'psr4'                                      => true,
             'semicolon_after_instruction'               => true,
             'simplified_null_return'                    => false,
-            'strict_comparison'                         => false,
+            'strict_comparison'                         => true,
             'strict_param'                              => true,
         ];
     }
@@ -255,6 +291,31 @@ class ConfigTest extends TestCase
     /**
      * @return array
      */
+    private function getPHPUnitRules(): array
+    {
+        return [
+            'php_unit_expectation' => [
+                'target' => 'newest',
+            ],
+            'php_unit_mock'       => true,
+            'php_unit_namespaced' => [
+                'target' => 'newest',
+            ],
+            'php_unit_no_expectation_annotation' => [
+                'target'          => 'newest',
+                'use_class_const' => true,
+            ],
+            'php_unit_ordered_covers'              => true,
+            'php_unit_set_up_tear_down_visibility' => true,
+            'php_unit_strict'                      => false,
+            'php_unit_test_annotation'             => true,
+            'php_unit_test_class_requires_covers'  => false,
+        ];
+    }
+
+    /**
+     * @return array
+     */
     private function getSymfonyRules(): array
     {
         return [
@@ -262,51 +323,96 @@ class ConfigTest extends TestCase
                 'default' => 'align',
             ],
             'blank_line_after_opening_tag'                => false,
-            'blank_line_before_statement'                 => true,
+            'blank_line_before_statement'                 => [
+                'statements' => [
+                    'break',
+                    'continue',
+                    'declare',
+                    'do',
+                    'for',
+                    'foreach',
+                    'if',
+                    'include',
+                    'include_once',
+                    'require',
+                    'require_once',
+                    'return',
+                    'switch',
+                    'throw',
+                    'try',
+                    'while',
+                    'yield',
+                ],
+            ],
+            'yoda_style'                                  => false,
             'cast_spaces'                                 => true,
+            'class_attributes_separation'                 => [
+                'elements' => [
+                    'method',
+                    'property',
+                ],
+            ],
+            'standardize_increment'                       => true,
             'concat_space'                                => [
                 'spacing'                                 => 'one',
             ],
             'declare_equal_normalize'                     => true,
-            'doctrine_annotation_array_assignment'        => true,
-            'doctrine_annotation_braces'                  => true,
+            'doctrine_annotation_array_assignment'        => [
+                'operator' => ':',
+            ],
+            'doctrine_annotation_braces'                  => [
+                'syntax' => 'without_braces',
+            ],
             'doctrine_annotation_indentation'             => true,
-            'doctrine_annotation_spaces'                  => true,
+            'doctrine_annotation_spaces'                  => [
+                'after_argument_assignments'      => false,
+                'after_array_assignments_colon'   => true,
+                'after_array_assignments_equals'  => false,
+                'around_parentheses'              => true,
+                'before_argument_assignments'     => false,
+                'before_array_assignments_colon'  => false,
+                'before_array_assignments_equals' => false,
+            ],
             'function_to_constant'                        => true,
             'function_typehint_space'                     => true,
             'heredoc_to_nowdoc'                           => true,
-            'is_null'                                     => [
-                'use_yoda_style' => false,
-            ],
+            'is_null'                                     => true,
             'include'                                     => true,
             'increment_style'                             => [
                 'style' => 'post',
             ],
+            'no_unneeded_curly_braces'                    => true,
+            'no_unneeded_final_method'                    => true,
+            'non_printable_character'                     => true,
             'lowercase_cast'                              => true,
             'method_separation'                           => true,
             'native_function_casing'                      => true,
-            'native_function_invocation'                  => false,
+            'native_function_invocation'                  => true,
             'new_with_braces'                             => true,
-            'no_alias_functions'                          => false,
+            'no_alias_functions'                          => true,
             'no_blank_lines_after_class_opening'          => true,
             'no_blank_lines_after_phpdoc'                 => true,
             'no_empty_comment'                            => true,
             'no_empty_phpdoc'                             => true,
             'no_empty_statement'                          => true,
-            'no_extra_consecutive_blank_lines'            => [
+            'no_extra_blank_lines'                        => [
                 'tokens' => [
                     'break',
+                    'case',
                     'continue',
                     'curly_brace_block',
+                    'default',
                     'extra',
                     'parenthesis_brace_block',
                     'return',
                     'square_brace_block',
+                    'switch',
                     'throw',
                     'use',
                     'use_trait',
                 ],
             ],
+            'no_extra_consecutive_blank_lines'            => false,
             'no_null_property_initialization'             => true,
             'no_leading_import_slash'                     => true,
             'no_leading_namespace_whitespace'             => true,
@@ -343,7 +449,7 @@ class ConfigTest extends TestCase
             'phpdoc_separation'                           => true,
             'phpdoc_single_line_var_spacing'              => true,
             'phpdoc_summary'                              => true,
-            'phpdoc_to_comment'                           => true,
+            'phpdoc_to_comment'                           => false,
             'phpdoc_trim'                                 => true,
             'phpdoc_types'                                => true,
             'phpdoc_var_without_name'                     => true,
@@ -354,7 +460,7 @@ class ConfigTest extends TestCase
             'single_blank_line_before_namespace'          => false,
             'single_quote'                                => true,
             'space_after_semicolon'                       => true,
-            'single_line_comment_style'                   => true,
+            'single_line_comment_style'                   => false,
             'standardize_not_equals'                      => true,
             'ternary_operator_spaces'                     => true,
             'ternary_to_null_coalescing'                  => true,

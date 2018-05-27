@@ -23,8 +23,9 @@ Usage
 
 Create a configuration file '.php_cs' in the root of your project:
 
-``` php
+```php
 <?php
+declare(strict_types=1);
 use Narrowspark\CS\Config\Config;
 
 $config = new Config();
@@ -56,6 +57,37 @@ the LICENSE file that was distributed with this source code.
 EOF;
 
 $config = new Narrowspark\CS\Config\Config($header);
+```
+
+Configuration with override rules
+-------------
+
+:bulb: Optionally override rules from a rule set by passing in an array of rules to be merged in:
+
+```php
+<?php
+declare(strict_types=1);
+
+use Narrowspark\CS\Config\Config;
+
+$config = new Config(null /* if you dont need a header */, [
+    'mb_str_functions' => false,
+    'strict_comparison' => false,
+]);
+$config->getFinder()
+    ->files()
+    ->in(__DIR__)
+    ->exclude('build')
+    ->exclude('vendor')
+    ->name('*.php')
+    ->ignoreDotFiles(true)
+    ->ignoreVCS(true);
+
+$cacheDir = getenv('TRAVIS') ? getenv('HOME') . '/.php-cs-fixer' : __DIR__;
+
+$config->setCacheFile($cacheDir . '/.php_cs.cache');
+
+return $config;
 ```
 
 Git
@@ -97,6 +129,19 @@ script:
   - if [[ "$WITH_CS" == "true" ]]; then ./vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --diff --dry-run; fi
 ```
 
+Composer
+-------------
+Update ``composer.json`` script section with this line ``"cs": "php-cs-fixer fix"`` to run php-cs-fixer call ``composer cs``.
+
+```json
+{
+    "scripts": {
+        "cs": "php-cs-fixer fix"
+    }
+}
+```
+
+
 Testing
 -------------
 
@@ -107,7 +152,7 @@ $ vendor/bin/phpunit
 Contributing
 ------------
 
-If you would like to help take a look at the [list of issues](http://github.com/narrowspark/testing-helper/issues) and check our [Contributing](CONTRIBUTING.md) guild.
+If you would like to help take a look at the [list of issues](http://github.com/narrowspark/php-cs-fixer-config/issues) and check our [Contributing](CONTRIBUTING.md) guild.
 
 > **Note:** Please note that this project is released with a Contributor Code of Conduct. By participating in this project you agree to abide by its terms.
 
@@ -115,10 +160,10 @@ Credits
 -------------
 
 - [Daniel Bannert](https://github.com/prisis)
-- [refinery29](https://github.com/refinery29/php-cs-fixer-config)
+- [Andreas Möller](https://github.com/localheinz)
 - [All Contributors](../../contributors)
 
 License
 -------------
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

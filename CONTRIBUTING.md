@@ -1,12 +1,12 @@
-# php-cs-fixer-config contributing guidelines
+<h1 align="center">Narrowspark Contributing Guidelines</h1>
 
-Thank you for wanting to contribute to php-cs-fixer-config!
+Thank you for wanting to contribute to narrowspark!
 
 You can find below our guidelines for contribution, explaining how to send [pull requests](#pull-requests), [report issues](#filling-bugs) and [ask questions](#asking-questions), as well as which [workflow](#workflow) we're using while developing php-cs-fixer-config.
 
 ## Maintainers
 
-Current maintainers of php-cs-fixer-config are:
+Current maintainers of narrowspark are:
 
 - [Daniel Bannert](https://github.com/prisis),
 
@@ -34,7 +34,7 @@ If you fixed or added something useful to the project, you can send a pull-reque
 
 1. Make sure you have tests for your modifications.
 2. Run phpunit test locally to catch any errors.
-3. It should follow [PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)** - Check the code style with ``$ vendor/bin/php-cs-fixer fix --config-file=.php_cs -v --diff --dry-run`` and fix it with ``$ vendor/bin/php-cs-fixer fix --config-file=.php_cs -v``.
+3. Check the code style with ``$ php vendor/bin/php-cs-fixer fix --config-file=.php_cs -v --diff --dry-run`` and fix it with ``$ php vendor/bin/php-cs-fixer fix --config-file=.php_cs -v``.
 
 #### Why did you close my pull request or issue?
 
@@ -59,11 +59,11 @@ If you found an error, typo, or any other flaw in the project, please report it 
 
 When it comes to bugs, the more details you provide, the easier it is to reproduce the issue and the faster it could be fixed.
 
-The best case would be if you'd provide a minimal reproducible test case illustrating a bug. For most cases just a code snippet would be enough, for more complex cases you can create gists or even test repos on GitHub — we would be glad to look into any problems you'll have with php-cs-fixer-config.
+The best case would be if you'd provide a minimal reproducible test case illustrating a bug. For most cases just a code snippet would be enough, for more complex cases you can create gists or even test repos on GitHub — we would be glad to look into any problems you'll have with narrowspark php-cs-fixer-config.
 
 ### Asking questions
 
-GitHub issues is not the best place for asking questions like “why my code won't work” or “is there a way to do X in php-cs-fixer-config”, but we are constantly monitoring the [php-cs-fixer-config tag at StackOverflow](http://stackoverflow.com/unanswered/tagged/php-cs-fixer-config), so feel free to ask there! It would make it easier for other people to get answers and to keep GitHub Issues for bugs and feature requests.
+GitHub issues is not the best place for asking questions like “why my code won't work” or “is there a way to do X in narrowspark”, but we are constantly monitoring the [narrowspark tag at StackOverflow](http://stackoverflow.com/unanswered/tagged/narrowspark), so feel free to ask there! It would make it easier for other people to get answers and to keep GitHub Issues for bugs and feature requests.
 
 ### Fixing existing issues
 
@@ -73,13 +73,13 @@ If you'd like to work on an existing issue, just leave a comment on the issue sa
 
 If you've got an idea for a new feature, file an issue providing some details on your idea. Try searching the issues to see if there is an existing proposal for your feature and feel free to bump it by providing your use case or explaining why this feature is important for you.
 
-We should note that not everything should be done as a “php-cs-fixer-config feature”, some features better be a php-cs-fixer-config plug-ins, some are just not in the scope of the project.
+We should note that not everything should be done as a “narrowspark php-cs-fixer-config feature”, some features better be a narrowspark php-cs-fixer-config plug-ins, some are just not in the scope of the project.
 
 * * *
 
 ## Workflow
 
-This section describes the workflow we use for php-cs-fixer-config releases, the naming of the branches and the meaning behind them.
+This section describes the workflow we use for narrowspark releases, the naming of the branches and the meaning behind them.
 
 ### Branches
 
@@ -103,7 +103,7 @@ The following branches should always be there. Do not fork them directly, always
 
 ### Releasing workflow
 
-We follow [semver](http://semver.org/). We're in `0.x` at the moment, however, as php-cs-fixer-config is already widely used, we don't introduce backwards-incompatible changes to our minor releases.
+We follow [semver](http://semver.org/). We're in `0.x` at the moment, however, as narrowspark is already widely used, we don't introduce backwards-incompatible changes to our minor releases.
 
 Each minor release should be first compiled into `rc-`branch. Minor release *should not* have fixes in it, as patch-release should be published before a minor one if there are fixes. This would deliver the fixes to the people using the fixed minor, but `x` at patch version.
 
