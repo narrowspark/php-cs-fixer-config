@@ -131,7 +131,8 @@ script:
 
 Composer
 -------------
-Update ``composer.json`` script section with this line ``"cs": "php-cs-fixer fix"`` to run php-cs-fixer call ``composer cs``.
+Update ``composer.json`` script section with this line ``"cs": "php-cs-fixer fix"``.
+To run php-cs-fixer call ``composer cs``.
 
 ```json
 {
