@@ -166,4 +166,4 @@ Credits
 License
 -------------
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+The Narrowspark http-emitter is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
