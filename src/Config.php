@@ -57,9 +57,16 @@ class Config extends CsConfig
                 'style' => 'post',
             ],
             'phpdoc_no_empty_return'   => false,
+            'phpdoc_to_return_type'    => false,
             'blank_line_before_return' => true,
             'date_time_immutable'      => false,
             'yoda_style'               => false,
+            'no_unset_on_property'     => false,
+            'error_suppression'        => [
+                'mute_deprecation_error' => true,
+                'noise_remaining_usages' => false,
+            ],
+            'no_superfluous_phpdoc_tags'                => false,
         ];
 
         return \array_merge(

@@ -9,7 +9,10 @@ use PhpCsFixer\RuleSet;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 
-class ConfigTest extends TestCase
+/**
+ * @internal
+ */
+final class ConfigTest extends TestCase
 {
     public function testImplementsInterface(): void
     {
@@ -87,10 +90,10 @@ class ConfigTest extends TestCase
         $this->assertArrayHasKey('header_comment', $rules);
 
         $expected = [
-            'commentType' => 'PHPDoc',
-            'header'      => $header,
-            'location'    => 'after_declare_strict',
-            'separate'    => 'both',
+            'comment_type' => 'PHPDoc',
+            'header'       => $header,
+            'location'     => 'after_declare_strict',
+            'separate'     => 'both',
         ];
         $this->assertSame($expected, $rules['header_comment']);
         $this->assertTrue($rules['no_blank_lines_before_namespace']);
@@ -148,16 +151,16 @@ class ConfigTest extends TestCase
         ];
 
         $contribFixers = [
-            'header_comment'                            => 'it is not enabled by default',
-            'array_syntax'                              => [
-                'long'                                  => 'it conflicts with short array syntax (which is enabled)',
+            'header_comment'          => 'it is not enabled by default',
+            'array_syntax'            => [
+                'long' => 'it conflicts with short array syntax (which is enabled)',
             ],
-            'no_php4_constructor'                       => 'it changes behaviour',
-            'not_operator_with_space'                   => 'we do not need leading and trailing whitespace before !',
-            'php_unit_strict'                           => 'it changes behaviour',
-            'psr0'                                      => 'we are using PSR-4',
-            'no_homoglyph_names'                        => 'renames classes and cannot rename the files. You might have string references to renamed code (``$$name``)',
-            'simplified_null_return'                    => 'it changes behaviour on void return',
+            'no_php4_constructor'     => 'it changes behaviour',
+            'not_operator_with_space' => 'we do not need leading and trailing whitespace before !',
+            'php_unit_strict'         => 'it changes behaviour',
+            'psr0'                    => 'we are using PSR-4',
+            'no_homoglyph_names'      => 'renames classes and cannot rename the files. You might have string references to renamed code (``$$name``)',
+            'simplified_null_return'  => 'it changes behaviour on void return',
         ];
 
         $fixers = \array_merge($contribFixers, $symfonyFixers);
@@ -185,6 +188,7 @@ class ConfigTest extends TestCase
             ],
             'pow_to_exponentiation' => true,
             'random_api_migration'  => true,
+            'return_assignment'     => true,
             'visibility_required'   => [
                 'elements' => [
                     'const',
@@ -206,10 +210,13 @@ class ConfigTest extends TestCase
             'align_multiline_comment'                   => [
                 'comment_type' => 'all_multiline',
             ],
+            'no_binary_string'                          => true,
+            'no_unset_on_property'                      => false,
             'array_indentation'                         => true,
             'array_syntax'                              => [
                 'syntax' => 'short',
             ],
+            'logical_operators'                         => true,
             'pre_increment'                             => false,
             'backtick_to_shell_exec'                    => true,
             'blank_line_before_return'                  => true,
@@ -253,6 +260,8 @@ class ConfigTest extends TestCase
             'no_useless_else'                           => true,
             'no_useless_return'                         => true,
             'no_superfluous_elseif'                     => true,
+            'phpdoc_to_return_type'                     => false,
+            'no_superfluous_phpdoc_tags'                => false,
             'not_operator_with_space'                   => false,
             'not_operator_with_successor_space'         => true,
             'no_homoglyph_names'                        => false,
@@ -305,6 +314,16 @@ class ConfigTest extends TestCase
                 'target'          => 'newest',
                 'use_class_const' => true,
             ],
+            'php_unit_test_case_static_method_calls' => [
+                'call_type' => 'this',
+            ],
+            'php_unit_internal_class' => [
+                'types' => [
+                    'abstract',
+                    'final',
+                    'normal',
+                ],
+            ],
             'php_unit_ordered_covers'              => true,
             'php_unit_set_up_tear_down_visibility' => true,
             'php_unit_strict'                      => false,
@@ -322,6 +341,9 @@ class ConfigTest extends TestCase
             'binary_operator_spaces'                      => [
                 'default' => 'align',
             ],
+            'set_type_to_cast'                            => true,
+            'lowercase_static_reference'                  => true,
+            'native_constant_invocation'                  => true,
             'blank_line_after_opening_tag'                => false,
             'blank_line_before_statement'                 => [
                 'statements' => [
@@ -351,6 +373,10 @@ class ConfigTest extends TestCase
                     'method',
                     'property',
                 ],
+            ],
+            'error_suppression' => [
+                'mute_deprecation_error' => true,
+                'noise_remaining_usages' => false,
             ],
             'standardize_increment'                       => true,
             'concat_space'                                => [
@@ -419,55 +445,56 @@ class ConfigTest extends TestCase
             'no_mixed_echo_print'                         => [
                 'use'                                     => 'echo',
             ],
-            'no_multiline_whitespace_around_double_arrow' => true,
-            'no_short_bool_cast'                          => true,
-            'no_singleline_whitespace_before_semicolons'  => true,
-            'no_spaces_around_offset'                     => true,
-            'no_trailing_comma_in_list_call'              => true,
-            'no_trailing_comma_in_singleline_array'       => true,
-            'no_unneeded_control_parentheses'             => true,
-            'no_unreachable_default_argument_value'       => true,
-            'no_unused_imports'                           => true,
-            'no_whitespace_before_comma_in_array'         => true,
-            'no_whitespace_in_blank_line'                 => true,
-            'normalize_index_brace'                       => true,
-            'object_operator_without_whitespace'          => true,
-            'php_unit_construct'                          => true,
-            'php_unit_dedicate_assert'                    => true,
-            'php_unit_fqcn_annotation'                    => true,
-            'phpdoc_align'                                => true,
-            'phpdoc_annotation_without_dot'               => true,
-            'phpdoc_indent'                               => true,
-            'phpdoc_inline_tag'                           => true,
-            'phpdoc_no_access'                            => true,
-            'phpdoc_no_alias_tag'                         => true,
-            'phpdoc_no_empty_return'                      => false,
-            'phpdoc_no_package'                           => true,
-            'phpdoc_no_useless_inheritdoc'                => true,
-            'phpdoc_return_self_reference'                => true,
-            'phpdoc_scalar'                               => true,
-            'phpdoc_separation'                           => true,
-            'phpdoc_single_line_var_spacing'              => true,
-            'phpdoc_summary'                              => true,
-            'phpdoc_to_comment'                           => false,
-            'phpdoc_trim'                                 => true,
-            'phpdoc_types'                                => true,
-            'phpdoc_var_without_name'                     => true,
-            'return_type_declaration'                     => true,
-            'self_accessor'                               => false,
-            'short_scalar_cast'                           => true,
-            'silenced_deprecation_error'                  => false,
-            'single_blank_line_before_namespace'          => false,
-            'single_quote'                                => true,
-            'space_after_semicolon'                       => true,
-            'single_line_comment_style'                   => false,
-            'standardize_not_equals'                      => true,
-            'ternary_operator_spaces'                     => true,
-            'ternary_to_null_coalescing'                  => true,
-            'trailing_comma_in_multiline_array'           => true,
-            'trim_array_spaces'                           => true,
-            'unary_operator_spaces'                       => true,
-            'whitespace_after_comma_in_array'             => true,
+            'no_multiline_whitespace_around_double_arrow'   => true,
+            'no_short_bool_cast'                            => true,
+            'no_singleline_whitespace_before_semicolons'    => true,
+            'no_spaces_around_offset'                       => true,
+            'no_trailing_comma_in_list_call'                => true,
+            'no_trailing_comma_in_singleline_array'         => true,
+            'no_unneeded_control_parentheses'               => true,
+            'no_unreachable_default_argument_value'         => true,
+            'no_unused_imports'                             => true,
+            'no_whitespace_before_comma_in_array'           => true,
+            'no_whitespace_in_blank_line'                   => true,
+            'normalize_index_brace'                         => true,
+            'object_operator_without_whitespace'            => true,
+            'php_unit_construct'                            => true,
+            'php_unit_dedicate_assert'                      => true,
+            'php_unit_fqcn_annotation'                      => true,
+            'phpdoc_align'                                  => true,
+            'phpdoc_annotation_without_dot'                 => true,
+            'phpdoc_indent'                                 => true,
+            'phpdoc_inline_tag'                             => true,
+            'phpdoc_no_access'                              => true,
+            'phpdoc_no_alias_tag'                           => true,
+            'phpdoc_no_empty_return'                        => false,
+            'phpdoc_no_package'                             => true,
+            'phpdoc_no_useless_inheritdoc'                  => true,
+            'phpdoc_return_self_reference'                  => true,
+            'phpdoc_scalar'                                 => true,
+            'phpdoc_separation'                             => true,
+            'phpdoc_single_line_var_spacing'                => true,
+            'phpdoc_summary'                                => true,
+            'phpdoc_to_comment'                             => false,
+            'phpdoc_trim'                                   => true,
+            'phpdoc_types'                                  => true,
+            'phpdoc_var_without_name'                       => true,
+            'phpdoc_trim_consecutive_blank_line_separation' => true,
+            'return_type_declaration'                       => true,
+            'self_accessor'                                 => false,
+            'short_scalar_cast'                             => true,
+            'silenced_deprecation_error'                    => false,
+            'single_blank_line_before_namespace'            => false,
+            'single_quote'                                  => true,
+            'space_after_semicolon'                         => true,
+            'single_line_comment_style'                     => false,
+            'standardize_not_equals'                        => true,
+            'ternary_operator_spaces'                       => true,
+            'ternary_to_null_coalescing'                    => true,
+            'trailing_comma_in_multiline_array'             => true,
+            'trim_array_spaces'                             => true,
+            'unary_operator_spaces'                         => true,
+            'whitespace_after_comma_in_array'               => true,
         ];
     }
 
