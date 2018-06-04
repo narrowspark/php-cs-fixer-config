@@ -4,9 +4,9 @@
     <a href="https://php.net/"><img src="https://img.shields.io/badge/php-%5E7.1.0-8892BF.svg?style=flat-square"></a>
     <a href="https://codecov.io/gh/narrowspark/php-cs-fixer-config"><img src="https://img.shields.io/codecov/c/github/narrowspark/php-cs-fixer-config/master.svg?style=flat-square"></a>
     <a href="https://gitter.im/narrowspark/framework"><img src="https://img.shields.io/gitter/room/nwjs/nw.js.svg?style=flat-square"></a>
-    <a href="http://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
 </p>
-This repository provides a configuration for [`friendsofphp/php-cs-fixer`](http://github.com/FriendsOfPHP/PHP-CS-Fixer), which
+This repository provides a configuration for https://github.com/FriendsOfPHP/PHP-CS-Fixer, which
 we use to verify and enforce a single coding standard for PHP code within Narrowspark.
 
 Installation
