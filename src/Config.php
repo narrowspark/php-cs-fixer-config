@@ -66,7 +66,10 @@ class Config extends CsConfig
                 'mute_deprecation_error' => true,
                 'noise_remaining_usages' => false,
             ],
-            'no_superfluous_phpdoc_tags'                => false,
+            'no_superfluous_phpdoc_tags'             => false,
+            'php_unit_test_case_static_method_calls' => [
+                'call_type' => 'static',
+            ],
         ];
 
         return \array_merge(

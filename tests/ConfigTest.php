@@ -315,7 +315,7 @@ final class ConfigTest extends TestCase
                 'use_class_const' => true,
             ],
             'php_unit_test_case_static_method_calls' => [
-                'call_type' => 'this',
+                'call_type' => 'static',
             ],
             'php_unit_internal_class' => [
                 'types' => [
