@@ -57,7 +57,7 @@ class Config extends CsConfig
                 'style' => 'post',
             ],
             'phpdoc_no_empty_return'   => false,
-            'phpdoc_to_return_type'    => false,
+            'phpdoc_to_return_type'    => true,
             'blank_line_before_return' => true,
             'date_time_immutable'      => false,
             'yoda_style'               => false,

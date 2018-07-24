@@ -260,7 +260,7 @@ final class ConfigTest extends TestCase
             'no_useless_else'                           => true,
             'no_useless_return'                         => true,
             'no_superfluous_elseif'                     => true,
-            'phpdoc_to_return_type'                     => false,
+            'phpdoc_to_return_type'                     => true,
             'no_superfluous_phpdoc_tags'                => false,
             'not_operator_with_space'                   => false,
             'not_operator_with_successor_space'         => true,
@@ -523,7 +523,7 @@ final class ConfigTest extends TestCase
     /**
      * @return string[]
      */
-    private function configuredFixers()
+    private function configuredFixers(): array
     {
         $config = new Config();
 
@@ -542,7 +542,7 @@ final class ConfigTest extends TestCase
     /**
      * @return string[]
      */
-    private function builtInFixers()
+    private function builtInFixers(): array
     {
         $fixerFactory = FixerFactory::create();
         $fixerFactory->registerBuiltInFixers();
