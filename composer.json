@@ -21,7 +21,8 @@
     ],
     "require": {
         "php": "^7.1",
-        "localheinz/php-cs-fixer-config": "1.15.*"
+        "localheinz/php-cs-fixer-config": "1.15.*",
+        "pedrotroller/php-cs-custom-fixer": "^2.15.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.10.3",

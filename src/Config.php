@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Narrowspark\CS\Config;
 
 use Localheinz\PhpCsFixer\Config\RuleSet\Php71;
+use PedroTroller\CS\Fixer\Fixers;
 use PhpCsFixer\Config as CsConfig;
 
 class Config extends CsConfig
@@ -32,6 +33,7 @@ class Config extends CsConfig
         parent::__construct('narrowspark');
 
         $this->setRiskyAllowed(true);
+        $this->registerCustomFixers(new Fixers());
 
         $this->ruleSet        = new Php71($header);
         $this->overwriteRules = $overwriteConfig;
@@ -72,10 +74,26 @@ class Config extends CsConfig
             ],
         ];
 
+        $pedroTrollerRules = [
+            'PedroTroller/comment_line_to_phpdoc_block'         => false,
+            'PedroTroller/exceptions_punctuation'               => true,
+            'PedroTroller/forbidden_functions'                  => false,
+            'PedroTroller/ordered_with_getter_and_setter_first' => true,
+            'PedroTroller/line_break_between_method_arguments'  => [
+                'max-args'                 => 4,
+                'max-length'               => 120,
+                'automatic-argument-merge' => true,
+            ],
+            'PedroTroller/line_break_between_statements' => true,
+            'PedroTroller/useless_code_after_return'     => false,
+            'PedroTroller/phpspec'                       => false,
+        ];
+
         return \array_merge(
             $this->ruleSet->rules(),
             $overrideRules,
-            $this->overwriteRules
+            $this->overwriteRules,
+            $pedroTrollerRules
         );
     }
 }

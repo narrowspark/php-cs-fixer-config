@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Narrowspark\CS\Config\Tests;
 
 use Narrowspark\CS\Config\Config;
+use PedroTroller\CS\Fixer\Fixers;
 use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\FixerFactory;
 use PhpCsFixer\RuleSet;
@@ -60,7 +61,8 @@ final class ConfigTest extends TestCase
             $this->getContribRules(),
             $this->getSymfonyRules(),
             $this->getPhp71Rules(),
-            $this->getPHPUnitRules()
+            $this->getPHPUnitRules(),
+            $this->getPedroTrollerRules()
         );
         $rules = (new Config())->getRules();
 
@@ -102,9 +104,19 @@ final class ConfigTest extends TestCase
 
     public function testAllConfiguredRulesAreBuiltIn(): void
     {
+        $pedroTrollerRules = [];
+
+        foreach (new Fixers() as $fixer) {
+            if ($fixer->isDeprecated()) {
+                continue;
+            }
+
+            $pedroTrollerRules[] = $fixer->getName();
+        }
+
         $fixersNotBuiltIn = \array_diff(
             $this->configuredFixers(),
-            $this->builtInFixers()
+            \array_merge($this->builtInFixers(), $pedroTrollerRules)
         );
 
         static::assertEmpty($fixersNotBuiltIn, \sprintf(
@@ -198,6 +210,27 @@ final class ConfigTest extends TestCase
                 ],
             ],
             'void_return' => true,
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getPedroTrollerRules(): array
+    {
+        return [
+            'PedroTroller/comment_line_to_phpdoc_block'         => false,
+            'PedroTroller/exceptions_punctuation'               => true,
+            'PedroTroller/forbidden_functions'                  => false,
+            'PedroTroller/ordered_with_getter_and_setter_first' => true,
+            'PedroTroller/line_break_between_method_arguments'  => [
+                'max-args'                 => 4,
+                'max-length'               => 120,
+                'automatic-argument-merge' => true,
+            ],
+            'PedroTroller/line_break_between_statements' => true,
+            'PedroTroller/useless_code_after_return'     => false,
+            'PedroTroller/phpspec'                       => false,
         ];
     }
 
