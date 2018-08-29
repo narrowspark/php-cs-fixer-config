@@ -183,7 +183,8 @@ final class ConfigTest extends TestCase
     public function getPhp71Rules(): array
     {
         return [
-            'list_syntax'           => [
+            'combine_nested_dirname' => true,
+            'list_syntax'            => [
                 'syntax' => 'short',
             ],
             'pow_to_exponentiation' => true,
@@ -268,6 +269,7 @@ final class ConfigTest extends TestCase
             'ordered_class_elements'                    => true,
             'ordered_imports'                           => true,
             'php_unit_strict'                           => false,
+            'php_unit_method_casing'                    => true,
             'php_unit_test_class_requires_covers'       => false,
             'phpdoc_add_missing_param_annotation'       => [
                 'only_untyped'                          => false,
@@ -401,8 +403,11 @@ final class ConfigTest extends TestCase
             ],
             'function_to_constant'                        => true,
             'function_typehint_space'                     => true,
+            'fopen_flags'                                 => true,
+            'fopen_flag_order'                            => true,
             'heredoc_to_nowdoc'                           => true,
             'is_null'                                     => true,
+            'implode_call'                                => true,
             'include'                                     => true,
             'increment_style'                             => [
                 'style' => 'post',
@@ -411,6 +416,7 @@ final class ConfigTest extends TestCase
             'no_unneeded_final_method'                    => true,
             'non_printable_character'                     => true,
             'lowercase_cast'                              => true,
+            'magic_method_casing'                         => true,
             'method_separation'                           => true,
             'native_function_casing'                      => true,
             'native_function_invocation'                  => true,
