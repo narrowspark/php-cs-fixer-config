@@ -72,6 +72,8 @@ class Config extends CsConfig
             'php_unit_test_case_static_method_calls' => [
                 'call_type' => 'static',
             ],
+            'fopen_flags'      => false,
+            'fopen_flag_order' => false,
         ];
 
         $pedroTrollerRules = [

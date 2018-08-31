@@ -173,6 +173,9 @@ final class ConfigTest extends TestCase
             'psr0'                    => 'we are using PSR-4',
             'no_homoglyph_names'      => 'renames classes and cannot rename the files. You might have string references to renamed code (``$$name``)',
             'simplified_null_return'  => 'it changes behaviour on void return',
+
+            'fopen_flags'             => 'it changes r+b to b+r and w+b and b+w',
+            'fopen_flag_order'        => 'it changes r+b to b+r and w+b and b+w',
         ];
 
         $fixers = \array_merge($contribFixers, $symfonyFixers);
@@ -436,8 +439,8 @@ final class ConfigTest extends TestCase
             ],
             'function_to_constant'                        => true,
             'function_typehint_space'                     => true,
-            'fopen_flags'                                 => true,
-            'fopen_flag_order'                            => true,
+            'fopen_flags'                                 => false,
+            'fopen_flag_order'                            => false,
             'heredoc_to_nowdoc'                           => true,
             'is_null'                                     => true,
             'implode_call'                                => true,
