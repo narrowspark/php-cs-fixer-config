@@ -260,7 +260,7 @@ final class ConfigTest extends TestCase
             'class_keyword_remove'                      => false,
             'combine_consecutive_issets'                => true,
             'combine_consecutive_unsets'                => true,
-            'comment_to_phpdoc'                         => true,
+            'comment_to_phpdoc'                         => false,
             'compact_nullable_typehint'                 => true,
             'date_time_immutable'                       => false,
             'declare_strict_types'                      => true,

@@ -60,6 +60,7 @@ class Config extends CsConfig
             ],
             'phpdoc_no_empty_return'   => false,
             'phpdoc_to_return_type'    => true,
+            'comment_to_phpdoc'        => false,
             'blank_line_before_return' => true,
             'date_time_immutable'      => false,
             'yoda_style'               => false,
@@ -94,8 +95,8 @@ class Config extends CsConfig
         return \array_merge(
             $this->ruleSet->rules(),
             $overrideRules,
-            $this->overwriteRules,
-            $pedroTrollerRules
+            $pedroTrollerRules,
+            $this->overwriteRules
         );
     }
 }
