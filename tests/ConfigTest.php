@@ -17,14 +17,14 @@ final class ConfigTest extends TestCase
 {
     public function testImplementsInterface(): void
     {
-        static::assertInstanceOf(ConfigInterface::class, new Config());
+        $this->assertInstanceOf(ConfigInterface::class, new Config());
     }
 
     public function testValues(): void
     {
         $config = new Config();
 
-        static::assertSame('narrowspark', $config->getName());
+        $this->assertSame('narrowspark', $config->getName());
     }
 
     public function testHasPsr2Rules(): void
@@ -67,20 +67,20 @@ final class ConfigTest extends TestCase
         $rules = (new Config())->getRules();
 
         foreach ($rules as $key => $value) {
-            static::assertTrue(isset($testRules[$key]), '[' . $key . '] Rule is missing.');
+            $this->assertTrue(isset($testRules[$key]), '[' . $key . '] Rule is missing.');
         }
 
-        static::assertCount(\count($testRules), $rules);
+        $this->assertCount(\count($testRules), $rules);
     }
 
     public function testDoesNotHaveHeaderCommentFixerByDefault(): void
     {
         $rules = (new Config())->getRules();
 
-        static::assertArrayHasKey('header_comment', $rules);
-        static::assertFalse($rules['header_comment']);
-        static::assertTrue($rules['no_blank_lines_before_namespace']);
-        static::assertFalse($rules['single_blank_line_before_namespace']);
+        $this->assertArrayHasKey('header_comment', $rules);
+        $this->assertFalse($rules['header_comment']);
+        $this->assertTrue($rules['no_blank_lines_before_namespace']);
+        $this->assertFalse($rules['single_blank_line_before_namespace']);
     }
 
     public function testHasHeaderCommentFixerIfProvided(): void
@@ -89,7 +89,7 @@ final class ConfigTest extends TestCase
         $config = new Config($header);
         $rules  = $config->getRules();
 
-        static::assertArrayHasKey('header_comment', $rules);
+        $this->assertArrayHasKey('header_comment', $rules);
 
         $expected = [
             'comment_type' => 'PHPDoc',
@@ -97,9 +97,9 @@ final class ConfigTest extends TestCase
             'location'     => 'after_declare_strict',
             'separate'     => 'both',
         ];
-        static::assertSame($expected, $rules['header_comment']);
-        static::assertTrue($rules['no_blank_lines_before_namespace']);
-        static::assertFalse($rules['single_blank_line_before_namespace']);
+        $this->assertSame($expected, $rules['header_comment']);
+        $this->assertTrue($rules['no_blank_lines_before_namespace']);
+        $this->assertFalse($rules['single_blank_line_before_namespace']);
     }
 
     public function testAllConfiguredRulesAreBuiltIn(): void
@@ -119,7 +119,7 @@ final class ConfigTest extends TestCase
             \array_merge($this->builtInFixers(), $pedroTrollerRules)
         );
 
-        static::assertEmpty($fixersNotBuiltIn, \sprintf(
+        $this->assertEmpty($fixersNotBuiltIn, \sprintf(
             'Failed to assert that fixers for the rules "%s" are built in',
             \implode('", "', $fixersNotBuiltIn)
         ));
@@ -139,13 +139,13 @@ final class ConfigTest extends TestCase
         ];
 
         if ($fixer === 'array_syntax') {
-            static::assertNotSame(['syntax' => 'long'], $config->getRules()['array_syntax'], \sprintf(
+            $this->assertNotSame(['syntax' => 'long'], $config->getRules()['array_syntax'], \sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason['long']
             ));
         } else {
-            static::assertArraySubset($rule, $config->getRules(), true, \sprintf(
+            $this->assertArraySubset($rule, $config->getRules(), true, \sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason
@@ -353,7 +353,7 @@ final class ConfigTest extends TestCase
                 'use_class_const' => true,
             ],
             'php_unit_test_case_static_method_calls' => [
-                'call_type' => 'static',
+                'call_type' => 'this',
             ],
             'php_unit_internal_class' => [
                 'types' => [
@@ -548,12 +548,12 @@ final class ConfigTest extends TestCase
     private function assertHasRules(array $expected, array $actual, string $set): void
     {
         foreach ($expected as $fixer => $isEnabled) {
-            static::assertArrayHasKey($fixer, $actual, \sprintf(
+            $this->assertArrayHasKey($fixer, $actual, \sprintf(
                 'Failed to assert that a rule for fixer "%s" (in set "%s") exists.,',
                 $fixer,
                 $set
             ));
-            static::assertSame($isEnabled, $actual[$fixer], \sprintf(
+            $this->assertSame($isEnabled, $actual[$fixer], \sprintf(
                 'Failed to assert that fixer "%s" (in set "%s") is %s.',
                 $fixer,
                 $set,
