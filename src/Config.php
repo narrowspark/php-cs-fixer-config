@@ -58,6 +58,7 @@ class Config extends CsConfig
             'increment_style'                    => [
                 'style' => 'post',
             ],
+            'mb_str_functions'         => false,
             'phpdoc_no_empty_return'   => false,
             'phpdoc_to_return_type'    => true,
             'comment_to_phpdoc'        => false,

@@ -276,7 +276,7 @@ final class ConfigTest extends TestCase
             'header_comment'                            => false,
             'linebreak_after_opening_tag'               => true,
             'magic_constant_casing'                     => true,
-            'mb_str_functions'                          => true,
+            'mb_str_functions'                          => false,
             'method_argument_space'                     => [
                 'ensure_fully_multiline'           => true,
                 'keep_multiple_spaces_after_comma' => false,
