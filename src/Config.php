@@ -61,6 +61,7 @@ class Config extends CsConfig
             'mb_str_functions'         => false,
             'phpdoc_no_empty_return'   => false,
             'phpdoc_to_return_type'    => true,
+            'comment_to_phpdoc'        => false,
             'blank_line_before_return' => true,
             'date_time_immutable'      => false,
             'yoda_style'               => false,
@@ -70,11 +71,8 @@ class Config extends CsConfig
                 'noise_remaining_usages' => false,
             ],
             'no_superfluous_phpdoc_tags'             => false,
-            'php_unit_test_case_static_method_calls' => [
-                'call_type' => 'static',
-            ],
-            'fopen_flags'      => false,
-            'fopen_flag_order' => false,
+            'fopen_flags'                            => false,
+            'fopen_flag_order'                       => false,
         ];
 
         $pedroTrollerRules = [
@@ -95,8 +93,8 @@ class Config extends CsConfig
         return \array_merge(
             $this->ruleSet->rules(),
             $overrideRules,
-            $this->overwriteRules,
-            $pedroTrollerRules
+            $pedroTrollerRules,
+            $this->overwriteRules
         );
     }
 }
