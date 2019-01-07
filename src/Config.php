@@ -71,6 +71,9 @@ class Config extends CsConfig
                 'noise_remaining_usages' => false,
             ],
             'no_superfluous_phpdoc_tags'             => false,
+            'php_unit_test_case_static_method_calls' => [
+                'call_type' => 'this',
+            ],
             'fopen_flags'                            => false,
             'fopen_flag_order'                       => false,
         ];
