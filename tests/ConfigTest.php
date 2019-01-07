@@ -17,14 +17,14 @@ final class ConfigTest extends TestCase
 {
     public function testImplementsInterface(): void
     {
-        $this->assertInstanceOf(ConfigInterface::class, new Config());
+        self::assertInstanceOf(ConfigInterface::class, new Config());
     }
 
     public function testValues(): void
     {
         $config = new Config();
 
-        $this->assertSame('narrowspark', $config->getName());
+        self::assertSame('narrowspark', $config->getName());
     }
 
     public function testHasPsr2Rules(): void
@@ -61,26 +61,27 @@ final class ConfigTest extends TestCase
             $this->getContribRules(),
             $this->getSymfonyRules(),
             $this->getPhp71Rules(),
+            $this->getPhp73Rules(),
             $this->getPHPUnitRules(),
             $this->getPedroTrollerRules()
         );
         $rules = (new Config())->getRules();
 
         foreach ($rules as $key => $value) {
-            $this->assertTrue(isset($testRules[$key]), '[' . $key . '] Rule is missing.');
+            self::assertTrue(isset($testRules[$key]), '[' . $key . '] Rule is missing.');
         }
 
-        $this->assertCount(\count($testRules), $rules);
+        self::assertCount(\count($testRules), $rules);
     }
 
     public function testDoesNotHaveHeaderCommentFixerByDefault(): void
     {
         $rules = (new Config())->getRules();
 
-        $this->assertArrayHasKey('header_comment', $rules);
-        $this->assertFalse($rules['header_comment']);
-        $this->assertTrue($rules['no_blank_lines_before_namespace']);
-        $this->assertFalse($rules['single_blank_line_before_namespace']);
+        self::assertArrayHasKey('header_comment', $rules);
+        self::assertFalse($rules['header_comment']);
+        self::assertTrue($rules['no_blank_lines_before_namespace']);
+        self::assertFalse($rules['single_blank_line_before_namespace']);
     }
 
     public function testHasHeaderCommentFixerIfProvided(): void
@@ -89,7 +90,7 @@ final class ConfigTest extends TestCase
         $config = new Config($header);
         $rules  = $config->getRules();
 
-        $this->assertArrayHasKey('header_comment', $rules);
+        self::assertArrayHasKey('header_comment', $rules);
 
         $expected = [
             'comment_type' => 'PHPDoc',
@@ -97,9 +98,9 @@ final class ConfigTest extends TestCase
             'location'     => 'after_declare_strict',
             'separate'     => 'both',
         ];
-        $this->assertSame($expected, $rules['header_comment']);
-        $this->assertTrue($rules['no_blank_lines_before_namespace']);
-        $this->assertFalse($rules['single_blank_line_before_namespace']);
+        self::assertSame($expected, $rules['header_comment']);
+        self::assertTrue($rules['no_blank_lines_before_namespace']);
+        self::assertFalse($rules['single_blank_line_before_namespace']);
     }
 
     public function testAllConfiguredRulesAreBuiltIn(): void
@@ -119,7 +120,7 @@ final class ConfigTest extends TestCase
             \array_merge($this->builtInFixers(), $pedroTrollerRules)
         );
 
-        $this->assertEmpty($fixersNotBuiltIn, \sprintf(
+        self::assertEmpty($fixersNotBuiltIn, \sprintf(
             'Failed to assert that fixers for the rules "%s" are built in',
             \implode('", "', $fixersNotBuiltIn)
         ));
@@ -139,13 +140,13 @@ final class ConfigTest extends TestCase
         ];
 
         if ($fixer === 'array_syntax') {
-            $this->assertNotSame(['syntax' => 'long'], $config->getRules()['array_syntax'], \sprintf(
+            self::assertNotSame(['syntax' => 'long'], $config->getRules()['array_syntax'], \sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason['long']
             ));
         } else {
-            $this->assertArraySubset($rule, $config->getRules(), true, \sprintf(
+            self::assertArraySubset($rule, $config->getRules(), true, \sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason
@@ -216,6 +217,13 @@ final class ConfigTest extends TestCase
         ];
     }
 
+    public function getPhp73Rules(): array
+    {
+        return [
+            'heredoc_indentation' => true,
+        ];
+    }
+
     /**
      * @return array
      */
@@ -281,7 +289,7 @@ final class ConfigTest extends TestCase
                 'ensure_fully_multiline'           => true,
                 'keep_multiple_spaces_after_comma' => false,
             ],
-            'static_lambda'                             => false,
+            'static_lambda'                             => true,
             'string_line_ending'                        => true,
             'method_chaining_indentation'               => true,
             'modernize_types_casting'                   => true,
@@ -298,10 +306,12 @@ final class ConfigTest extends TestCase
             'no_useless_return'                         => true,
             'no_superfluous_elseif'                     => true,
             'phpdoc_to_return_type'                     => true,
+            'phpdoc_var_annotation_correct_order'       => true,
             'no_superfluous_phpdoc_tags'                => false,
             'not_operator_with_space'                   => false,
             'not_operator_with_successor_space'         => true,
             'no_homoglyph_names'                        => false,
+            'no_unset_cast'                             => true,
             'ordered_class_elements'                    => true,
             'ordered_imports'                           => true,
             'php_unit_strict'                           => false,
@@ -388,9 +398,13 @@ final class ConfigTest extends TestCase
                     'break',
                     'continue',
                     'declare',
+                    'default',
+                    'die',
                     'do',
+                    'exit',
                     'for',
                     'foreach',
+                    'goto',
                     'if',
                     'include',
                     'include_once',
@@ -548,12 +562,12 @@ final class ConfigTest extends TestCase
     private function assertHasRules(array $expected, array $actual, string $set): void
     {
         foreach ($expected as $fixer => $isEnabled) {
-            $this->assertArrayHasKey($fixer, $actual, \sprintf(
+            self::assertArrayHasKey($fixer, $actual, \sprintf(
                 'Failed to assert that a rule for fixer "%s" (in set "%s") exists.,',
                 $fixer,
                 $set
             ));
-            $this->assertSame($isEnabled, $actual[$fixer], \sprintf(
+            self::assertSame($isEnabled, $actual[$fixer], \sprintf(
                 'Failed to assert that fixer "%s" (in set "%s") is %s.',
                 $fixer,
                 $set,
@@ -574,7 +588,7 @@ final class ConfigTest extends TestCase
          *
          * @see https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/2361
          */
-        $rules = \array_map(function () {
+        $rules = \array_map(static function () {
             return true;
         }, $config->getRules());
 
