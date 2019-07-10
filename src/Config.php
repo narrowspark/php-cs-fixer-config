@@ -3,15 +3,37 @@ declare(strict_types=1);
 namespace Narrowspark\CS\Config;
 
 use Localheinz\PhpCsFixer\Config\RuleSet\Php71;
-use PedroTroller\CS\Fixer\Fixers;
+use Localheinz\PhpCsFixer\Config\RuleSet\Php73;
 use PhpCsFixer\Config as CsConfig;
+use PhpCsFixerCustomFixers\Fixer\InternalClassCasingFixer;
+use PhpCsFixerCustomFixers\Fixer\MultilineCommentOpeningClosingAloneFixer;
+use PhpCsFixerCustomFixers\Fixer\NoCommentedOutCodeFixer;
+use PhpCsFixerCustomFixers\Fixer\NoDoctrineMigrationsGeneratedCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer;
+use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
+use PhpCsFixerCustomFixers\Fixer\NoNullableBooleanTypeFixer;
+use PhpCsFixerCustomFixers\Fixer\NoPhpStormGeneratedCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoReferenceInFunctionDefinitionFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUnneededConcatenationFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NullableParamStyleFixer;
+use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocNoSuperfluousParamFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocParamOrderFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocParamTypeFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocSelfAccessorFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocSingleLineVarFixer;
+use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
+use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
 
-class Config extends CsConfig
+final class Config extends CsConfig
 {
     /**
-     * A instance of the php 7.1 rule set.
+     * A instance of the php 7.1 or 7.3 rule set.
      *
-     * @var Php71
+     * @var \Localheinz\PhpCsFixer\Config\RuleSet\Php71|\Localheinz\PhpCsFixer\Config\RuleSet\Php73
      */
     private $ruleSet;
 
@@ -33,9 +55,10 @@ class Config extends CsConfig
         parent::__construct('narrowspark');
 
         $this->setRiskyAllowed(true);
-        $this->registerCustomFixers(new Fixers());
+        $this->registerCustomFixers(new \PedroTroller\CS\Fixer\Fixers());
+        $this->registerCustomFixers(new \PhpCsFixerCustomFixers\Fixers());
 
-        $this->ruleSet        = new Php71($header);
+        $this->ruleSet        = \PHP_VERSION_ID >= 70300 ? new Php73($header) : new Php71($header);
         $this->overwriteRules = $overwriteConfig;
     }
 
@@ -48,14 +71,15 @@ class Config extends CsConfig
             'binary_operator_spaces' => [
                 'default' => 'align',
             ],
-            '@DoctrineAnnotation'                => true,
-            'blank_line_after_opening_tag'       => false,
-            'no_blank_lines_before_namespace'    => true,
-            'single_blank_line_before_namespace' => false,
-            'self_accessor'                      => false,
-            'no_homoglyph_names'                 => false,
-            'not_operator_with_successor_space'  => true,
-            'increment_style'                    => [
+            '@DoctrineAnnotation'                     => true,
+            'blank_line_after_opening_tag'            => false,
+            'no_blank_lines_before_namespace'         => true,
+            'single_blank_line_before_namespace'      => false,
+            'self_accessor'                           => false,
+            'native_function_type_declaration_casing' => true,
+            'no_homoglyph_names'                      => false,
+            'not_operator_with_successor_space'       => true,
+            'increment_style'                         => [
                 'style' => 'post',
             ],
             'mb_str_functions'         => false,
@@ -76,6 +100,7 @@ class Config extends CsConfig
             ],
             'fopen_flags'                            => false,
             'fopen_flag_order'                       => false,
+            'php_unit_test_class_requires_covers'    => false,
         ];
 
         $pedroTrollerRules = [
@@ -93,10 +118,36 @@ class Config extends CsConfig
             'PedroTroller/phpspec'                       => false,
         ];
 
+        $kubawerlosRules = [
+            InternalClassCasingFixer::name()                  => true,
+            MultilineCommentOpeningClosingAloneFixer::name()  => false,
+            NoCommentedOutCodeFixer::name()                   => true,
+            NoDoctrineMigrationsGeneratedCommentFixer::name() => true,
+            NoImportFromGlobalNamespaceFixer::name()          => false,
+            NoLeadingSlashInGlobalNamespaceFixer::name()      => true,
+            NoNullableBooleanTypeFixer::name()                => false,
+            NoPhpStormGeneratedCommentFixer::name()           => true,
+            NoReferenceInFunctionDefinitionFixer::name()      => false,
+            NoUnneededConcatenationFixer::name()              => true,
+            NoUselessCommentFixer::name()                     => false,
+            NoUselessDoctrineRepositoryCommentFixer::name()   => true,
+            NullableParamStyleFixer::name()                   => false,
+            OperatorLinebreakFixer::name()                    => true,
+            PhpdocNoIncorrectVarAnnotationFixer::name()       => true,
+            PhpdocNoSuperfluousParamFixer::name()             => true,
+            PhpdocParamOrderFixer::name()                     => true,
+            PhpdocParamTypeFixer::name()                      => true,
+            PhpdocSelfAccessorFixer::name()                   => true,
+            PhpdocSingleLineVarFixer::name()                  => true,
+            SingleSpaceAfterStatementFixer::name()            => true,
+            SingleSpaceBeforeStatementFixer::name()           => true,
+        ];
+
         return \array_merge(
             $this->ruleSet->rules(),
             $overrideRules,
             $pedroTrollerRules,
+            $kubawerlosRules,
             $this->overwriteRules
         );
     }

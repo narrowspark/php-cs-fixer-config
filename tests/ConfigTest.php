@@ -3,10 +3,31 @@ declare(strict_types=1);
 namespace Narrowspark\CS\Config\Tests;
 
 use Narrowspark\CS\Config\Config;
-use PedroTroller\CS\Fixer\Fixers;
 use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\FixerFactory;
 use PhpCsFixer\RuleSet;
+use PhpCsFixerCustomFixers\Fixer\InternalClassCasingFixer;
+use PhpCsFixerCustomFixers\Fixer\MultilineCommentOpeningClosingAloneFixer;
+use PhpCsFixerCustomFixers\Fixer\NoCommentedOutCodeFixer;
+use PhpCsFixerCustomFixers\Fixer\NoDoctrineMigrationsGeneratedCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer;
+use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
+use PhpCsFixerCustomFixers\Fixer\NoNullableBooleanTypeFixer;
+use PhpCsFixerCustomFixers\Fixer\NoPhpStormGeneratedCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoReferenceInFunctionDefinitionFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUnneededConcatenationFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NullableParamStyleFixer;
+use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocNoSuperfluousParamFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocParamOrderFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocParamTypeFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocSelfAccessorFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocSingleLineVarFixer;
+use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
+use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 
@@ -63,7 +84,8 @@ final class ConfigTest extends TestCase
             $this->getPhp71Rules(),
             $this->getPhp73Rules(),
             $this->getPHPUnitRules(),
-            $this->getPedroTrollerRules()
+            $this->getPedroTrollerRules(),
+            $this->getKubawerlosRules()
         );
         $rules = (new Config())->getRules();
 
@@ -107,7 +129,7 @@ final class ConfigTest extends TestCase
     {
         $pedroTrollerRules = [];
 
-        foreach (new Fixers() as $fixer) {
+        foreach (new \PedroTroller\CS\Fixer\Fixers() as $fixer) {
             if ($fixer->isDeprecated()) {
                 continue;
             }
@@ -115,9 +137,15 @@ final class ConfigTest extends TestCase
             $pedroTrollerRules[] = $fixer->getName();
         }
 
+        $kubawerlosRules = [];
+
+        foreach (new \PhpCsFixerCustomFixers\Fixers() as $fixer) {
+            $kubawerlosRules[] = $fixer->getName();
+        }
+
         $fixersNotBuiltIn = \array_diff(
             $this->configuredFixers(),
-            \array_merge($this->builtInFixers(), $pedroTrollerRules)
+            \array_merge($this->builtInFixers(), $pedroTrollerRules, $kubawerlosRules)
         );
 
         $this->assertEmpty($fixersNotBuiltIn, \sprintf(
@@ -248,6 +276,37 @@ final class ConfigTest extends TestCase
     /**
      * @return array
      */
+    public function getKubawerlosRules(): array
+    {
+        return [
+            InternalClassCasingFixer::name()                  => true,
+            MultilineCommentOpeningClosingAloneFixer::name()  => false,
+            NoCommentedOutCodeFixer::name()                   => true,
+            NoDoctrineMigrationsGeneratedCommentFixer::name() => true,
+            NoImportFromGlobalNamespaceFixer::name()          => false,
+            NoLeadingSlashInGlobalNamespaceFixer::name()      => true,
+            NoNullableBooleanTypeFixer::name()                => false,
+            NoPhpStormGeneratedCommentFixer::name()           => true,
+            NoReferenceInFunctionDefinitionFixer::name()      => false,
+            NoUnneededConcatenationFixer::name()              => true,
+            NoUselessCommentFixer::name()                     => false,
+            NoUselessDoctrineRepositoryCommentFixer::name()   => true,
+            NullableParamStyleFixer::name()                   => false,
+            OperatorLinebreakFixer::name()                    => true,
+            PhpdocNoIncorrectVarAnnotationFixer::name()       => true,
+            PhpdocNoSuperfluousParamFixer::name()             => true,
+            PhpdocParamOrderFixer::name()                     => true,
+            PhpdocParamTypeFixer::name()                      => true,
+            PhpdocSelfAccessorFixer::name()                   => true,
+            PhpdocSingleLineVarFixer::name()                  => true,
+            SingleSpaceAfterStatementFixer::name()            => true,
+            SingleSpaceBeforeStatementFixer::name()           => true,
+        ];
+    }
+
+    /**
+     * @return array
+     */
     protected function getContribRules(): array
     {
         return [
@@ -277,6 +336,7 @@ final class ConfigTest extends TestCase
             'escape_implicit_backslashes'               => true,
             'explicit_indirect_variable'                => true,
             'explicit_string_variable'                  => true,
+            'final_class'                               => true,
             'final_internal_class'                      => true,
             'fully_qualified_strict_types'              => true,
             'general_phpdoc_annotation_remove'          => false,
@@ -314,6 +374,7 @@ final class ConfigTest extends TestCase
             'no_unset_cast'                             => true,
             'ordered_class_elements'                    => true,
             'ordered_imports'                           => true,
+            'ordered_interfaces'                        => true,
             'php_unit_strict'                           => false,
             'php_unit_method_casing'                    => true,
             'php_unit_test_class_requires_covers'       => false,
@@ -354,8 +415,10 @@ final class ConfigTest extends TestCase
             'php_unit_expectation' => [
                 'target' => 'newest',
             ],
-            'php_unit_mock'       => true,
-            'php_unit_namespaced' => [
+            'php_unit_dedicate_assert_internal_type' => true,
+            'php_unit_mock'                          => true,
+            'php_unit_mock_short_will_return'        => true,
+            'php_unit_namespaced'                    => [
                 'target' => 'newest',
             ],
             'php_unit_no_expectation_annotation' => [
@@ -375,6 +438,7 @@ final class ConfigTest extends TestCase
             'php_unit_ordered_covers'              => true,
             'php_unit_set_up_tear_down_visibility' => true,
             'php_unit_strict'                      => false,
+            'php_unit_size_class'                  => true,
             'php_unit_test_annotation'             => true,
             'php_unit_test_class_requires_covers'  => false,
         ];
@@ -471,6 +535,7 @@ final class ConfigTest extends TestCase
             'native_function_casing'                      => true,
             'native_function_invocation'                  => true,
             'new_with_braces'                             => true,
+            'native_function_type_declaration_casing'     => true,
             'no_alias_functions'                          => true,
             'no_blank_lines_after_class_opening'          => true,
             'no_blank_lines_after_phpdoc'                 => true,
@@ -540,8 +605,10 @@ final class ConfigTest extends TestCase
             'self_accessor'                                 => false,
             'short_scalar_cast'                             => true,
             'silenced_deprecation_error'                    => false,
+            'simple_to_complex_string_variable'             => true,
             'single_blank_line_before_namespace'            => false,
             'single_quote'                                  => true,
+            'single_trait_insert_per_statement'             => true,
             'space_after_semicolon'                         => true,
             'single_line_comment_style'                     => false,
             'standardize_not_equals'                        => true,
@@ -596,6 +663,8 @@ final class ConfigTest extends TestCase
     }
 
     /**
+     * @throws \ReflectionException
+     *
      * @return string[]
      */
     private function builtInFixers(): array
