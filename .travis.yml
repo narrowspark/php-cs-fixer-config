@@ -37,10 +37,10 @@ jobs:
       env: REMOVE_XDEBUG=true
     - stage: Test
       php: 7.4snapshot
-      env: REMOVE_XDEBUG=true
+#      env: REMOVE_XDEBUG=true
     - stage: Test
       php: nightly
-      env: REMOVE_XDEBUG=true
+#      env: REMOVE_XDEBUG=true
 
     - stage: Coding standard
       if: type != cron
