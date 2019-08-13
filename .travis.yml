@@ -21,6 +21,10 @@ install:
   - $COMPOSER_UP
 
 jobs:
+  allow_failures:
+    - php: nightly
+    - php: 7.4snapshot
+
   include:
     - stage: Test
       php: 7.1
@@ -30,6 +34,12 @@ jobs:
       env: REMOVE_XDEBUG=true
     - stage: Test
       php: 7.3
+      env: REMOVE_XDEBUG=true
+    - stage: Test
+      php: 7.4snapshot
+      env: REMOVE_XDEBUG=true
+    - stage: Test
+      php: nightly
       env: REMOVE_XDEBUG=true
 
     - stage: Coding standard
