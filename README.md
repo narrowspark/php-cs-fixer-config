@@ -7,7 +7,7 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
 </p>
 This repository provides a configuration for https://github.com/FriendsOfPHP/PHP-CS-Fixer, which
-we use to verify and enforce a single coding standard for PHP code within Narrowspark.
+we use to verify and enforce a single coding standard for PHP code within Narrowspark and Anolilab.
 
 Installation
 -------------
