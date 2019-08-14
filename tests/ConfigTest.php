@@ -96,7 +96,7 @@ final class ConfigTest extends TestCase
             $this->getContribRules(),
             $this->getSymfonyRules(),
             $this->getPhp71Rules(),
-            $this->getPhp73Rules(),
+            \PHP_VERSION_ID >= 70300 ? $this->getPhp73Rules() : [],
             $this->getPHPUnitRules(),
             $this->getPedroTrollerRules(),
             $this->getKubawerlosRules()
