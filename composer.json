@@ -22,7 +22,7 @@
     "require": {
         "php": "^7.1",
         "friendsofphp/php-cs-fixer": "~2.15.1",
-        "kubawerlos/php-cs-fixer-custom-fixers": "^1.13.0",
+        "kubawerlos/php-cs-fixer-custom-fixers": "^1.15.1",
         "pedrotroller/php-cs-custom-fixer": "^2.18.1"
     },
     "require-dev": {

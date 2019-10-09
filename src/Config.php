@@ -430,7 +430,7 @@ final class Config extends CsConfig
             'non_printable_character' => true,
             'lowercase_cast' => true,
             'magic_method_casing' => true,
-            'method_separation' => true,
+            'method_separation' => false,
             'native_function_casing' => true,
             'native_function_invocation' => true,
             'new_with_braces' => true,
