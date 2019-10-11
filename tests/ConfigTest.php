@@ -9,10 +9,14 @@ use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerFactory;
 use PhpCsFixer\RuleSet;
+use PhpCsFixerCustomFixers\Fixer\CommentSurroundedBySpacesFixer;
+use PhpCsFixerCustomFixers\Fixer\DataProviderNameFixer;
+use PhpCsFixerCustomFixers\Fixer\DataProviderReturnTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\InternalClassCasingFixer;
 use PhpCsFixerCustomFixers\Fixer\MultilineCommentOpeningClosingAloneFixer;
 use PhpCsFixerCustomFixers\Fixer\NoCommentedOutCodeFixer;
 use PhpCsFixerCustomFixers\Fixer\NoDoctrineMigrationsGeneratedCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoDuplicatedImportsFixer;
 use PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoNullableBooleanTypeFixer;
@@ -21,6 +25,7 @@ use PhpCsFixerCustomFixers\Fixer\NoReferenceInFunctionDefinitionFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUnneededConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessSprintfFixer;
 use PhpCsFixerCustomFixers\Fixer\NullableParamStyleFixer;
 use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
@@ -29,6 +34,8 @@ use PhpCsFixerCustomFixers\Fixer\PhpdocParamOrderFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocParamTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSelfAccessorFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSingleLineVarFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpUnitNoUselessReturnFixer;
+use PhpCsFixerCustomFixers\Fixer\SingleLineThrowFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
 use PHPUnit\Framework\TestCase;
@@ -362,6 +369,48 @@ final class ConfigTest extends TestCase
             PhpdocSingleLineVarFixer::name() => true,
             SingleSpaceAfterStatementFixer::name() => true,
             SingleSpaceBeforeStatementFixer::name() => true,
+            DataProviderNameFixer::name() => true,
+            NoUselessSprintfFixer::name() => true,
+            DataProviderNameFixer::name() => true,
+            NoUselessSprintfFixer::name() => true,
+            PhpUnitNoUselessReturnFixer::name() => true,
+            SingleLineThrowFixer::name() => true,
+            NoDuplicatedImportsFixer::name() => true,
+            DataProviderReturnTypeFixer::name() => true,
+            CommentSurroundedBySpacesFixer::name() => true,
+            DataProviderNameFixer::name() => true,
+            NoUselessSprintfFixer::name() => true,
+            PhpUnitNoUselessReturnFixer::name() => true,
+            SingleLineThrowFixer::name() => true,
+            NoDuplicatedImportsFixer::name() => true,
+            DataProviderReturnTypeFixer::name() => true,
+            CommentSurroundedBySpacesFixer::name() => true,
+            DataProviderNameFixer::name() => true,
+            NoUselessSprintfFixer::name() => true,
+            PhpUnitNoUselessReturnFixer::name() => true,
+            SingleLineThrowFixer::name() => true,
+            NoDuplicatedImportsFixer::name() => true,
+            DataProviderReturnTypeFixer::name() => true,
+            CommentSurroundedBySpacesFixer::name() => true,
+            DataProviderNameFixer::name() => true,
+            NoUselessSprintfFixer::name() => true,
+            PhpUnitNoUselessReturnFixer::name() => true,
+            SingleLineThrowFixer::name() => true,
+            NoDuplicatedImportsFixer::name() => true,
+            DataProviderReturnTypeFixer::name() => true,
+            CommentSurroundedBySpacesFixer::name() => true,
+            DataProviderNameFixer::name() => true,
+            NoUselessSprintfFixer::name() => true,
+            PhpUnitNoUselessReturnFixer::name() => true,
+            SingleLineThrowFixer::name() => true,
+            NoDuplicatedImportsFixer::name() => true,
+            DataProviderReturnTypeFixer::name() => true,
+            CommentSurroundedBySpacesFixer::name() => true,
+            PhpUnitNoUselessReturnFixer::name() => true,
+            SingleLineThrowFixer::name() => true,
+            NoDuplicatedImportsFixer::name() => true,
+            DataProviderReturnTypeFixer::name() => true,
+            CommentSurroundedBySpacesFixer::name() => true,
         ];
     }
 
