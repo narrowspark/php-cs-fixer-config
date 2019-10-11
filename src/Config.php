@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace Narrowspark\CS\Config;
 
 use PhpCsFixer\Config as CsConfig;
+use PhpCsFixerCustomFixers\Fixer\CommentSurroundedBySpacesFixer;
+use PhpCsFixerCustomFixers\Fixer\DataProviderNameFixer;
+use PhpCsFixerCustomFixers\Fixer\DataProviderReturnTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\InternalClassCasingFixer;
 use PhpCsFixerCustomFixers\Fixer\MultilineCommentOpeningClosingAloneFixer;
 use PhpCsFixerCustomFixers\Fixer\NoCommentedOutCodeFixer;
 use PhpCsFixerCustomFixers\Fixer\NoDoctrineMigrationsGeneratedCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoDuplicatedImportsFixer;
 use PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoNullableBooleanTypeFixer;
@@ -17,6 +21,7 @@ use PhpCsFixerCustomFixers\Fixer\NoReferenceInFunctionDefinitionFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUnneededConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessSprintfFixer;
 use PhpCsFixerCustomFixers\Fixer\NullableParamStyleFixer;
 use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
@@ -25,6 +30,8 @@ use PhpCsFixerCustomFixers\Fixer\PhpdocParamOrderFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocParamTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSelfAccessorFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSingleLineVarFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpUnitNoUselessReturnFixer;
+use PhpCsFixerCustomFixers\Fixer\SingleLineThrowFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
 
@@ -67,7 +74,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<int|string, mixed>
      */
     public function getRules(): array
     {
@@ -86,7 +93,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, int|true>|bool>
      */
     protected function getPedroTrollerRules(): array
     {
@@ -107,7 +114,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, bool>
      */
     protected function getKubawerlosRules(): array
     {
@@ -134,11 +141,18 @@ final class Config extends CsConfig
             PhpdocSingleLineVarFixer::name() => true,
             SingleSpaceAfterStatementFixer::name() => true,
             SingleSpaceBeforeStatementFixer::name() => true,
+            DataProviderNameFixer::name() => true,
+            NoUselessSprintfFixer::name() => true,
+            PhpUnitNoUselessReturnFixer::name() => true,
+            SingleLineThrowFixer::name() => true,
+            NoDuplicatedImportsFixer::name() => true,
+            DataProviderReturnTypeFixer::name() => true,
+            CommentSurroundedBySpacesFixer::name() => true,
         ];
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getPhp71Rules(): array
     {
@@ -161,6 +175,9 @@ final class Config extends CsConfig
         ];
     }
 
+    /**
+     * @return array<string, bool>
+     */
     protected function getPhp73Rules(): array
     {
         return [
@@ -169,7 +186,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getContribRules(): array
     {
@@ -259,7 +276,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getPsr12Rules(): array
     {
@@ -311,7 +328,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getPHPUnitRules(): array
     {
@@ -349,7 +366,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getSymfonyRules(): array
     {
@@ -430,7 +447,7 @@ final class Config extends CsConfig
             'non_printable_character' => true,
             'lowercase_cast' => true,
             'magic_method_casing' => true,
-            'method_separation' => true,
+            'method_separation' => false,
             'native_function_casing' => true,
             'native_function_invocation' => true,
             'new_with_braces' => true,

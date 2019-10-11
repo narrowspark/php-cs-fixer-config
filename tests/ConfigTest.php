@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace Narrowspark\CS\Config\Tests;
 
 use Narrowspark\CS\Config\Config;
+use Narrowspark\TestingHelper\Traits\AssertArrayTrait;
 use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerFactory;
 use PhpCsFixer\RuleSet;
+use PhpCsFixerCustomFixers\Fixer\CommentSurroundedBySpacesFixer;
+use PhpCsFixerCustomFixers\Fixer\DataProviderNameFixer;
+use PhpCsFixerCustomFixers\Fixer\DataProviderReturnTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\InternalClassCasingFixer;
 use PhpCsFixerCustomFixers\Fixer\MultilineCommentOpeningClosingAloneFixer;
 use PhpCsFixerCustomFixers\Fixer\NoCommentedOutCodeFixer;
 use PhpCsFixerCustomFixers\Fixer\NoDoctrineMigrationsGeneratedCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoDuplicatedImportsFixer;
 use PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoNullableBooleanTypeFixer;
@@ -21,6 +26,7 @@ use PhpCsFixerCustomFixers\Fixer\NoReferenceInFunctionDefinitionFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUnneededConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessSprintfFixer;
 use PhpCsFixerCustomFixers\Fixer\NullableParamStyleFixer;
 use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
@@ -29,6 +35,8 @@ use PhpCsFixerCustomFixers\Fixer\PhpdocParamOrderFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocParamTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSelfAccessorFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSingleLineVarFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpUnitNoUselessReturnFixer;
+use PhpCsFixerCustomFixers\Fixer\SingleLineThrowFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
 use PHPUnit\Framework\TestCase;
@@ -40,6 +48,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class ConfigTest extends TestCase
 {
+    use AssertArrayTrait;
+
     public function testImplementsInterface(): void
     {
         self::assertInstanceOf(ConfigInterface::class, new Config());
@@ -169,7 +179,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @dataProvider providerDoesNotHaveFixerEnabled
+     * @dataProvider provideDoesNotHaveRulesEnabledCases
      *
      * @param string       $fixer
      * @param array|string $reason
@@ -199,7 +209,7 @@ final class ConfigTest extends TestCase
     /**
      * @return array
      */
-    public function providerDoesNotHaveFixerEnabled(): array
+    public function provideDoesNotHaveRulesEnabledCases(): iterable
     {
         $symfonyFixers = [
             'self_accessor' => 'it causes an edge case error',
@@ -244,7 +254,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @dataProvider providerValidHeader
+     * @dataProvider provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases
      *
      * @param string $header
      */
@@ -265,7 +275,7 @@ final class ConfigTest extends TestCase
     /**
      * @return \Generator
      */
-    public function providerValidHeader(): \Generator
+    public function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): iterable
     {
         $values = [
             'string-empty' => '',
@@ -362,6 +372,13 @@ final class ConfigTest extends TestCase
             PhpdocSingleLineVarFixer::name() => true,
             SingleSpaceAfterStatementFixer::name() => true,
             SingleSpaceBeforeStatementFixer::name() => true,
+            DataProviderNameFixer::name() => true,
+            NoUselessSprintfFixer::name() => true,
+            PhpUnitNoUselessReturnFixer::name() => true,
+            SingleLineThrowFixer::name() => true,
+            NoDuplicatedImportsFixer::name() => true,
+            DataProviderReturnTypeFixer::name() => true,
+            CommentSurroundedBySpacesFixer::name() => true,
         ];
     }
 
@@ -637,7 +654,7 @@ final class ConfigTest extends TestCase
             'non_printable_character' => true,
             'lowercase_cast' => true,
             'magic_method_casing' => true,
-            'method_separation' => true,
+            'method_separation' => false,
             'native_function_casing' => true,
             'native_function_invocation' => true,
             'new_with_braces' => true,
