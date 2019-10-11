@@ -176,7 +176,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @dataProvider providerDoesNotHaveFixerEnabled
+     * @dataProvider provideDoesNotHaveRulesEnabledCases
      *
      * @param string       $fixer
      * @param array|string $reason
@@ -206,7 +206,7 @@ final class ConfigTest extends TestCase
     /**
      * @return array
      */
-    public function providerDoesNotHaveFixerEnabled(): array
+    public function provideDoesNotHaveRulesEnabledCases(): iterable
     {
         $symfonyFixers = [
             'self_accessor' => 'it causes an edge case error',
@@ -251,7 +251,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @dataProvider providerValidHeader
+     * @dataProvider provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases
      *
      * @param string $header
      */
@@ -272,7 +272,7 @@ final class ConfigTest extends TestCase
     /**
      * @return \Generator
      */
-    public function providerValidHeader(): \Generator
+    public function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): iterable
     {
         $values = [
             'string-empty' => '',

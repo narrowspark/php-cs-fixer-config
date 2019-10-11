@@ -74,7 +74,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<int|string, mixed>
      */
     public function getRules(): array
     {
@@ -93,7 +93,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, int|true>|bool>
      */
     protected function getPedroTrollerRules(): array
     {
@@ -114,7 +114,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, bool>
      */
     protected function getKubawerlosRules(): array
     {
@@ -152,7 +152,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getPhp71Rules(): array
     {
@@ -175,6 +175,9 @@ final class Config extends CsConfig
         ];
     }
 
+    /**
+     * @return array<string, bool>
+     */
     protected function getPhp73Rules(): array
     {
         return [
@@ -183,7 +186,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getContribRules(): array
     {
@@ -273,7 +276,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getPsr12Rules(): array
     {
@@ -325,7 +328,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getPHPUnitRules(): array
     {
@@ -363,7 +366,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return array
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
      */
     protected function getSymfonyRules(): array
     {
