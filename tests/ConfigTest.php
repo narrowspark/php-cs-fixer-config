@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Narrowspark\CS\Config\Tests;
 
 use Narrowspark\CS\Config\Config;
+use Narrowspark\TestingHelper\Traits\AssertArrayTrait;
 use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerFactory;
@@ -47,6 +48,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class ConfigTest extends TestCase
 {
+    use AssertArrayTrait;
+
     public function testImplementsInterface(): void
     {
         self::assertInstanceOf(ConfigInterface::class, new Config());
@@ -195,7 +198,7 @@ final class ConfigTest extends TestCase
                 $reason['long']
             ));
         } else {
-            self::assertArraySubset($rule, $config->getRules(), true, \sprintf(
+            $this->assertArraySubset($rule, $config->getRules(), true, \sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason
@@ -371,41 +374,6 @@ final class ConfigTest extends TestCase
             SingleSpaceBeforeStatementFixer::name() => true,
             DataProviderNameFixer::name() => true,
             NoUselessSprintfFixer::name() => true,
-            DataProviderNameFixer::name() => true,
-            NoUselessSprintfFixer::name() => true,
-            PhpUnitNoUselessReturnFixer::name() => true,
-            SingleLineThrowFixer::name() => true,
-            NoDuplicatedImportsFixer::name() => true,
-            DataProviderReturnTypeFixer::name() => true,
-            CommentSurroundedBySpacesFixer::name() => true,
-            DataProviderNameFixer::name() => true,
-            NoUselessSprintfFixer::name() => true,
-            PhpUnitNoUselessReturnFixer::name() => true,
-            SingleLineThrowFixer::name() => true,
-            NoDuplicatedImportsFixer::name() => true,
-            DataProviderReturnTypeFixer::name() => true,
-            CommentSurroundedBySpacesFixer::name() => true,
-            DataProviderNameFixer::name() => true,
-            NoUselessSprintfFixer::name() => true,
-            PhpUnitNoUselessReturnFixer::name() => true,
-            SingleLineThrowFixer::name() => true,
-            NoDuplicatedImportsFixer::name() => true,
-            DataProviderReturnTypeFixer::name() => true,
-            CommentSurroundedBySpacesFixer::name() => true,
-            DataProviderNameFixer::name() => true,
-            NoUselessSprintfFixer::name() => true,
-            PhpUnitNoUselessReturnFixer::name() => true,
-            SingleLineThrowFixer::name() => true,
-            NoDuplicatedImportsFixer::name() => true,
-            DataProviderReturnTypeFixer::name() => true,
-            CommentSurroundedBySpacesFixer::name() => true,
-            DataProviderNameFixer::name() => true,
-            NoUselessSprintfFixer::name() => true,
-            PhpUnitNoUselessReturnFixer::name() => true,
-            SingleLineThrowFixer::name() => true,
-            NoDuplicatedImportsFixer::name() => true,
-            DataProviderReturnTypeFixer::name() => true,
-            CommentSurroundedBySpacesFixer::name() => true,
             PhpUnitNoUselessReturnFixer::name() => true,
             SingleLineThrowFixer::name() => true,
             NoDuplicatedImportsFixer::name() => true,
