@@ -198,7 +198,7 @@ final class ConfigTest extends TestCase
                 $reason['long']
             ));
         } else {
-            $this->assertArraySubset($rule, $config->getRules(), true, \sprintf(
+            self::assertArraySubset($rule, $config->getRules(), true, \sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason
