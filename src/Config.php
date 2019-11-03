@@ -34,6 +34,10 @@ use PhpCsFixerCustomFixers\Fixer\PhpUnitNoUselessReturnFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleLineThrowFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
+use const PHP_VERSION_ID;
+use function array_merge;
+use function is_string;
+use function trim;
 
 final class Config extends CsConfig
 {
@@ -53,14 +57,14 @@ final class Config extends CsConfig
      * @param null|string $header
      * @param array       $overwriteConfig
      */
-    public function __construct(string $header = null, array $overwriteConfig = [])
+    public function __construct(?string $header = null, array $overwriteConfig = [])
     {
         parent::__construct('narrowspark');
 
-        if (\is_string($header)) {
+        if (is_string($header)) {
             $this->headerRules['header_comment'] = [
                 'comment_type' => 'PHPDoc',
-                'header' => \trim($header),
+                'header' => trim($header),
                 'location' => 'after_declare_strict',
                 'separate' => 'both',
             ];
@@ -78,10 +82,11 @@ final class Config extends CsConfig
      */
     public function getRules(): array
     {
-        return \array_merge(
+        return array_merge(
+            $this->getNoGroupRules(),
             $this->getContribRules(),
             $this->getPhp71Rules(),
-            \PHP_VERSION_ID >= 70300 ? $this->getPhp73Rules() : [],
+            PHP_VERSION_ID >= 70300 ? $this->getPhp73Rules() : [],
             $this->getSymfonyRules(),
             $this->getPsr12Rules(),
             $this->getPHPUnitRules(),
@@ -144,7 +149,7 @@ final class Config extends CsConfig
             DataProviderNameFixer::name() => true,
             NoUselessSprintfFixer::name() => true,
             PhpUnitNoUselessReturnFixer::name() => true,
-            SingleLineThrowFixer::name() => true,
+            SingleLineThrowFixer::name() => false,
             NoDuplicatedImportsFixer::name() => true,
             DataProviderReturnTypeFixer::name() => true,
             CommentSurroundedBySpacesFixer::name() => true,
@@ -509,6 +514,7 @@ final class Config extends CsConfig
             'single_quote' => true,
             'single_trait_insert_per_statement' => true,
             'single_line_comment_style' => false,
+            'single_line_throw' => true,
             'standardize_not_equals' => true,
             'ternary_operator_spaces' => true,
             'ternary_to_null_coalescing' => true,
@@ -516,6 +522,31 @@ final class Config extends CsConfig
             'trim_array_spaces' => true,
             'unary_operator_spaces' => true,
             'whitespace_after_comma_in_array' => true,
+        ];
+    }
+
+    /**
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
+     */
+    public function getNoGroupRules(): array
+    {
+        return [
+            'final_static_access' => true,
+            'final_public_method_for_abstract_class' => false,
+            'lowercase_constants' => false,
+            'global_namespace_import' => [
+                'import_classes' => true,
+                'import_constants' => true,
+                'import_functions' => true,
+            ],
+            'nullable_type_declaration_for_default_null_value' => true,
+            'phpdoc_line_span' => [
+                'const' => 'multi',
+                'method' => 'multi',
+                'property' => 'multi',
+            ],
+            'phpdoc_to_param_type' => false,
+            'self_static_accessor' => true,
         ];
     }
 }
