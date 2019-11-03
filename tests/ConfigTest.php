@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Narrowspark\CS\Config\Tests;
 
+use Generator;
 use Narrowspark\CS\Config\Config;
 use Narrowspark\TestingHelper\Traits\AssertArrayTrait;
 use PhpCsFixer\ConfigInterface;
@@ -40,6 +41,16 @@ use PhpCsFixerCustomFixers\Fixer\SingleLineThrowFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
+use const PHP_VERSION_ID;
+use function array_diff;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function count;
+use function implode;
+use function sprintf;
+use function trim;
 
 /**
  * @internal
@@ -100,13 +111,14 @@ final class ConfigTest extends TestCase
 
     public function testIfAllRulesAreTested(): void
     {
-        $testRules = \array_merge(
+        $testRules = array_merge(
+            $this->getNoGroupRules(),
             $this->getPsr2Rules(),
             $this->getPsr12Rules(),
             $this->getContribRules(),
             $this->getSymfonyRules(),
             $this->getPhp71Rules(),
-            \PHP_VERSION_ID >= 70300 ? $this->getPhp73Rules() : [],
+            PHP_VERSION_ID >= 70300 ? $this->getPhp73Rules() : [],
             $this->getPHPUnitRules(),
             $this->getPedroTrollerRules(),
             $this->getKubawerlosRules()
@@ -117,7 +129,7 @@ final class ConfigTest extends TestCase
             self::assertTrue(isset($testRules[$key]), '[' . $key . '] Rule is missing.');
         }
 
-        self::assertCount(\count($testRules), $rules);
+        self::assertCount(count($testRules), $rules);
     }
 
     public function testDoesNotHaveHeaderCommentFixerByDefault(): void
@@ -167,14 +179,14 @@ final class ConfigTest extends TestCase
             $kubawerlosRules[] = $fixer->getName();
         }
 
-        $fixersNotBuiltIn = \array_diff(
+        $fixersNotBuiltIn = array_diff(
             $this->configuredFixers(),
-            \array_merge($this->builtInFixers(), $pedroTrollerRules, $kubawerlosRules)
+            array_merge($this->builtInFixers(), $pedroTrollerRules, $kubawerlosRules)
         );
 
-        self::assertEmpty($fixersNotBuiltIn, \sprintf(
+        self::assertEmpty($fixersNotBuiltIn, sprintf(
             'Failed to assert that fixers for the rules "%s" are built in',
-            \implode('", "', $fixersNotBuiltIn)
+            implode('", "', $fixersNotBuiltIn)
         ));
     }
 
@@ -192,13 +204,13 @@ final class ConfigTest extends TestCase
         ];
 
         if ($fixer === 'array_syntax') {
-            self::assertNotSame(['syntax' => 'long'], $config->getRules()['array_syntax'], \sprintf(
+            self::assertNotSame(['syntax' => 'long'], $config->getRules()['array_syntax'], sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason['long']
             ));
         } else {
-            self::assertArraySubset($rule, $config->getRules(), true, \sprintf(
+            self::assertArraySubset($rule, $config->getRules(), true, sprintf(
                 'Fixer "%s" should not be enabled, because "%s"',
                 $fixer,
                 $reason
@@ -231,7 +243,7 @@ final class ConfigTest extends TestCase
             'fopen_flag_order' => 'it changes r+b to b+r and w+b and b+w',
         ];
 
-        $fixers = \array_merge($contribFixers, $symfonyFixers);
+        $fixers = array_merge($contribFixers, $symfonyFixers);
 
         $data = [];
 
@@ -265,7 +277,7 @@ final class ConfigTest extends TestCase
         self::assertArrayHasKey('header_comment', $rules);
         $expected = [
             'comment_type' => 'PHPDoc',
-            'header' => \trim($header),
+            'header' => trim($header),
             'location' => 'after_declare_strict',
             'separate' => 'both',
         ];
@@ -273,7 +285,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return \Generator
+     * @return Generator
      */
     public function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): iterable
     {
@@ -716,6 +728,7 @@ final class ConfigTest extends TestCase
             'single_quote' => true,
             'single_trait_insert_per_statement' => true,
             'single_line_comment_style' => false,
+            'single_line_throw' => true,
             'standardize_not_equals' => true,
             'ternary_operator_spaces' => true,
             'ternary_to_null_coalescing' => true,
@@ -723,6 +736,28 @@ final class ConfigTest extends TestCase
             'trim_array_spaces' => true,
             'unary_operator_spaces' => true,
             'whitespace_after_comma_in_array' => true,
+        ];
+    }
+
+    public function getNoGroupRules(): array
+    {
+        return [
+            'final_static_access' => true,
+            'final_public_method_for_abstract_class' => false,
+            'lowercase_constants' => false,
+            'global_namespace_import' => [
+                'import_classes' => true,
+                'import_constants' => true,
+                'import_functions' => true,
+            ],
+            'nullable_type_declaration_for_default_null_value' => true,
+            'phpdoc_line_span' => [
+                'const' => 'multi',
+                'method' => 'multi',
+                'property' => 'multi',
+            ],
+            'phpdoc_to_param_type' => false,
+            'self_static_accessor' => true,
         ];
     }
 
@@ -734,12 +769,12 @@ final class ConfigTest extends TestCase
     private function assertHasRules(array $expected, array $actual, string $set): void
     {
         foreach ($expected as $fixer => $isEnabled) {
-            self::assertArrayHasKey($fixer, $actual, \sprintf(
+            self::assertArrayHasKey($fixer, $actual, sprintf(
                 'Failed to assert that a rule for fixer "%s" (in set "%s") exists.,',
                 $fixer,
                 $set
             ));
-            self::assertSame($isEnabled, $actual[$fixer], \sprintf(
+            self::assertSame($isEnabled, $actual[$fixer], sprintf(
                 'Failed to assert that fixer "%s" (in set "%s") is %s.',
                 $fixer,
                 $set,
@@ -760,15 +795,15 @@ final class ConfigTest extends TestCase
          *
          * @see https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/2361
          */
-        $rules = \array_map(static function () {
+        $rules = array_map(static function () {
             return true;
         }, $config->getRules());
 
-        return \array_keys(RuleSet::create($rules)->getRules());
+        return array_keys(RuleSet::create($rules)->getRules());
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      *
      * @return string[]
      */
@@ -780,7 +815,7 @@ final class ConfigTest extends TestCase
             $fixerFactory = FixerFactory::create();
             $fixerFactory->registerBuiltInFixers();
 
-            $builtInFixers = \array_map(static function (FixerInterface $fixer) {
+            $builtInFixers = array_map(static function (FixerInterface $fixer) {
                 return $fixer->getName();
             }, $fixerFactory->getFixers());
         }
