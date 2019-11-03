@@ -525,6 +525,9 @@ final class Config extends CsConfig
         ];
     }
 
+    /**
+     * @return array<string, array<string, array<int, string>|bool|string>|bool>
+     */
     public function getNoGroupRules(): array
     {
         return [
