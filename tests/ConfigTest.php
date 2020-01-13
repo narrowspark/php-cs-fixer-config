@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Narrowspark\CS\Config\Tests;
 
-use Generator;
 use Narrowspark\CS\Config\Config;
 use Narrowspark\TestingHelper\Traits\AssertArrayTrait;
 use PhpCsFixer\ConfigInterface;
@@ -14,6 +13,7 @@ use PhpCsFixer\RuleSet;
 use PhpCsFixerCustomFixers\Fixer\CommentSurroundedBySpacesFixer;
 use PhpCsFixerCustomFixers\Fixer\DataProviderNameFixer;
 use PhpCsFixerCustomFixers\Fixer\DataProviderReturnTypeFixer;
+use PhpCsFixerCustomFixers\Fixer\DataProviderStaticFixer;
 use PhpCsFixerCustomFixers\Fixer\InternalClassCasingFixer;
 use PhpCsFixerCustomFixers\Fixer\MultilineCommentOpeningClosingAloneFixer;
 use PhpCsFixerCustomFixers\Fixer\NoCommentedOutCodeFixer;
@@ -24,11 +24,10 @@ use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoNullableBooleanTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\NoPhpStormGeneratedCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoReferenceInFunctionDefinitionFixer;
-use PhpCsFixerCustomFixers\Fixer\NoUnneededConcatenationFixer;
+use PhpCsFixerCustomFixers\Fixer\NoSuperfluousConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessSprintfFixer;
-use PhpCsFixerCustomFixers\Fixer\NullableParamStyleFixer;
 use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoSuperfluousParamFixer;
@@ -36,8 +35,8 @@ use PhpCsFixerCustomFixers\Fixer\PhpdocParamOrderFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocParamTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSelfAccessorFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSingleLineVarFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocTypesTrimFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpUnitNoUselessReturnFixer;
-use PhpCsFixerCustomFixers\Fixer\SingleLineThrowFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
 use PHPUnit\Framework\TestCase;
@@ -221,7 +220,7 @@ final class ConfigTest extends TestCase
     /**
      * @return array
      */
-    public function provideDoesNotHaveRulesEnabledCases(): iterable
+    public static function provideDoesNotHaveRulesEnabledCases(): iterable
     {
         $symfonyFixers = [
             'self_accessor' => 'it causes an edge case error',
@@ -285,9 +284,9 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return Generator
+     * @return iterable
      */
-    public function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): iterable
+    public static function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): iterable
     {
         $values = [
             'string-empty' => '',
@@ -371,10 +370,9 @@ final class ConfigTest extends TestCase
             NoNullableBooleanTypeFixer::name() => false,
             NoPhpStormGeneratedCommentFixer::name() => true,
             NoReferenceInFunctionDefinitionFixer::name() => false,
-            NoUnneededConcatenationFixer::name() => true,
+            NoSuperfluousConcatenationFixer::name() => true,
             NoUselessCommentFixer::name() => false,
             NoUselessDoctrineRepositoryCommentFixer::name() => true,
-            NullableParamStyleFixer::name() => false,
             OperatorLinebreakFixer::name() => true,
             PhpdocNoIncorrectVarAnnotationFixer::name() => true,
             PhpdocNoSuperfluousParamFixer::name() => true,
@@ -387,10 +385,11 @@ final class ConfigTest extends TestCase
             DataProviderNameFixer::name() => true,
             NoUselessSprintfFixer::name() => true,
             PhpUnitNoUselessReturnFixer::name() => true,
-            SingleLineThrowFixer::name() => true,
             NoDuplicatedImportsFixer::name() => true,
             DataProviderReturnTypeFixer::name() => true,
             CommentSurroundedBySpacesFixer::name() => true,
+            DataProviderStaticFixer::name() => true,
+            PhpdocTypesTrimFixer::name() => true,
         ];
     }
 
