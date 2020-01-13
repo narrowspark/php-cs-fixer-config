@@ -8,6 +8,7 @@ use PhpCsFixer\Config as CsConfig;
 use PhpCsFixerCustomFixers\Fixer\CommentSurroundedBySpacesFixer;
 use PhpCsFixerCustomFixers\Fixer\DataProviderNameFixer;
 use PhpCsFixerCustomFixers\Fixer\DataProviderReturnTypeFixer;
+use PhpCsFixerCustomFixers\Fixer\DataProviderStaticFixer;
 use PhpCsFixerCustomFixers\Fixer\InternalClassCasingFixer;
 use PhpCsFixerCustomFixers\Fixer\MultilineCommentOpeningClosingAloneFixer;
 use PhpCsFixerCustomFixers\Fixer\NoCommentedOutCodeFixer;
@@ -18,11 +19,10 @@ use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoNullableBooleanTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\NoPhpStormGeneratedCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoReferenceInFunctionDefinitionFixer;
-use PhpCsFixerCustomFixers\Fixer\NoUnneededConcatenationFixer;
+use PhpCsFixerCustomFixers\Fixer\NoSuperfluousConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessSprintfFixer;
-use PhpCsFixerCustomFixers\Fixer\NullableParamStyleFixer;
 use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoSuperfluousParamFixer;
@@ -30,8 +30,8 @@ use PhpCsFixerCustomFixers\Fixer\PhpdocParamOrderFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocParamTypeFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSelfAccessorFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocSingleLineVarFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocTypesTrimFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpUnitNoUselessReturnFixer;
-use PhpCsFixerCustomFixers\Fixer\SingleLineThrowFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
 use const PHP_VERSION_ID;
@@ -44,18 +44,18 @@ final class Config extends CsConfig
     /**
      * A list of override rules.
      *
-     * @var array
+     * @var array<string, array<string, mixed>|bool|string>
      */
     private $overwriteRules;
 
-    /** @var array */
+    /** @var array<string, array<string, string>> */
     private $headerRules = [];
 
     /**
      * Create new Config instance.
      *
-     * @param null|string $header
-     * @param array       $overwriteConfig
+     * @param null|string                                     $header
+     * @param array<string, array<string, mixed>|bool|string> $overwriteConfig
      */
     public function __construct(?string $header = null, array $overwriteConfig = [])
     {
@@ -133,10 +133,9 @@ final class Config extends CsConfig
             NoNullableBooleanTypeFixer::name() => false,
             NoPhpStormGeneratedCommentFixer::name() => true,
             NoReferenceInFunctionDefinitionFixer::name() => false,
-            NoUnneededConcatenationFixer::name() => true,
+            NoSuperfluousConcatenationFixer::name() => true,
             NoUselessCommentFixer::name() => false,
             NoUselessDoctrineRepositoryCommentFixer::name() => true,
-            NullableParamStyleFixer::name() => false,
             OperatorLinebreakFixer::name() => true,
             PhpdocNoIncorrectVarAnnotationFixer::name() => true,
             PhpdocNoSuperfluousParamFixer::name() => true,
@@ -149,10 +148,11 @@ final class Config extends CsConfig
             DataProviderNameFixer::name() => true,
             NoUselessSprintfFixer::name() => true,
             PhpUnitNoUselessReturnFixer::name() => true,
-            SingleLineThrowFixer::name() => false,
             NoDuplicatedImportsFixer::name() => true,
             DataProviderReturnTypeFixer::name() => true,
             CommentSurroundedBySpacesFixer::name() => true,
+            DataProviderStaticFixer::name() => true,
+            PhpdocTypesTrimFixer::name() => true,
         ];
     }
 

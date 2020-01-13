@@ -21,18 +21,18 @@
     ],
     "require": {
         "php": "^7.2",
-        "friendsofphp/php-cs-fixer": "~2.16.0",
-        "kubawerlos/php-cs-fixer-custom-fixers": "~1.16.1",
+        "friendsofphp/php-cs-fixer": "~2.16.1",
+        "kubawerlos/php-cs-fixer-custom-fixers": "~1.17.0",
         "pedrotroller/php-cs-custom-fixer": "~2.19.1"
     },
     "require-dev": {
-        "narrowspark/testing-helper": "^8.0.1",
-        "phpstan/phpstan": "^0.11.16",
-        "phpstan/phpstan-deprecation-rules": "^0.11.2",
-        "phpstan/phpstan-phpunit": "^0.11.2",
-        "phpstan/phpstan-strict-rules": "^0.11.1",
-        "phpunit/phpunit": "^8.4.1",
-        "thecodingmachine/phpstan-strict-rules": "^0.11.2"
+        "narrowspark/testing-helper": "^8.0.2",
+        "phpstan/phpstan": "^0.12.3",
+        "phpstan/phpstan-deprecation-rules": "^0.12.0",
+        "phpstan/phpstan-phpunit": "^0.12.1",
+        "phpstan/phpstan-strict-rules": "^0.12.0",
+        "phpunit/phpunit": "^8.5.2",
+        "thecodingmachine/phpstan-strict-rules": "^0.12.0"
     },
     "config": {
         "sort-packages": true

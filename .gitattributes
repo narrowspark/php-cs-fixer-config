@@ -12,7 +12,6 @@ build              export-ignore
 phpstan.neon       export-ignore
 
 phpunit.xml.dist               export-ignore
-phpunit.php                    export-ignore
 
 CONTRIBUTING.md                export-ignore
 README.md                      export-ignore
