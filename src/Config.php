@@ -44,7 +44,7 @@ final class Config extends CsConfig
     /**
      * A list of override rules.
      *
-     * @var array<string, bool|string|array<string, mixed>>
+     * @var array<string, array<string, mixed>|bool|string>
      */
     private $overwriteRules;
 
@@ -55,7 +55,7 @@ final class Config extends CsConfig
      * Create new Config instance.
      *
      * @param null|string                                     $header
-     * @param array<string, bool|string|array<string, mixed>> $overwriteConfig
+     * @param array<string, array<string, mixed>|bool|string> $overwriteConfig
      */
     public function __construct(?string $header = null, array $overwriteConfig = [])
     {
