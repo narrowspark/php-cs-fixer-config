@@ -13,45 +13,20 @@ cache:
 before_install:
   - stty cols 120
   - mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d
-  - chmod a+x ./build/travis/configure_php.sh
-  - ./build/travis/configure_php.sh
+  - chmod a+x ./.build/travis/configure_php.sh
+  - ./.build/travis/configure_php.sh
 
 install:
-  - composer global require hirak/prestissimo
+  - composer global require narrowspark/automatic-composer-prefetcher narrowspark/automatic-security-audit
   - $COMPOSER_UP
 
 jobs:
   include:
-    - stage: Test
-      php: 7.2
-      env: REMOVE_XDEBUG=true
-    - stage: Test
-      php: 7.3
-      env: REMOVE_XDEBUG=true
-    - stage: Test
-      php: 7.4
-      env: REMOVE_XDEBUG=true
-
-    - stage: Static Analysis
-      if: type != cron
-      php: 7.3
-      env: REMOVE_XDEBUG=false
-      script:
-        - ./vendor/bin/phpstan analyse -c phpstan.neon src
-
-    - stage: Coding standard
-      if: type != cron
-      php: 7.3
-      env: REMOVE_XDEBUG=true
-      script:
-        - ./vendor/bin/php-cs-fixer fix --verbose --diff --dry-run
-
     - stage: Coverage
-      if: type != cron
       php: 7.3
       env: REMOVE_XDEBUG=false
       script:
-        - bash -xc "$TEST -c ./phpunit.xml.dist --coverage-clover=coverage.xml"
+        - bash -xc "$TEST -c ./phpunit.xml --coverage-clover=coverage.xml"
       after_success:
         - bash <(curl -s https://codecov.io/bash)
 
