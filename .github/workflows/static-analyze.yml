@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ["7.4"]
+        php-versions: ["7.3"]
 
     env:
       key: "static-analyze-v2" # change key (version) to clear cache
@@ -107,7 +107,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ["7.4"]
+        php-versions: ["7.3"]
 
     env:
       key: "static-analyze-v2" # change key (version) to clear cache
