@@ -1,10 +1,27 @@
-/vendor
-/build/logs
+# Your tools may add their own folders and files to the project.
+# Ignoring those within your global gitignore will make it so
+# they will never get commited within any project you have.
 
 composer.phar
-composer.lock
-.php_cs.cache
-.DS_Store
-Thumbs.db
+/composer.lock
 
-/.phpunit.result.cache
+.php_cs.cache
+.phpunit.result.cache
+.phpunit.xdebug-filter.php
+
+infection.log
+
+/.build/infection/
+!/.build/infection/.gitkeep
+/.build/php-cs-fixer/
+!/.build/php-cs-fixer/.gitkeep
+/.build/phpunit/
+!/.build/phpunit/.gitkeep
+/.build/psalm/
+!/.build/psalm/.gitkeep
+
+/.build/vendor
+/.build/logs/
+
+/vendor/
+/node_modules/
