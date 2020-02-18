@@ -3,7 +3,11 @@
 version: 1
 
 update_configs:
-  - automerged_updates:
+  - package_manager: "php:composer"
+    directory: "/"
+    update_schedule: "live"
+    version_requirement_updates: "increase_versions"
+    allowed_updates:
       - match:
           dependency_type: "development"
     commit_message:
@@ -11,25 +15,25 @@ update_configs:
       prefix: "Build"
     default_labels:
       - "dependency"
-    directory: "/"
-    package_manager: "php:composer"
+
+  - package_manager: "php:composer"
+    directory: "/.build"
     update_schedule: "live"
     version_requirement_updates: "increase_versions"
-
-  - automerged_updates:
+    allowed_updates:
       - match:
-          dependency_type: "all"
-      commit_message:
-        include_scope: true
-        prefix: "Build"
-      default_labels:
-        - "dependency"
-      directory: "/.build"
-      package_manager: "php:composer"
-      update_schedule: "live"
-      version_requirement_updates: "increase_versions"
+          dependency_type: "development"
+    commit_message:
+      include_scope: true
+      prefix: "Build"
+    default_labels:
+      - "dependency"
 
-  - automerged_updates:
+  - package_manager: "javascript"
+    directory: "/"
+    update_schedule: "live"
+    version_requirement_updates: "increase_versions"
+    allowed_updates:
       - match:
           dependency_type: "all"
     commit_message:
@@ -37,7 +41,3 @@ update_configs:
       prefix: "Build"
     default_labels:
       - "dependency"
-    directory: "/"
-    package_manager: "javascript"
-    update_schedule: "live"
-    version_requirement_updates: "increase_versions"
