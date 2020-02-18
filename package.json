@@ -25,7 +25,7 @@
         "write-good": "^1.0.2"
     },
     "scripts": {
-        "lint": "textlint ./src/** ./docs/** ./README.md --dry-run",
-        "lint:fix": "textlint ./src/** ./docs/** ./README.md --fix"
+        "lint": "textlint ./.build/ISSUE_TEMPLATE/** ./src/** ./docs/** ./README.md --dry-run",
+        "lint:fix": "textlint ./.build/ISSUE_TEMPLATE/** ./src/** ./docs/** ./README.md --fix"
     }
 }
