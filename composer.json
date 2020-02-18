@@ -49,7 +49,7 @@
     "scripts": {
         "coverage": [
             "phpunit --dump-xdebug-filter=./.build/phpunit/.xdebug-filter.php",
-            "phpunit --prepend=./.build/phpunit/.xdebug-filter.php --coverage-html=./build/phpunit/coverage"
+            "phpunit --prepend=./.build/phpunit/.xdebug-filter.php --coverage-html=./.build/phpunit/coverage"
         ],
         "cs": "composer --working-dir=./.build cs -- -v",
         "cs:check": "composer --working-dir=./.build cs:check -- -v",
