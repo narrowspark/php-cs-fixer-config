@@ -28,11 +28,18 @@
     },
     "require-dev": {
         "ext-json": "*",
-        "phpunit/phpunit": "^8.5.2",
-        "narrowspark/testing-helper": "^8.0.2"
+        "narrowspark/testing-helper": "^8.0.2",
+        "phpunit/phpunit": "^8.5.2"
     },
     "config": {
         "sort-packages": true
+    },
+    "extra": {
+        "prefetcher": {
+            "require": {
+                "phpunit/phpunit": "^8.5"
+            }
+        }
     },
     "autoload": {
         "psr-4": {
@@ -47,29 +54,22 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "post-install-cmd": "composer --working-dir=./.build install",
+        "post-update-cmd": "composer --working-dir=./.build update --lock",
         "coverage": [
             "phpunit --dump-xdebug-filter=./.build/phpunit/.xdebug-filter.php",
             "phpunit --prepend=./.build/phpunit/.xdebug-filter.php --coverage-html=./build/phpunit/coverage"
         ],
         "cs": "composer --working-dir=./.build cs -- -v",
         "cs:check": "composer --working-dir=./.build cs:check -- -v",
+        "infection": "composer --working-dir=./.build infection -- --min-covered-msi=100 --min-msi=100",
         "phpstan": "composer --working-dir=./.build phpstan -- --memory-limit=-1",
         "psalm": "composer --working-dir=./.build psalm",
         "psalm:fix": "composer --working-dir=./.build psalm:fix",
-        "infection": "composer --working-dir=./.build infection -- --min-covered-msi=100 --min-msi=100",
-        "test": "phpunit",
-        "post-install-cmd": "composer --working-dir=./.build install",
-        "post-update-cmd": "composer --working-dir=./.build update --lock"
+        "test": "phpunit"
     },
     "support": {
         "issues": "https://github.com/narrowspark/php-cs-fixer-config/issues",
         "source": "https://github.com/narrowspark/php-cs-fixer-config"
-    },
-    "extra": {
-        "prefetcher": {
-            "require": {
-                "phpunit/phpunit": "^8.5"
-            }
-        }
     }
 }

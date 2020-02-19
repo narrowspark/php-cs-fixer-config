@@ -346,14 +346,11 @@ final class ConfigTest extends TestCase
     /**
      * @dataProvider provideDoesNotHaveRulesEnabledCases
      *
-     * @param string                           $fixer
      * @param array<int|string, string>|string $reason
      *
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
-     *
-     * @return void
      */
     public function testDoesNotHaveRulesEnabled(string $fixer, $reason): void
     {
@@ -427,8 +424,6 @@ final class ConfigTest extends TestCase
 
     /**
      * @dataProvider provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases
-     *
-     * @param string $header
      */
     public function testHeaderCommentFixerIsEnabledIfHeaderIsProvided(string $header): void
     {
@@ -532,7 +527,7 @@ final class ConfigTest extends TestCase
     /**
      * @return ((bool|string|string[])[]|bool)[]
      *
-     * @psalm-return array{@DoctrineAnnotation: true, align_multiline_comment: array{comment_type: string}, no_binary_string: true, no_unset_on_property: false, array_indentation: true, array_syntax: array{syntax: string}, logical_operators: true, pre_increment: false, backtick_to_shell_exec: true, blank_line_before_return: true, class_keyword_remove: false, combine_consecutive_issets: true, combine_consecutive_unsets: true, comment_to_phpdoc: false, compact_nullable_typehint: true, date_time_immutable: true, declare_strict_types: true, dir_constant: true, ereg_to_preg: true, escape_implicit_backslashes: true, explicit_indirect_variable: true, explicit_string_variable: true, ordered_class_elements: true, ordered_imports: array{importsOrder: array{0: string, 1: string, 2: string}}, final_class: true, final_internal_class: true, fully_qualified_strict_types: true, general_phpdoc_annotation_remove: false, hash_to_slash_comment: true, header_comment: false, linebreak_after_opening_tag: true, magic_constant_casing: true, mb_str_functions: false, method_argument_space: array{ensure_fully_multiline: true, keep_multiple_spaces_after_comma: false}, static_lambda: true, string_line_ending: true, method_chaining_indentation: true, modernize_types_casting: true, multiline_comment_opening_closing: true, multiline_whitespace_before_semicolons: array{strategy: string}, no_alternative_syntax: true, no_blank_lines_before_namespace: false, no_multiline_whitespace_before_semicolons: false, no_php4_constructor: false, no_short_echo_tag: true, no_useless_else: true, no_useless_return: true, no_superfluous_elseif: true, phpdoc_to_return_type: true, phpdoc_var_annotation_correct_order: true, no_superfluous_phpdoc_tags: false, not_operator_with_space: false, not_operator_with_successor_space: true, no_homoglyph_names: false, no_unset_cast: true, ordered_interfaces: true, phpdoc_add_missing_param_annotation: array{only_untyped: false}, phpdoc_order: true, phpdoc_types_order: array{null_adjustment: string, sort_algorithm: string}, protected_to_private: true, psr0: false, psr4: true, semicolon_after_instruction: true, simplified_null_return: false, strict_comparison: true, strict_param: true}
+     * @psalm-return array{@DoctrineAnnotation: true, align_multiline_comment: array{comment_type: string}, no_binary_string: true, no_unset_on_property: false, array_indentation: true, array_syntax: array{syntax: string}, logical_operators: true, pre_increment: false, backtick_to_shell_exec: true, blank_line_before_return: true, class_keyword_remove: false, combine_consecutive_issets: true, combine_consecutive_unsets: true, comment_to_phpdoc: false, compact_nullable_typehint: true, date_time_immutable: true, declare_strict_types: true, dir_constant: true, ereg_to_preg: true, escape_implicit_backslashes: true, explicit_indirect_variable: true, explicit_string_variable: true, ordered_class_elements: true, ordered_imports: array{importsOrder: array{0: string, 1: string, 2: string}}, final_class: true, final_internal_class: true, fully_qualified_strict_types: true, general_phpdoc_annotation_remove: false, hash_to_slash_comment: true, header_comment: false, linebreak_after_opening_tag: true, magic_constant_casing: true, mb_str_functions: false, method_argument_space: array{ensure_fully_multiline: true, keep_multiple_spaces_after_comma: false}, static_lambda: true, string_line_ending: true, method_chaining_indentation: true, modernize_types_casting: true, multiline_comment_opening_closing: true, multiline_whitespace_before_semicolons: array{strategy: string}, no_alternative_syntax: true, no_blank_lines_before_namespace: false, no_multiline_whitespace_before_semicolons: false, no_php4_constructor: false, no_short_echo_tag: true, no_useless_else: true, no_useless_return: true, no_superfluous_elseif: true, phpdoc_to_return_type: true, phpdoc_var_annotation_correct_order: true, no_superfluous_phpdoc_tags: true, not_operator_with_space: false, not_operator_with_successor_space: true, no_homoglyph_names: false, no_unset_cast: true, ordered_interfaces: true, phpdoc_add_missing_param_annotation: array{only_untyped: true}, phpdoc_order: true, phpdoc_types_order: array{null_adjustment: string, sort_algorithm: string}, protected_to_private: true, psr0: false, psr4: true, semicolon_after_instruction: true, simplified_null_return: false, strict_comparison: true, strict_param: true}
      */
     protected function getContribRules(): array
     {
@@ -602,14 +597,14 @@ final class ConfigTest extends TestCase
             'no_superfluous_elseif' => true,
             'phpdoc_to_return_type' => true,
             'phpdoc_var_annotation_correct_order' => true,
-            'no_superfluous_phpdoc_tags' => false,
+            'no_superfluous_phpdoc_tags' => true,
             'not_operator_with_space' => false,
             'not_operator_with_successor_space' => true,
             'no_homoglyph_names' => false,
             'no_unset_cast' => true,
             'ordered_interfaces' => true,
             'phpdoc_add_missing_param_annotation' => [
-                'only_untyped' => false,
+                'only_untyped' => true,
             ],
             'phpdoc_order' => true,
             'phpdoc_types_order' => [
