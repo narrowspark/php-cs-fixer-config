@@ -22,7 +22,7 @@ jobs:
         dependencies: ["highest", "lowest"]
 
     env:
-      key: "continuous-integration-windows-v2" # change key (version) to clear cache
+      key: "continuous-integration-windows-v3" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, serialize_precision=14"
       tools: "composer, composer-prefetcher"

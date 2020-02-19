@@ -19,7 +19,7 @@ jobs:
         php-versions: ["7.3"]
 
     env:
-      key: "code-coverage-v2" # change key (version) to clear cache
+      key: "code-coverage-v3" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, serialize_precision=14, pcov.directory=api"
       tools: "composer, composer-prefetcher, cs2pr"
