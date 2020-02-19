@@ -57,11 +57,6 @@ final class ComposerTest extends TestCase
         );
     }
 
-    /**
-     * @param string $version
-     *
-     * @return string
-     */
     private function convertAppVersionToAliasedVersion(string $version): string
     {
         $parts = explode('.', $version, 3);
