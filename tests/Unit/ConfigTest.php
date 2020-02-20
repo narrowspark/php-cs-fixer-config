@@ -445,9 +445,8 @@ final class ConfigTest extends TestCase
 
     /**
      * @psalm-return Generator<string, array{0: string}, mixed, void>
-     * @return Generator
      */
-    public static function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): Generator
+    public static function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): iterable
     {
         $values = [
             'string-empty' => '',
