@@ -400,7 +400,11 @@ final class ConfigTest extends TestCase
             'simplified_null_return' => 'it changes behaviour on void return',
         ];
 
-        $fixers = array_merge($contribFixers, $symfonyFixers);
+        $php73Fixers = [
+            'heredoc_indentation' => 'Is destroying Heredoc/nowdoc',
+        ];
+
+        $fixers = array_merge($contribFixers, $symfonyFixers, $php73Fixers);
 
         $data = [];
 
@@ -440,8 +444,6 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return Generator
-     *
      * @psalm-return Generator<string, array{0: string}, mixed, void>
      */
     public static function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): iterable
@@ -515,13 +517,13 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return array<string, bool>
+     * @return false[]
      *
-     * @psalm-return array{heredoc_indentation: true}
+     * @psalm-return array{heredoc_indentation: false}
      */
     protected function getPhp73Rules(): array
     {
-        return ['heredoc_indentation' => true];
+        return ['heredoc_indentation' => false];
     }
 
     /**
@@ -739,7 +741,7 @@ final class ConfigTest extends TestCase
     /**
      * @return ((bool|string|string[])[]|bool)[]
      *
-     * @psalm-return array{set_type_to_cast: true, lowercase_static_reference: true, native_constant_invocation: true, blank_line_before_statement: array{statements: array{0: string, 1: string, 2: string, 3: string, 4: string, 5: string, 6: string, 7: string, 8: string, 9: string, 10: string, 11: string, 12: string, 13: string, 14: string, 15: string, 16: string, 17: string, 18: string, 19: string, 20: string}}, yoda_style: false, cast_spaces: true, class_attributes_separation: array{elements: array{0: string, 1: string}}, error_suppression: array{mute_deprecation_error: true, noise_remaining_usages: false}, standardize_increment: true, concat_space: array{spacing: string}, doctrine_annotation_array_assignment: array{operator: string}, doctrine_annotation_braces: array{syntax: string}, doctrine_annotation_indentation: true, doctrine_annotation_spaces: array{after_argument_assignments: false, after_array_assignments_colon: true, after_array_assignments_equals: false, around_parentheses: true, before_argument_assignments: false, before_array_assignments_colon: false, before_array_assignments_equals: false}, function_to_constant: true, function_typehint_space: true, fopen_flags: true, fopen_flag_order: true, heredoc_to_nowdoc: true, is_null: true, implode_call: true, include: true, increment_style: array{style: string}, no_unneeded_curly_braces: true, no_unneeded_final_method: true, non_printable_character: true, lowercase_cast: true, magic_method_casing: true, method_separation: false, native_function_casing: true, native_function_invocation: true, new_with_braces: true, native_function_type_declaration_casing: true, no_alias_functions: true, no_blank_lines_after_class_opening: true, no_blank_lines_after_phpdoc: true, no_empty_comment: true, no_empty_phpdoc: true, no_empty_statement: true, no_extra_consecutive_blank_lines: false, no_null_property_initialization: true, no_leading_import_slash: true, no_leading_namespace_whitespace: false, no_mixed_echo_print: array{use: string}, no_multiline_whitespace_around_double_arrow: true, no_short_bool_cast: true, no_singleline_whitespace_before_semicolons: true, no_spaces_around_offset: true, no_trailing_comma_in_list_call: true, no_trailing_comma_in_singleline_array: true, no_unneeded_control_parentheses: true, no_unreachable_default_argument_value: true, no_unused_imports: true, no_whitespace_before_comma_in_array: true, no_whitespace_in_blank_line: true, normalize_index_brace: true, object_operator_without_whitespace: true, phpdoc_align: true, phpdoc_annotation_without_dot: true, phpdoc_indent: true, phpdoc_inline_tag: true, phpdoc_no_access: true, phpdoc_no_alias_tag: true, phpdoc_no_empty_return: false, phpdoc_no_package: true, phpdoc_no_useless_inheritdoc: true, phpdoc_return_self_reference: true, phpdoc_scalar: true, phpdoc_separation: true, phpdoc_single_line_var_spacing: true, phpdoc_summary: true, phpdoc_to_comment: false, phpdoc_trim: true, phpdoc_types: true, phpdoc_var_without_name: true, phpdoc_trim_consecutive_blank_line_separation: true, return_type_declaration: true, self_accessor: false, short_scalar_cast: true, silenced_deprecation_error: false, simple_to_complex_string_variable: true, single_blank_line_before_namespace: true, single_quote: true, single_trait_insert_per_statement: true, single_line_comment_style: false, single_line_throw: true, standardize_not_equals: true, ternary_operator_spaces: true, ternary_to_null_coalescing: true, trailing_comma_in_multiline_array: true, trim_array_spaces: true, unary_operator_spaces: true, whitespace_after_comma_in_array: true}
+     * @psalm-return array{set_type_to_cast: true, lowercase_static_reference: true, native_constant_invocation: true, blank_line_before_statement: array{statements: array{0: string, 1: string, 2: string, 3: string, 4: string, 5: string, 6: string, 7: string, 8: string, 9: string, 10: string, 11: string, 12: string, 13: string, 14: string, 15: string, 16: string, 17: string, 18: string, 19: string, 20: string}}, yoda_style: false, cast_spaces: true, class_attributes_separation: array{elements: array{0: string, 1: string}}, error_suppression: array{mute_deprecation_error: true, noise_remaining_usages: false}, standardize_increment: true, concat_space: array{spacing: string}, doctrine_annotation_array_assignment: array{operator: string}, doctrine_annotation_braces: array{syntax: string}, doctrine_annotation_indentation: true, doctrine_annotation_spaces: array{after_argument_assignments: false, after_array_assignments_colon: true, after_array_assignments_equals: false, around_parentheses: true, before_argument_assignments: false, before_array_assignments_colon: false, before_array_assignments_equals: false}, function_to_constant: true, function_typehint_space: true, fopen_flags: true, fopen_flag_order: true, heredoc_to_nowdoc: true, is_null: true, implode_call: true, include: true, increment_style: array{style: string}, no_unneeded_curly_braces: true, no_unneeded_final_method: true, non_printable_character: true, lowercase_cast: true, magic_method_casing: true, method_separation: false, native_function_casing: true, native_function_invocation: array{include: array{0: string}, scope: string, strict: true}, new_with_braces: true, native_function_type_declaration_casing: true, no_alias_functions: true, no_blank_lines_after_class_opening: true, no_blank_lines_after_phpdoc: true, no_empty_comment: true, no_empty_phpdoc: true, no_empty_statement: true, no_extra_consecutive_blank_lines: false, no_null_property_initialization: true, no_leading_import_slash: true, no_leading_namespace_whitespace: false, no_mixed_echo_print: array{use: string}, no_multiline_whitespace_around_double_arrow: true, no_short_bool_cast: true, no_singleline_whitespace_before_semicolons: true, no_spaces_around_offset: true, no_trailing_comma_in_list_call: true, no_trailing_comma_in_singleline_array: true, no_unneeded_control_parentheses: true, no_unreachable_default_argument_value: true, no_unused_imports: true, no_whitespace_before_comma_in_array: true, no_whitespace_in_blank_line: true, normalize_index_brace: true, object_operator_without_whitespace: true, phpdoc_align: true, phpdoc_annotation_without_dot: true, phpdoc_indent: true, phpdoc_inline_tag: true, phpdoc_no_access: true, phpdoc_no_alias_tag: true, phpdoc_no_empty_return: false, phpdoc_no_package: true, phpdoc_no_useless_inheritdoc: true, phpdoc_return_self_reference: true, phpdoc_scalar: true, phpdoc_separation: true, phpdoc_single_line_var_spacing: true, phpdoc_summary: true, phpdoc_to_comment: false, phpdoc_trim: true, phpdoc_types: true, phpdoc_var_without_name: true, phpdoc_trim_consecutive_blank_line_separation: true, return_type_declaration: true, self_accessor: false, short_scalar_cast: true, silenced_deprecation_error: false, simple_to_complex_string_variable: true, single_blank_line_before_namespace: true, single_quote: true, single_trait_insert_per_statement: true, single_line_comment_style: false, single_line_throw: false, standardize_not_equals: true, ternary_operator_spaces: true, ternary_to_null_coalescing: true, trailing_comma_in_multiline_array: true, trim_array_spaces: true, unary_operator_spaces: true, whitespace_after_comma_in_array: true}
      */
     protected function getSymfonyRules(): array
     {
@@ -822,7 +824,11 @@ final class ConfigTest extends TestCase
             'magic_method_casing' => true,
             'method_separation' => false,
             'native_function_casing' => true,
-            'native_function_invocation' => true,
+            'native_function_invocation' => [
+                'include' => ['@compiler_optimized'],
+                'scope' => 'namespaced',
+                'strict' => true,
+            ],
             'new_with_braces' => true,
             'native_function_type_declaration_casing' => true,
             'no_alias_functions' => true,
@@ -879,7 +885,7 @@ final class ConfigTest extends TestCase
             'single_quote' => true,
             'single_trait_insert_per_statement' => true,
             'single_line_comment_style' => false,
-            'single_line_throw' => true,
+            'single_line_throw' => false,
             'standardize_not_equals' => true,
             'ternary_operator_spaces' => true,
             'ternary_to_null_coalescing' => true,
