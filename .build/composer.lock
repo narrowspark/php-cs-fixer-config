@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ed02c0c98e649a38eb24e75b749d9b9",
+    "content-hash": "3b9ad0633d4e0a8cd0f5e9a92c1be77a",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3889,16 +3889,16 @@
         },
         {
             "name": "slam/phpstan-extensions",
-            "version": "v4.0.0",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Slamdunk/phpstan-extensions.git",
-                "reference": "c854acc4b759dee3b72e6ad025e672633387e092"
+                "reference": "0c646b8f2d09cd8601ce9a56105ca8d6fca7c9fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Slamdunk/phpstan-extensions/zipball/c854acc4b759dee3b72e6ad025e672633387e092",
-                "reference": "c854acc4b759dee3b72e6ad025e672633387e092",
+                "url": "https://api.github.com/repos/Slamdunk/phpstan-extensions/zipball/0c646b8f2d09cd8601ce9a56105ca8d6fca7c9fe",
+                "reference": "0c646b8f2d09cd8601ce9a56105ca8d6fca7c9fe",
                 "shasum": ""
             },
             "require": {
@@ -3941,7 +3941,7 @@
                 }
             ],
             "description": "Slam extension of phpstan",
-            "time": "2019-12-08T13:14:11+00:00"
+            "time": "2020-02-18T14:43:56+00:00"
         },
         {
             "name": "symfony/console",
