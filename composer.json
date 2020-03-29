@@ -55,7 +55,10 @@
     "prefer-stable": true,
     "scripts": {
         "post-install-cmd": "composer --working-dir=./.build install",
-        "post-update-cmd": "composer --working-dir=./.build update --lock",
+        "post-update-cmd": [
+            "rm -fr vendor composer.lock .build/vendor .build/composer.lock",
+            "composer --working-dir=./.build update --lock"
+        ],
         "coverage": [
             "phpunit --dump-xdebug-filter=./.build/phpunit/.xdebug-filter.php",
             "phpunit --prepend=./.build/phpunit/.xdebug-filter.php --coverage-html=./.build/phpunit/coverage"
