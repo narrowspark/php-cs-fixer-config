@@ -17,7 +17,7 @@ jobs:
         php-versions: ["7.3"]
 
     env:
-      key: "license-update-linux-v3" # change key (version) to clear cache
+      key: "license-update-linux-v4" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1"
       tools: "composer, composer-prefetcher, cs2pr"

@@ -21,7 +21,7 @@ jobs:
         php-versions: ["7.3"]
 
     env:
-      key: "mutation-v3" # change key (version) to clear cache
+      key: "mutation-v4" # change key (version) to clear cache
       min-covered-msi: 100
       min-msi: 100
       extensions: "mbstring"

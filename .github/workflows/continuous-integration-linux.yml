@@ -18,11 +18,11 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ["7.3", "7.4.2"]
+        php-versions: ["7.3", "7.4"]
         dependencies: ["highest", "lowest"]
 
     env:
-      key: "continuous-integration-linux-v3" # change key (version) to clear cache
+      key: "continuous-integration-linux-v4" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, serialize_precision=14"
       tools: "composer, composer-prefetcher"
