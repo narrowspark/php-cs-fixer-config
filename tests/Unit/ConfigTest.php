@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Narrowspark\CS\Config\Tests\Unit;
 
 use Exception;
-use Generator;
 use Narrowspark\CS\Config\Config;
 use Narrowspark\TestingHelper\Traits\AssertArrayTrait;
 use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
@@ -377,7 +376,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return array<int, array<string, string>|string>
+     * @return string[][][]
      *
      * @psalm-return list<array{0: string, 1: array{long: string}|string}>
      */
@@ -444,7 +443,9 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @psalm-return Generator<string, array{0: string}, mixed, void>
+     * @psalm-return \Generator<string, array{0: string}, mixed, void>
+     *
+     * @return string[][]
      */
     public static function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): iterable
     {
@@ -464,7 +465,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return ((string|true)[]|bool)[]
+     * @return bool[][]|string[][]
      *
      * @psalm-return array{final_static_access: true, final_public_method_for_abstract_class: true, lowercase_constants: false, global_namespace_import: array{import_classes: true, import_constants: true, import_functions: true}, nullable_type_declaration_for_default_null_value: true, phpdoc_line_span: array{const: string, method: string, property: string}, phpdoc_to_param_type: false, self_static_accessor: true}
      */
@@ -517,7 +518,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return false[]
+     * @return bool[]
      *
      * @psalm-return array{heredoc_indentation: false}
      */
@@ -624,7 +625,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return array<string, bool>
+     * @return bool[]
      *
      * @psalm-return array{@PSR2: true}
      */

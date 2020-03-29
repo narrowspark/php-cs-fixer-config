@@ -48,7 +48,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Narrowspark\\CS\\Config\\Test\\": "tests"
+            "Narrowspark\\CS\\Config\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",

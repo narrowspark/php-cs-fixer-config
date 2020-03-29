@@ -151,7 +151,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return ((array|bool|int|mixed|string)[]|bool|string)[]
+     * @return bool[][]|mixed[][]|string[][]
      *
      * @psalm-return array<int|string, array|bool|string>
      */
@@ -174,7 +174,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return ((string|true)[]|bool)[]
+     * @return bool[][]|string[][]
      *
      * @psalm-return array{final_static_access: true, final_public_method_for_abstract_class: true, lowercase_constants: false, global_namespace_import: array{import_classes: true, import_constants: true, import_functions: true}, nullable_type_declaration_for_default_null_value: true, phpdoc_line_span: array{const: string, method: string, property: string}, phpdoc_to_param_type: false, self_static_accessor: true}
      */
@@ -292,7 +292,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return false[]
+     * @return bool[]
      *
      * @psalm-return array{heredoc_indentation: false}
      */
@@ -401,7 +401,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return true[]
+     * @return bool[]
      *
      * @psalm-return array{@PSR2: true}
      */
