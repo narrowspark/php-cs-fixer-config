@@ -7,7 +7,10 @@ update_configs:
     directory: "/"
     update_schedule: "live"
     version_requirement_updates: "increase_versions"
-    allowed_updates:
+    automerged_updates:
+      - match:
+          dependency_type: "production"
+          update_type: "semver:patch"
       - match:
           dependency_type: "development"
     commit_message:
@@ -20,7 +23,7 @@ update_configs:
     directory: "/.build"
     update_schedule: "live"
     version_requirement_updates: "increase_versions"
-    allowed_updates:
+    automerged_updates:
       - match:
           dependency_type: "all"
     commit_message:
@@ -33,7 +36,7 @@ update_configs:
     directory: "/"
     update_schedule: "live"
     version_requirement_updates: "increase_versions"
-    allowed_updates:
+    automerged_updates:
       - match:
           dependency_type: "all"
     commit_message:
