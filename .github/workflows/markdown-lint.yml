@@ -26,6 +26,6 @@ jobs:
         with:
           node-version: "10.16.0"
 
-      - run: npm install
+      - run: npm ci
 
       - run: npm run lint

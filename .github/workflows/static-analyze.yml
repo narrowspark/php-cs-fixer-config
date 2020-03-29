@@ -6,9 +6,11 @@ on:
   push:
     paths:
       - "**.php"
+      - "composer.json"
   pull_request:
     paths:
       - "**.php"
+      - "composer.json"
 
 jobs:
   narrowspark-phpstan-static-analysis:
@@ -21,7 +23,7 @@ jobs:
         php-versions: ["7.3"]
 
     env:
-      key: "static-analyze-v3" # change key (version) to clear cache
+      key: "static-analyze-v4" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1"
       tools: "composer, composer-prefetcher, cs2pr"
@@ -94,8 +96,8 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/.build/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: "Install highest .build dependencies"
-        run: $COMPOSER_UP --working-dir=./.build --lock
+      - name: "Install highest dependencies"
+        run: $COMPOSER_UP --lock
 
       - name: "analyze php code"
         run: composer --working-dir=./.build phpstan -- --error-format=checkstyle | cs2pr
@@ -110,7 +112,7 @@ jobs:
         php-versions: ["7.3"]
 
     env:
-      key: "static-analyze-v3" # change key (version) to clear cache
+      key: "static-analyze-v4" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1"
       tools: "composer, composer-prefetcher"
@@ -183,10 +185,8 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/.build/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: "Install highest .build dependencies"
-        run: $COMPOSER_UP --working-dir=./.build --lock
+      - name: "Install highest dependencies"
+        run: $COMPOSER_UP --lock
 
       - name: "analyze php code"
-        run: |
-          sed -i 's#<directory name="vendor" />##g' psalm.xml
-          composer --working-dir=./.build psalm -- --shepherd --show-info=false --output-format=github
+        run: composer --working-dir=./.build psalm -- --shepherd --show-info=false --output-format=github

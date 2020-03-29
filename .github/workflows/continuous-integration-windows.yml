@@ -5,10 +5,12 @@ name: "Continuous Integration on Windows"
 on:
   push:
     paths:
-      - '**.php'
+      - "**.php"
+      - "composer.json"
   pull_request:
     paths:
-      - '**.php'
+      - "**.php"
+      - "composer.json"
 
 jobs:
   WindowsIntegration:
@@ -18,11 +20,11 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ["7.3", "7.4.2"]
+        php-versions: ["7.3", "7.4"]
         dependencies: ["highest", "lowest"]
 
     env:
-      key: "continuous-integration-windows-v3" # change key (version) to clear cache
+      key: "continuous-integration-windows-v4" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, serialize_precision=14"
       tools: "composer, composer-prefetcher"
@@ -123,4 +125,4 @@ jobs:
         run: Invoke-Expression -Command "${env:COMPOSER_UP} --prefer-lowest --prefer-stable"
 
       - name: "Run Test's Suite"
-        run: Invoke-Expression ${env:PHPUNIT}
+        run: Invoke-Expression -Command "${env:PHPUNIT}"

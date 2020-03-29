@@ -6,12 +6,16 @@ on:
   push:
     paths:
       - "**.php"
+      - "composer.json"
   pull_request:
     paths:
       - "**.php"
+      - "composer.json"
 
 jobs:
   code-coverage:
+    name: "Code Coverage"
+
     runs-on: ubuntu-latest
 
     strategy:
@@ -19,7 +23,7 @@ jobs:
         php-versions: ["7.3"]
 
     env:
-      key: "code-coverage-v3" # change key (version) to clear cache
+      key: "code-coverage-v4" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, serialize_precision=14, pcov.directory=api"
       tools: "composer, composer-prefetcher, cs2pr"
