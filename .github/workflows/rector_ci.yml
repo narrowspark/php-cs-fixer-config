@@ -1,6 +1,6 @@
 # https://help.github.com/en/categories/automating-your-workflow-with-github-actions
 
-name: "Continuous Integration on Linux"
+name: "Coding Standard"
 
 on:
   push:
@@ -13,21 +13,20 @@ on:
       - "composer.json"
 
 jobs:
-  LinuxIntegration:
-    name: "PHP ${{ matrix.php-versions }} Test on ubuntu-latest OS with ${{ matrix.dependencies }} dependencies"
+  rector-ci:
+    name: "Rector"
 
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        php-versions: ["7.3", "7.4"]
-        dependencies: ["highest", "lowest"]
+        php-versions: ["7.4.2"]
 
     env:
-      key: "continuous-integration-linux-v4" # change key (version) to clear cache
+      key: "rector-ci-v1" # change key (version) to clear cache
       extensions: "mbstring"
-      ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, serialize_precision=14"
-      tools: "composer, composer-prefetcher"
+      ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1"
+      tools: "composer, composer-prefetcher, cs2pr"
 
     steps:
       - uses: actions/checkout@v2
@@ -63,11 +62,7 @@ jobs:
           NARROWSPARK_EMAIL: ${{ secrets.NARROWSPARK_EMAIL }}
           NARROWSPARK_USERNAME: ${{ secrets.NARROWSPARK_USERNAME }}
         run: |
-          echo "::set-env name=PHPUNIT::./vendor/bin/phpunit --verbose"
           echo "::set-env name=COMPOSER_UP::composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi"
-          echo "::set-env name=SOURCE_NAME::${GITHUB_REF#refs/*/}"
-          echo "::set-env name=SOURCE_BRANCH::${GITHUB_REF#refs/heads/}"
-          echo "::set-env name=SOURCE_TAG::${GITHUB_REF#refs/tags/}"
 
           EMAIL=${NARROWSPARK_EMAIL:-"d.bannert@anolilab.de"}
           NAME=${NARROWSPARK_USERNAME:-"prisis"}
@@ -81,17 +76,14 @@ jobs:
       - name: "Check PHP Version"
         run: php -v
 
-      - name: "List all php extensions with versions"
-        run: php -r 'foreach (get_loaded_extensions() as $extension) echo $extension . " " . phpversion($extension) . PHP_EOL;'
-
-      - name: "Setup Problem Matchers for PHPUnit"
-        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
       - name: "Check Composer Version"
         run: composer -V
 
       - name: "Validate composer.json and composer.lock"
         run: composer validate --strict
+
+      - name: "List all php extensions with versions"
+        run: php -r 'foreach (get_loaded_extensions() as $extension) echo $extension . " " . phpversion($extension) . PHP_EOL;'
 
       - name: "Get Composer Cache Directory"
         id: composer-cache
@@ -101,16 +93,14 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/.build/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: "Install highest dependencies"
-        if: matrix.dependencies == 'highest'
-        run: $COMPOSER_UP
+      - name: "Install highest .build dependencies"
+        run: $COMPOSER_UP --working-dir=./.build --lock
 
-      - name: "Install lowest dependencies"
-        if: matrix.dependencies == 'lowest'
-        run: $COMPOSER_UP --prefer-lowest --prefer-stable
+      - name: "lint src"
+        run: composer --working-dir=./.build rector-src -- --no-progress-bar
 
-      - name: "Run Test's"
-        run: $PHPUNIT
+      - name: "lint tests"
+        run: composer --working-dir=./.build rector-tests -- --no-progress-bar

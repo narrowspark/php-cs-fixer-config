@@ -5,10 +5,12 @@ name: "Continuous Integration on Windows"
 on:
   push:
     paths:
-      - '**.php'
+      - "**.php"
+      - "composer.json"
   pull_request:
     paths:
-      - '**.php'
+      - "**.php"
+      - "composer.json"
 
 jobs:
   WindowsIntegration:
@@ -123,4 +125,4 @@ jobs:
         run: Invoke-Expression -Command "${env:COMPOSER_UP} --prefer-lowest --prefer-stable"
 
       - name: "Run Test's Suite"
-        run: Invoke-Expression ${env:PHPUNIT}
+        run: Invoke-Expression -Command "${env:PHPUNIT}"

@@ -16,15 +16,21 @@
         "slam/phpstan-extensions": "^5.0.0",
         "thecodingmachine/phpstan-strict-rules": "^0.12.0",
         "vimeo/psalm": "^3.10.1",
-        "wikimedia/composer-merge-plugin": "^1.4.1"
+        "wikimedia/composer-merge-plugin": "^1.4.1",
+        "rector/rector": "^0.7.0"
     },
     "scripts": {
-        "cs": "php-cs-fixer fix --config=\"./../.php_cs\"",
-        "cs:check": "php-cs-fixer fix --config=\"./../.php_cs\" --dry-run",
-        "phpstan": "phpstan analyse -c ./../phpstan.neon",
+        "changelog": "changelog-generator generate --config=\"./../.changelog\" --file --prepend",
+        "cs": "php-cs-fixer fix --config=\"./../.php_cs\" --ansi",
+        "cs:check": "php-cs-fixer fix --config=\"./../.php_cs\" --ansi --dry-run",
+        "phpstan": "phpstan analyse -c ./../phpstan.neon --ansi",
         "psalm": "psalm --threads=$(nproc)",
-        "psalm:fix": "psalm --alter --issues=all --threads=$(nproc)",
-        "infection": "infection --configuration=\"./../infection.json\" -j$(nproc)"
+        "psalm:fix": "psalm --alter --issues=all --threads=$(nproc) --ansi",
+        "infection": "infection --configuration=\"./../infection.json\" -j$(nproc) --ansi",
+        "rector-src": "rector process ./../src/ --config=./rector-src.yaml --ansi --dry-run",
+        "rector-src:fix": "rector process ./../src/ --config=./rector-src.yaml --ansi",
+        "rector-tests": "rector process ./../tests/ --config=./rector-tests.yaml --ansi --dry-run",
+        "rector-tests:fix": "rector process ./../tests/ --config=./rector-tests.yaml --ansi"
     },
     "extra": {
         "prefetcher": {

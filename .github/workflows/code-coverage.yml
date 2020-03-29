@@ -6,12 +6,16 @@ on:
   push:
     paths:
       - "**.php"
+      - "composer.json"
   pull_request:
     paths:
       - "**.php"
+      - "composer.json"
 
 jobs:
   code-coverage:
+    name: "Code Coverage"
+
     runs-on: ubuntu-latest
 
     strategy:
