@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f1815416527e6e3f9cb9fffc9247845",
+    "content-hash": "a8878113ae52399ad3fcf8ae754058ed",
     "packages": [
         {
             "name": "amphp/amp",
@@ -1394,6 +1394,73 @@
             "time": "2020-01-17T21:11:47+00:00"
         },
         {
+            "name": "narrowspark/testing-helper",
+            "version": "8.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/narrowspark/testing-helper.git",
+                "reference": "668380a9f99e5dd1b747fb2cf6eb57d198ac3192"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/narrowspark/testing-helper/zipball/668380a9f99e5dd1b747fb2cf6eb57d198ac3192",
+                "reference": "668380a9f99e5dd1b747fb2cf6eb57d198ac3192",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2",
+                "phpunit/phpunit": "^8.0",
+                "psr/container": "^1.0.0",
+                "psr/http-factory": "^1.0.0",
+                "psr/http-message": "^1.0.0",
+                "psr/http-server-middleware": "^1.0.0"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "fzaninotto/faker": "^1.8.0",
+                "guzzlehttp/psr7": "^1.6.1",
+                "mockery/mockery": "^1.2.3",
+                "narrowspark/coding-standard": "^3.1.0",
+                "slam/phpstan-extensions": "^3.6"
+            },
+            "suggest": {
+                "fzaninotto/faker": "Required to use the FakerTrait (^1.6)",
+                "mockery/mockery": "Required to use the MockeryTestCase (^0.9)",
+                "nyholm/nsa": "Required to test your private/protected methods/properties (^1.1)."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Narrowspark\\TestingHelper\\": "src/TestingHelper/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Bannert",
+                    "email": "d.bannert@anolilab.de",
+                    "homepage": "http://anolilab.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Provides test helpers.",
+            "homepage": "https://github.com/narrowspark/testing-helper",
+            "keywords": [
+                "faker",
+                "getter",
+                "mock",
+                "mockery",
+                "phpunit",
+                "setter",
+                "test",
+                "timing"
+            ],
+            "time": "2019-10-15T08:34:44+00:00"
+        },
+        {
             "name": "netresearch/jsonmapper",
             "version": "v1.6.0",
             "source": {
@@ -1972,35 +2039,35 @@
         },
         {
             "name": "ocramius/package-versions",
-            "version": "1.5.1",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "1d32342b8c1eb27353c8887c366147b4c2da673c"
+                "reference": "651c372efc914aea8223e049f85afaf65e09ba23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/1d32342b8c1eb27353c8887c366147b4c2da673c",
-                "reference": "1d32342b8c1eb27353c8887c366147b4c2da673c",
+                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/651c372efc914aea8223e049f85afaf65e09ba23",
+                "reference": "651c372efc914aea8223e049f85afaf65e09ba23",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0.0",
-                "php": "^7.3.0"
+                "composer-plugin-api": "^1.1.0",
+                "php": "^7.4.0"
             },
             "require-dev": {
-                "composer/composer": "^1.8.6",
-                "doctrine/coding-standard": "^6.0.0",
-                "ext-zip": "*",
-                "infection/infection": "^0.13.4",
-                "phpunit/phpunit": "^8.2.5",
-                "vimeo/psalm": "^3.4.9"
+                "composer/composer": "^1.9.3",
+                "doctrine/coding-standard": "^7.0.2",
+                "ext-zip": "^1.15.0",
+                "infection/infection": "^0.15.3",
+                "phpunit/phpunit": "^9.0.1",
+                "vimeo/psalm": "^3.9.3"
             },
             "type": "composer-plugin",
             "extra": {
                 "class": "PackageVersions\\Installer",
                 "branch-alias": {
-                    "dev-master": "1.6.x-dev"
+                    "dev-master": "1.99.x-dev"
                 }
             },
             "autoload": {
@@ -2019,7 +2086,7 @@
                 }
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "time": "2019-07-17T15:49:50+00:00"
+            "time": "2020-03-06T11:34:16+00:00"
         },
         {
             "name": "ondram/ci-detector",
@@ -3582,16 +3649,16 @@
         },
         {
             "name": "psalm/plugin-phpunit",
-            "version": "0.9.0",
+            "version": "0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-phpunit.git",
-                "reference": "496c08f088d9e34e1947bca1de52b32b6571bad3"
+                "reference": "30b224272086e14ec52902f2ed0fc93136d2cb78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-phpunit/zipball/496c08f088d9e34e1947bca1de52b32b6571bad3",
-                "reference": "496c08f088d9e34e1947bca1de52b32b6571bad3",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-phpunit/zipball/30b224272086e14ec52902f2ed0fc93136d2cb78",
+                "reference": "30b224272086e14ec52902f2ed0fc93136d2cb78",
                 "shasum": ""
             },
             "require": {
@@ -3603,7 +3670,7 @@
             "require-dev": {
                 "codeception/base": "^2.5",
                 "squizlabs/php_codesniffer": "^3.3.1",
-                "weirdan/codeception-psalm-module": "^0.2.2"
+                "weirdan/codeception-psalm-module": "^0.4.0"
             },
             "type": "psalm-plugin",
             "extra": {
@@ -3635,7 +3702,7 @@
                 }
             ],
             "description": "Psalm plugin for PHPUnit",
-            "time": "2020-02-15T02:43:43+00:00"
+            "time": "2020-03-30T10:43:56+00:00"
         },
         {
             "name": "psr/container",
@@ -3836,6 +3903,112 @@
                 "response"
             ],
             "time": "2016-08-06T14:39:51+00:00"
+        },
+        {
+            "name": "psr/http-server-handler",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-handler.git",
+                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
+                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side request handler",
+            "keywords": [
+                "handler",
+                "http",
+                "http-interop",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response",
+                "server"
+            ],
+            "time": "2018-10-30T16:46:14+00:00"
+        },
+        {
+            "name": "psr/http-server-middleware",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-server-middleware.git",
+                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/2296f45510945530b9dceb8bcedb5cb84d40c5f5",
+                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0",
+                "psr/http-message": "^1.0",
+                "psr/http-server-handler": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP server-side middleware",
+            "keywords": [
+                "http",
+                "http-interop",
+                "middleware",
+                "psr",
+                "psr-15",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2018-10-30T17:12:04+00:00"
         },
         {
             "name": "psr/log",
@@ -7146,190 +7319,12 @@
             "time": "2019-11-13T19:16:13+00:00"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "narrowspark/testing-helper",
-            "version": "8.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/narrowspark/testing-helper.git",
-                "reference": "668380a9f99e5dd1b747fb2cf6eb57d198ac3192"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/narrowspark/testing-helper/zipball/668380a9f99e5dd1b747fb2cf6eb57d198ac3192",
-                "reference": "668380a9f99e5dd1b747fb2cf6eb57d198ac3192",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2",
-                "phpunit/phpunit": "^8.0",
-                "psr/container": "^1.0.0",
-                "psr/http-factory": "^1.0.0",
-                "psr/http-message": "^1.0.0",
-                "psr/http-server-middleware": "^1.0.0"
-            },
-            "require-dev": {
-                "ext-json": "*",
-                "fzaninotto/faker": "^1.8.0",
-                "guzzlehttp/psr7": "^1.6.1",
-                "mockery/mockery": "^1.2.3",
-                "narrowspark/coding-standard": "^3.1.0",
-                "slam/phpstan-extensions": "^3.6"
-            },
-            "suggest": {
-                "fzaninotto/faker": "Required to use the FakerTrait (^1.6)",
-                "mockery/mockery": "Required to use the MockeryTestCase (^0.9)",
-                "nyholm/nsa": "Required to test your private/protected methods/properties (^1.1)."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Narrowspark\\TestingHelper\\": "src/TestingHelper/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Daniel Bannert",
-                    "email": "d.bannert@anolilab.de",
-                    "homepage": "http://anolilab.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Provides test helpers.",
-            "homepage": "https://github.com/narrowspark/testing-helper",
-            "keywords": [
-                "faker",
-                "getter",
-                "mock",
-                "mockery",
-                "phpunit",
-                "setter",
-                "test",
-                "timing"
-            ],
-            "time": "2019-10-15T08:34:44+00:00"
-        },
-        {
-            "name": "psr/http-server-handler",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-server-handler.git",
-                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
-                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0",
-                "psr/http-message": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Server\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for HTTP server-side request handler",
-            "keywords": [
-                "handler",
-                "http",
-                "http-interop",
-                "psr",
-                "psr-15",
-                "psr-7",
-                "request",
-                "response",
-                "server"
-            ],
-            "time": "2018-10-30T16:46:14+00:00"
-        },
-        {
-            "name": "psr/http-server-middleware",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/http-server-middleware.git",
-                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/2296f45510945530b9dceb8bcedb5cb84d40c5f5",
-                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0",
-                "psr/http-message": "^1.0",
-                "psr/http-server-handler": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Http\\Server\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common interface for HTTP server-side middleware",
-            "keywords": [
-                "http",
-                "http-interop",
-                "middleware",
-                "psr",
-                "psr-15",
-                "psr-7",
-                "request",
-                "response"
-            ],
-            "time": "2018-10-30T17:12:04+00:00"
-        }
-    ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": {
-        "php": "^7.3"
-    },
-    "platform-dev": {
-        "ext-json": "*"
-    }
+    "platform": [],
+    "platform-dev": []
 }
