@@ -11,10 +11,13 @@ composer.phar
 
 infection.log
 
+/.build/composer.lock
 /.build/infection/
 !/.build/infection/.gitkeep
 /.build/php-cs-fixer/
 !/.build/php-cs-fixer/.gitkeep
+/.build/phpstan/
+!/.build/phpstan/.gitkeep
 /.build/phpunit/
 !/.build/phpunit/.gitkeep
 /.build/psalm/
