@@ -18,6 +18,7 @@ update_configs:
       prefix: "Build"
     default_labels:
       - "dependency"
+      - "Changed"
 
   - package_manager: "php:composer"
     directory: "/.build"

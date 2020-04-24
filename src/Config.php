@@ -28,6 +28,7 @@ use PedroTroller\CS\Fixer\Phpspec\PhpspecScenarioReturnTypeDeclarationFixer;
 use PedroTroller\CS\Fixer\Phpspec\PhpspecScenarioScopeFixer;
 use PedroTroller\CS\Fixer\PhpspecFixer;
 use PhpCsFixer\Config as CsConfig;
+use PhpCsFixerCustomFixers\Fixer\CommentedOutFunctionFixer;
 use PhpCsFixerCustomFixers\Fixer\CommentSurroundedBySpacesFixer;
 use PhpCsFixerCustomFixers\Fixer\DataProviderNameFixer;
 use PhpCsFixerCustomFixers\Fixer\DataProviderReturnTypeFixer;
@@ -36,6 +37,7 @@ use PhpCsFixerCustomFixers\Fixer\InternalClassCasingFixer;
 use PhpCsFixerCustomFixers\Fixer\MultilineCommentOpeningClosingAloneFixer;
 use PhpCsFixerCustomFixers\Fixer\NoCommentedOutCodeFixer;
 use PhpCsFixerCustomFixers\Fixer\NoDoctrineMigrationsGeneratedCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoDuplicatedArrayKeyFixer;
 use PhpCsFixerCustomFixers\Fixer\NoDuplicatedImportsFixer;
 use PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
@@ -46,6 +48,7 @@ use PhpCsFixerCustomFixers\Fixer\NoSuperfluousConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessSprintfFixer;
+use PhpCsFixerCustomFixers\Fixer\NumericLiteralSeparatorFixer;
 use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoSuperfluousParamFixer;
@@ -145,6 +148,9 @@ final class Config extends CsConfig
             new CommentSurroundedBySpacesFixer(),
             new DataProviderStaticFixer(),
             new PhpdocTypesTrimFixer(),
+            new CommentedOutFunctionFixer(),
+            new NoDuplicatedArrayKeyFixer(),
+            new NumericLiteralSeparatorFixer(),
         ]);
 
         $this->overwriteRules = $overwriteConfig;
@@ -262,6 +268,9 @@ final class Config extends CsConfig
             DataProviderStaticFixer::name() => true,
             PhpdocTypesTrimFixer::name() => true,
             PhpdocOnlyAllowedAnnotationsFixer::name() => false,
+            CommentedOutFunctionFixer::name() => false,
+            NoDuplicatedArrayKeyFixer::name() => true,
+            NumericLiteralSeparatorFixer::name() => true,
         ];
     }
 

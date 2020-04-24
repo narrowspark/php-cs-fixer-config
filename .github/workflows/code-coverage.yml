@@ -96,6 +96,5 @@ jobs:
         run: $PHPUNIT --configuration=./phpunit.xml --coverage-clover=./.build/phpunit/coverage/clover.xml
 
       - name: "Send code coverage report to Codecov.io"
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: bash <(curl -s https://codecov.io/bash)
+        uses: codecov/codecov-action@v1
+
