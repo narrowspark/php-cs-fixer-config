@@ -24,7 +24,7 @@
         "ergebnis/license": "~0.1.0",
         "friendsofphp/php-cs-fixer": "~2.16.3",
         "kubawerlos/php-cs-fixer-custom-fixers": "~1.17.0",
-        "pedrotroller/php-cs-custom-fixer": "~2.20.0"
+        "pedrotroller/php-cs-custom-fixer": "~2.21.0"
     },
     "require-dev": {
         "ext-json": "*",
