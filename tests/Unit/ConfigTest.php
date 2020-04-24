@@ -34,6 +34,7 @@ use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerFactory;
 use PhpCsFixer\RuleSet;
+use PhpCsFixerCustomFixers\Fixer\CommentedOutFunctionFixer;
 use PhpCsFixerCustomFixers\Fixer\CommentSurroundedBySpacesFixer;
 use PhpCsFixerCustomFixers\Fixer\DataProviderNameFixer;
 use PhpCsFixerCustomFixers\Fixer\DataProviderReturnTypeFixer;
@@ -42,6 +43,7 @@ use PhpCsFixerCustomFixers\Fixer\InternalClassCasingFixer;
 use PhpCsFixerCustomFixers\Fixer\MultilineCommentOpeningClosingAloneFixer;
 use PhpCsFixerCustomFixers\Fixer\NoCommentedOutCodeFixer;
 use PhpCsFixerCustomFixers\Fixer\NoDoctrineMigrationsGeneratedCommentFixer;
+use PhpCsFixerCustomFixers\Fixer\NoDuplicatedArrayKeyFixer;
 use PhpCsFixerCustomFixers\Fixer\NoDuplicatedImportsFixer;
 use PhpCsFixerCustomFixers\Fixer\NoImportFromGlobalNamespaceFixer;
 use PhpCsFixerCustomFixers\Fixer\NoLeadingSlashInGlobalNamespaceFixer;
@@ -52,6 +54,7 @@ use PhpCsFixerCustomFixers\Fixer\NoSuperfluousConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessSprintfFixer;
+use PhpCsFixerCustomFixers\Fixer\NumericLiteralSeparatorFixer;
 use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoSuperfluousParamFixer;
@@ -158,6 +161,9 @@ final class ConfigTest extends TestCase
             new CommentSurroundedBySpacesFixer(),
             new DataProviderStaticFixer(),
             new PhpdocTypesTrimFixer(),
+            new CommentedOutFunctionFixer(),
+            new NoDuplicatedArrayKeyFixer(),
+            new NumericLiteralSeparatorFixer(),
         ], $config->getCustomFixers());
     }
 
@@ -959,6 +965,9 @@ final class ConfigTest extends TestCase
             DataProviderStaticFixer::name() => true,
             PhpdocTypesTrimFixer::name() => true,
             PhpdocOnlyAllowedAnnotationsFixer::name() => false,
+            CommentedOutFunctionFixer::name() => false,
+            NoDuplicatedArrayKeyFixer::name() => true,
+            NumericLiteralSeparatorFixer::name() => true,
         ];
     }
 
