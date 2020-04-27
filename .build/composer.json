@@ -5,7 +5,7 @@
     "require": {
         "ekino/phpstan-banned-code": "^0.3.1",
         "felixfbecker/advanced-json-rpc": "^3.1.1",
-        "infection/infection": "^0.16.2",
+        "infection/infection": "^0.16.3",
         "jwage/changelog-generator": "^1.2.0",
         "phpstan/phpstan": "^0.12.19",
         "phpstan/phpstan-deprecation-rules": "^0.12.2",
