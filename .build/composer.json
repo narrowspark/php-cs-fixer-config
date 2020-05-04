@@ -7,7 +7,7 @@
         "felixfbecker/advanced-json-rpc": "^3.1.1",
         "infection/infection": "^0.16.3",
         "jwage/changelog-generator": "^1.2.0",
-        "phpstan/phpstan": "^0.12.19",
+        "phpstan/phpstan": "^0.12.22",
         "phpstan/phpstan-deprecation-rules": "^0.12.2",
         "phpstan/phpstan-mockery": "^0.12.5",
         "phpstan/phpstan-phpunit": "^0.12.8",
