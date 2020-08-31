@@ -11,7 +11,7 @@
         "phpstan/phpstan-deprecation-rules": "^0.12.3",
         "phpstan/phpstan-mockery": "^0.12.5",
         "phpstan/phpstan-phpunit": "^0.12.8",
-        "phpstan/phpstan-strict-rules": "^0.12.2",
+        "phpstan/phpstan-strict-rules": "^0.12.5",
         "psalm/plugin-phpunit": "^0.10.1",
         "slam/phpstan-extensions": "^5.0.0",
         "thecodingmachine/phpstan-strict-rules": "^0.12.0",
