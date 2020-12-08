@@ -22,7 +22,7 @@
     "require": {
         "php": "^7.3",
         "ergebnis/license": "~1.0.0",
-        "friendsofphp/php-cs-fixer": "~2.16.3",
+        "friendsofphp/php-cs-fixer": "~2.17.1",
         "kubawerlos/php-cs-fixer-custom-fixers": "~2.2.1",
         "pedrotroller/php-cs-custom-fixer": "~2.21.0"
     },
