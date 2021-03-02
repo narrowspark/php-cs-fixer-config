@@ -95,7 +95,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install highest dependencies"
-        run: composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi
+        run: composer update --no-progress --no-interaction --prefer-source --ansi
 
       - name: "analyze php code"
         run: composer phpstan -- --error-format=checkstyle | cs2pr
@@ -182,7 +182,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install highest dependencies"
-        run: composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi
+        run: composer update --no-progress --no-interaction --prefer-source --ansi
 
       - name: "analyze php code"
         run: composer psalm -- --shepherd --show-info=false --output-format=github

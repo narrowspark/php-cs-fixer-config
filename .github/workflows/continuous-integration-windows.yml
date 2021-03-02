@@ -107,12 +107,12 @@ jobs:
       - name: "Install highest dependencies"
         if: matrix.dependencies == 'highest'
         shell: pwsh
-        run: Invoke-Expression -Command composer update --no-progress --no-suggest --no-interaction --ansi
+        run: Invoke-Expression -Command "composer update --no-progress --no-interaction --ansi"
 
       - name: "Install lowest dependencies"
         if: matrix.dependencies == 'lowest'
         shell: pwsh
-        run: Invoke-Expression -Command "composer update --no-progress --no-suggest --no-interaction --ansi --prefer-lowest --prefer-stable"
+        run: Invoke-Expression -Command "composer update --no-progress --no-interaction --ansi --prefer-lowest --prefer-stable"
 
       - name: "Run Test's Suite"
         run: Invoke-Expression -Command ".\vendor\bin\phpunit --verbose"

@@ -84,7 +84,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install locked dependencies with composer"
-        run: composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi
+        run: composer update --no-progress --no-interaction --prefer-source --ansi
 
       - name: "Collect code coverage"
         run: ./vendor/bin/phpunit --verbose --configuration=./phpunit.xml --coverage-clover=./.build/phpunit/coverage/clover.xml
