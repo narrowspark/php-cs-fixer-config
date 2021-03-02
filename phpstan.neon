@@ -1,13 +1,36 @@
 includes:
-    - %rootDir%/../../ekino/phpstan-banned-code/extension.neon
     - %rootDir%/../../phpstan/phpstan-deprecation-rules/rules.neon
     - %rootDir%/../../phpstan/phpstan-mockery/extension.neon
     - %rootDir%/../../phpstan/phpstan-phpunit/extension.neon
     - %rootDir%/../../phpstan/phpstan-phpunit/rules.neon
     - %rootDir%/../../phpstan/phpstan-strict-rules/rules.neon
-    - %rootDir%/../../phpstan/phpstan/conf/bleedingEdge.neon
     - %rootDir%/../../thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon
     - %rootDir%/../../slam/phpstan-extensions/conf/slam-rules.neon
+    - %rootDir%/../../symplify/phpstan-rules/config/services/services.neon
+    - %rootDir%/../../symplify/phpstan-rules/config/code-complexity-rules.neon
+    - %rootDir%/../../symplify/phpstan-rules/config/forbidden-static-rules.neon
+    - %rootDir%/../../symplify/phpstan-rules/config/generic-rules.neon
+    - %rootDir%/../../symplify/phpstan-rules/config/naming-rules.neon
+    - %rootDir%/../../symplify/phpstan-rules/config/regex-rules.neon
+    - %rootDir%/../../symplify/phpstan-rules/config/size-rules.neon
+    - %rootDir%/../../symplify/phpstan-rules/config/test-rules.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenArrayDestructRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule
+        tags: [phpstan.rules.rule]
 
 parameters:
     level: max
@@ -17,11 +40,5 @@ parameters:
         - src
         - tests
 
-    autoload_directories:
-        - src
-        - tests
-
     excludes_analyse:
         - vendor
-
-    ignoreErrors:

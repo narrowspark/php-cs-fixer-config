@@ -1,7 +1,7 @@
 # https://github.com/probot/settings
 
 branches:
-  - name: master
+  - name: main
     protection:
       enforce_admins: false
       required_pull_request_reviews:
@@ -89,7 +89,7 @@ repository:
   allow_rebase_merge: false
   allow_squash_merge: false
   archived: false
-  default_branch: master
+  default_branch: main
   delete_branch_on_merge: true
   description: ":notebook: Provides a configuration for fabpot/php-cs-fixer, used within Narrowspark."
   has_downloads: true

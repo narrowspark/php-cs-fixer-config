@@ -20,13 +20,13 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ["7.3"]
+        php-versions: ["8.0"]
 
     env:
       key: "code-coverage-v4" # change key (version) to clear cache
       extensions: "mbstring"
-      ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, serialize_precision=14, pcov.directory=api"
-      tools: "composer, composer-prefetcher, cs2pr"
+      ini-values: "date.timezone=Europe/Berlin, serialize_precision=14, pcov.directory=api"
+      tools: "composer, cs2pr"
 
     steps:
       - uses: actions/checkout@v2
@@ -57,12 +57,6 @@ jobs:
           tools: ${{ env.tools }}
           coverage: "pcov"
 
-      - name: "Configure Container"
-        run: |
-          echo "::set-env name=PHPUNIT::./vendor/bin/phpunit --verbose"
-          echo "::set-env name=COMPOSER_UP::composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi"
-          echo "::set-env name=PHPUNIT_COVERAGE::true"
-
       - name: "Setup Problem Matchers for PHP"
         run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
 
@@ -83,17 +77,17 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: "Cache dependencies"
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install locked dependencies with composer"
-        run: $COMPOSER_UP
+        run: composer update --no-progress --no-interaction --prefer-source --ansi
 
       - name: "Collect code coverage"
-        run: $PHPUNIT --configuration=./phpunit.xml --coverage-clover=./.build/phpunit/coverage/clover.xml
+        run: ./vendor/bin/phpunit --verbose --configuration=./phpunit.xml --coverage-clover=./.build/phpunit/coverage/clover.xml
 
       - name: "Send code coverage report to Codecov.io"
         uses: codecov/codecov-action@v1

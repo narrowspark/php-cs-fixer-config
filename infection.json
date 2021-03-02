@@ -2,15 +2,14 @@
     "timeout": 10,
     "source": {
         "directories": [
-            "./../src"
+            "./src"
         ]
     },
     "logs": {
-        "text": "infection/infection-log.txt"
+        "text": "./.build/infection/infection-log.txt"
     },
     "phpUnit": {
-        "configDir": "./",
-        "customPath": "./vendor/phpunit/phpunit/phpunit"
+        "configDir": ""
     },
     "mutators": {
         "@default": true,

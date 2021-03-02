@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2015-2020 Daniel Bannert
+ * Copyright (c) 2015-2021 Daniel Bannert
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -46,6 +46,7 @@ final class ComposerTest extends TestCase
         if (! isset($composerJson['extra']['branch-alias'])) {
             /** @psalm-suppress InternalMethod */
             $this->addToAssertionCount(1); // composer.json doesn't contain branch alias, all good!
+
             return;
         }
 

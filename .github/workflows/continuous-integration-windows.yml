@@ -20,14 +20,14 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ["7.3", "7.4"]
+        php-versions: ["8.0"]
         dependencies: ["highest", "lowest"]
 
     env:
       key: "continuous-integration-windows-v4" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, serialize_precision=14"
-      tools: "composer, composer-prefetcher"
+      tools: "composer"
 
     steps:
       - uses: actions/checkout@v2
@@ -63,16 +63,6 @@ jobs:
           NARROWSPARK_EMAIL: ${{ secrets.NARROWSPARK_EMAIL }}
           NARROWSPARK_USERNAME: ${{ secrets.NARROWSPARK_USERNAME }}
         run: |
-          $SOURCE_NAME = ${env:GITHUB_REF} -replace 'refs\/\w+\/', ''
-          $SOURCE_BRANCH = ${env:GITHUB_REF} -replace 'refs\/heads\/', ''
-          $SOURCE_TAG = ${env:GITHUB_REF} -replace 'refs\/tags\/', ''
-
-          echo "::set-env name=PHPUNIT::.\vendor\bin\phpunit --verbose"
-          echo "::set-env name=COMPOSER_UP::composer update --no-progress --no-suggest --no-interaction --ansi"
-          echo "::set-env name=SOURCE_NAME::$SOURCE_NAME"
-          echo "::set-env name=SOURCE_BRANCH::$SOURCE_BRANCH"
-          echo "::set-env name=SOURCE_TAG::$SOURCE_TAG"
-
           if (${env:NARROWSPARK_EMAIL}) {
             git config --global user.email "${env:NARROWSPARK_EMAIL}"
           } else {
@@ -108,7 +98,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: "Cache dependencies"
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -117,12 +107,12 @@ jobs:
       - name: "Install highest dependencies"
         if: matrix.dependencies == 'highest'
         shell: pwsh
-        run: Invoke-Expression -Command ${env:COMPOSER_UP}
+        run: Invoke-Expression -Command "composer update --no-progress --no-interaction --ansi"
 
       - name: "Install lowest dependencies"
         if: matrix.dependencies == 'lowest'
         shell: pwsh
-        run: Invoke-Expression -Command "${env:COMPOSER_UP} --prefer-lowest --prefer-stable"
+        run: Invoke-Expression -Command "composer update --no-progress --no-interaction --ansi --prefer-lowest --prefer-stable"
 
       - name: "Run Test's Suite"
-        run: Invoke-Expression -Command "${env:PHPUNIT}"
+        run: Invoke-Expression -Command ".\vendor\bin\phpunit --verbose"

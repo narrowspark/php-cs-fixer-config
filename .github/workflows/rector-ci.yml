@@ -20,13 +20,13 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ["7.4.2"]
+        php-versions: ["8.0"]
 
     env:
       key: "rector-ci-v1" # change key (version) to clear cache
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1"
-      tools: "composer, composer-prefetcher, cs2pr"
+      tools: "composer, cs2pr"
 
     steps:
       - uses: actions/checkout@v2
@@ -62,8 +62,6 @@ jobs:
           NARROWSPARK_EMAIL: ${{ secrets.NARROWSPARK_EMAIL }}
           NARROWSPARK_USERNAME: ${{ secrets.NARROWSPARK_USERNAME }}
         run: |
-          echo "::set-env name=COMPOSER_UP::composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi"
-
           EMAIL=${NARROWSPARK_EMAIL:-"d.bannert@anolilab.de"}
           NAME=${NARROWSPARK_USERNAME:-"prisis"}
 
@@ -97,10 +95,8 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install highest .build dependencies"
-        run: $COMPOSER_UP --working-dir=./.build --lock
+        run: composer update --no-progress --no-interaction --prefer-source --ansi
 
-      - name: "lint src"
-        run: composer --working-dir=./.build rector-src -- --no-progress-bar
+      - name: "lint"
+        run: composer rector -- --no-progress-bar
 
-      - name: "lint tests"
-        run: composer --working-dir=./.build rector-tests -- --no-progress-bar

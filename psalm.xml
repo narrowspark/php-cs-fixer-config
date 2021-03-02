@@ -53,7 +53,6 @@
         <MissingReturnType errorLevel="error"/>
         <MissingPropertyType errorLevel="error"/>
         <InvalidDocblock errorLevel="error"/>
-        <MisplacedRequiredParam errorLevel="error"/>
 
         <PropertyNotSetInConstructor errorLevel="suppress"/>
         <MissingConstructor errorLevel="error"/>
