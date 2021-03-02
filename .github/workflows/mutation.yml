@@ -28,7 +28,7 @@ jobs:
       min-msi: 100
       extensions: "mbstring"
       ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, pcov.directory=api"
-      tools: "composer, composer-prefetcher, cs2pr"
+      tools: "composer, cs2pr"
 
     steps:
       - uses: actions/checkout@v2
