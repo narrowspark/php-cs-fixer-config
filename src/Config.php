@@ -68,8 +68,6 @@ use function trim;
 
 final class Config extends CsConfig
 {
-    public const VERSION = '';
-
     /** @var array<string, array<string, string>> */
     private array $headerRules = [];
 
