@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2015-2020 Daniel Bannert
+ * Copyright (c) 2015-2021 Daniel Bannert
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Narrowspark\CS\Config;
 
+use PedroTroller\CS\Fixer\Behat\OrderBehatStepsFixer;
 use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
 use PedroTroller\CS\Fixer\CodingStyle\ExceptionsPunctuationFixer;
 use PedroTroller\CS\Fixer\CodingStyle\ForbiddenFunctionsFixer;
@@ -47,9 +48,9 @@ use PhpCsFixerCustomFixers\Fixer\NoReferenceInFunctionDefinitionFixer;
 use PhpCsFixerCustomFixers\Fixer\NoSuperfluousConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
-use PhpCsFixerCustomFixers\Fixer\NoUselessSprintfFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessParenthesisFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessStrlenFixer;
 use PhpCsFixerCustomFixers\Fixer\NumericLiteralSeparatorFixer;
-use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoSuperfluousParamFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocOnlyAllowedAnnotationsFixer;
@@ -115,6 +116,7 @@ final class Config extends CsConfig
             new PhpspecScenarioScopeFixer(),
             new DoctrineMigrationsFixer(),
             new PhpspecFixer(),
+            new OrderBehatStepsFixer(),
         ]);
         // kubawerlos/php-cs-fixer-custom-fixers
         $this->registerCustomFixers([
@@ -130,7 +132,6 @@ final class Config extends CsConfig
             new NoSuperfluousConcatenationFixer(),
             new NoUselessCommentFixer(),
             new NoUselessDoctrineRepositoryCommentFixer(),
-            new OperatorLinebreakFixer(),
             new PhpdocNoIncorrectVarAnnotationFixer(),
             new PhpdocNoSuperfluousParamFixer(),
             new PhpdocParamOrderFixer(),
@@ -141,7 +142,8 @@ final class Config extends CsConfig
             new SingleSpaceAfterStatementFixer(),
             new SingleSpaceBeforeStatementFixer(),
             new DataProviderNameFixer(),
-            new NoUselessSprintfFixer(),
+            new NoUselessStrlenFixer(),
+            new NoUselessParenthesisFixer(),
             new PhpUnitNoUselessReturnFixer(),
             new NoDuplicatedImportsFixer(),
             new DataProviderReturnTypeFixer(),
@@ -203,6 +205,8 @@ final class Config extends CsConfig
             ],
             'phpdoc_to_param_type' => false,
             'self_static_accessor' => true,
+            'no_useless_sprintf' => true,
+            'operator_linebreak' => true,
         ];
     }
 
@@ -227,6 +231,7 @@ final class Config extends CsConfig
             'PedroTroller/useless_code_after_return' => true,
             'PedroTroller/phpspec' => false,
             'PedroTroller/doctrine_migrations' => true,
+            'PedroTroller/order_behat_steps' => false,
         ];
     }
 
@@ -250,7 +255,6 @@ final class Config extends CsConfig
             NoSuperfluousConcatenationFixer::name() => true,
             NoUselessCommentFixer::name() => false,
             NoUselessDoctrineRepositoryCommentFixer::name() => true,
-            OperatorLinebreakFixer::name() => true,
             PhpdocNoIncorrectVarAnnotationFixer::name() => true,
             PhpdocNoSuperfluousParamFixer::name() => true,
             PhpdocParamOrderFixer::name() => true,
@@ -260,7 +264,6 @@ final class Config extends CsConfig
             SingleSpaceAfterStatementFixer::name() => true,
             SingleSpaceBeforeStatementFixer::name() => true,
             DataProviderNameFixer::name() => true,
-            NoUselessSprintfFixer::name() => true,
             PhpUnitNoUselessReturnFixer::name() => true,
             NoDuplicatedImportsFixer::name() => true,
             DataProviderReturnTypeFixer::name() => true,
@@ -271,6 +274,8 @@ final class Config extends CsConfig
             CommentedOutFunctionFixer::name() => false,
             NoDuplicatedArrayKeyFixer::name() => true,
             NumericLiteralSeparatorFixer::name() => true,
+            NoUselessStrlenFixer::name() => true,
+            NoUselessParenthesisFixer::name() => true,
         ];
     }
 

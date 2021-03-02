@@ -35,7 +35,7 @@
 
     <testsuites>
         <testsuite name="Narrowspark CS Config Test Suite">
-            <directory suffix="Test.php">./tests/</directory>
+            <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 

@@ -1,12 +1,12 @@
 version: '3'
 services:
-    php73_64:
+    php80_64:
       build:
         context: ./.docker/php/
         args:
           NAMESPACE: "php"
-          PHP_VERSION: "7.3"
-          XDEBUG_VERSION: "2.9.0"
+          PHP_VERSION: "8.0.2"
+          XDEBUG_VERSION: "3.0.3"
           INSTALL_XDEBUG: "true"
       expose:
         - 9000

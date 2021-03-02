@@ -24,7 +24,7 @@ RUN apt-get update && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN docker-php-ext-install opcache bcmath zip pcntl
+RUN docker-php-ext-install opcache bcmath zip pcntl intl
 
 RUN docker-php-ext-configure zip
 
@@ -58,7 +58,7 @@ RUN { \
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer && \
-    composer global require phploc/phploc ergebnis/composer-normalize narrowspark/automatic-composer-prefetcher narrowspark/automatic-security-audit
+    composer global require phploc/phploc ergebnis/composer-normalize
 
 ARG INSTALL_XDEBUG
 ARG XDEBUG_VERSION

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2015-2020 Daniel Bannert
+ * Copyright (c) 2015-2021 Daniel Bannert
  *
  * For the full copyright and license information, please view
  * the LICENSE.md file that was distributed with this source code.
@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Narrowspark\CS\Config\Tests\Unit;
 
+use ArrayObject;
 use Exception;
 use Narrowspark\CS\Config\Config;
-use Narrowspark\TestingHelper\Traits\AssertArrayTrait;
+use Narrowspark\CS\Config\Tests\Constraint\ArraySubset;
+use PedroTroller\CS\Fixer\Behat\OrderBehatStepsFixer;
 use PedroTroller\CS\Fixer\ClassNotation\OrderedWithGetterAndSetterFirstFixer;
 use PedroTroller\CS\Fixer\CodingStyle\ExceptionsPunctuationFixer;
 use PedroTroller\CS\Fixer\CodingStyle\ForbiddenFunctionsFixer;
@@ -33,7 +35,7 @@ use PedroTroller\CS\Fixer\PhpspecFixer;
 use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\FixerFactory;
-use PhpCsFixer\RuleSet;
+use PhpCsFixer\RuleSet\RuleSet;
 use PhpCsFixerCustomFixers\Fixer\CommentedOutFunctionFixer;
 use PhpCsFixerCustomFixers\Fixer\CommentSurroundedBySpacesFixer;
 use PhpCsFixerCustomFixers\Fixer\DataProviderNameFixer;
@@ -53,9 +55,9 @@ use PhpCsFixerCustomFixers\Fixer\NoReferenceInFunctionDefinitionFixer;
 use PhpCsFixerCustomFixers\Fixer\NoSuperfluousConcatenationFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessCommentFixer;
 use PhpCsFixerCustomFixers\Fixer\NoUselessDoctrineRepositoryCommentFixer;
-use PhpCsFixerCustomFixers\Fixer\NoUselessSprintfFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessParenthesisFixer;
+use PhpCsFixerCustomFixers\Fixer\NoUselessStrlenFixer;
 use PhpCsFixerCustomFixers\Fixer\NumericLiteralSeparatorFixer;
-use PhpCsFixerCustomFixers\Fixer\OperatorLinebreakFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoIncorrectVarAnnotationFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocNoSuperfluousParamFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpdocOnlyAllowedAnnotationsFixer;
@@ -67,7 +69,9 @@ use PhpCsFixerCustomFixers\Fixer\PhpdocTypesTrimFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpUnitNoUselessReturnFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
+use PHPUnit\Framework\Assert as PhpUnitAssert;
 use PHPUnit\Framework\TestCase;
+use Traversable;
 use function array_diff;
 use function array_diff_key;
 use function array_keys;
@@ -91,8 +95,6 @@ use function var_export;
  */
 final class ConfigTest extends TestCase
 {
-    use AssertArrayTrait;
-
     public function testImplementsInterface(): void
     {
         self::assertInstanceOf(ConfigInterface::class, new Config());
@@ -131,6 +133,7 @@ final class ConfigTest extends TestCase
             new PhpspecScenarioScopeFixer(),
             new DoctrineMigrationsFixer(),
             new PhpspecFixer(),
+            new OrderBehatStepsFixer(),
             new InternalClassCasingFixer(),
             new MultilineCommentOpeningClosingAloneFixer(),
             new NoCommentedOutCodeFixer(),
@@ -143,7 +146,6 @@ final class ConfigTest extends TestCase
             new NoSuperfluousConcatenationFixer(),
             new NoUselessCommentFixer(),
             new NoUselessDoctrineRepositoryCommentFixer(),
-            new OperatorLinebreakFixer(),
             new PhpdocNoIncorrectVarAnnotationFixer(),
             new PhpdocNoSuperfluousParamFixer(),
             new PhpdocParamOrderFixer(),
@@ -154,7 +156,8 @@ final class ConfigTest extends TestCase
             new SingleSpaceAfterStatementFixer(),
             new SingleSpaceBeforeStatementFixer(),
             new DataProviderNameFixer(),
-            new NoUselessSprintfFixer(),
+            new NoUselessStrlenFixer(),
+            new NoUselessParenthesisFixer(),
             new PhpUnitNoUselessReturnFixer(),
             new NoDuplicatedImportsFixer(),
             new DataProviderReturnTypeFixer(),
@@ -494,7 +497,28 @@ final class ConfigTest extends TestCase
             ],
             'phpdoc_to_param_type' => false,
             'self_static_accessor' => true,
+            'no_useless_sprintf' => true,
+            'operator_linebreak' => true,
         ];
+    }
+
+    /**
+     * Asserts that an array has a specified subset.
+     *
+     * @param ArrayObject|iterable|mixed[]|Traversable $subset
+     * @param ArrayObject|iterable|mixed[]|Traversable $array
+     *
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
+     */
+    public static function assertArraySubset(
+        $subset,
+        $array,
+        bool $checkForObjectIdentity = false,
+        string $message = ''
+    ): void {
+        PhpUnitAssert::assertThat($array, new ArraySubset($subset, $checkForObjectIdentity), $message);
     }
 
     /**
@@ -906,7 +930,7 @@ final class ConfigTest extends TestCase
     /**
      * @return ((int|true)[]|bool)[]
      *
-     * @psalm-return array{PedroTroller/comment_line_to_phpdoc_block: true, PedroTroller/exceptions_punctuation: true, PedroTroller/forbidden_functions: false, PedroTroller/ordered_with_getter_and_setter_first: true, PedroTroller/line_break_between_method_arguments: array{max-args: int, max-length: int, automatic-argument-merge: true}, PedroTroller/line_break_between_statements: true, PedroTroller/useless_code_after_return: true, PedroTroller/phpspec: false, PedroTroller/doctrine_migrations: true}
+     * @psalm-return array{PedroTroller/comment_line_to_phpdoc_block: true, PedroTroller/exceptions_punctuation: true, PedroTroller/forbidden_functions: false, PedroTroller/ordered_with_getter_and_setter_first: true, PedroTroller/line_break_between_method_arguments: array{max-args: int, max-length: int, automatic-argument-merge: true}, PedroTroller/line_break_between_statements: true, PedroTroller/useless_code_after_return: true, PedroTroller/phpspec: false, PedroTroller/doctrine_migrations: true, PedroTroller/order_behat_steps: false}
      */
     private function getPedroTrollerRules(): array
     {
@@ -924,6 +948,7 @@ final class ConfigTest extends TestCase
             'PedroTroller/useless_code_after_return' => true,
             'PedroTroller/phpspec' => false,
             'PedroTroller/doctrine_migrations' => true,
+            'PedroTroller/order_behat_steps' => false,
         ];
     }
 
@@ -947,7 +972,6 @@ final class ConfigTest extends TestCase
             NoSuperfluousConcatenationFixer::name() => true,
             NoUselessCommentFixer::name() => false,
             NoUselessDoctrineRepositoryCommentFixer::name() => true,
-            OperatorLinebreakFixer::name() => true,
             PhpdocNoIncorrectVarAnnotationFixer::name() => true,
             PhpdocNoSuperfluousParamFixer::name() => true,
             PhpdocParamOrderFixer::name() => true,
@@ -957,7 +981,6 @@ final class ConfigTest extends TestCase
             SingleSpaceAfterStatementFixer::name() => true,
             SingleSpaceBeforeStatementFixer::name() => true,
             DataProviderNameFixer::name() => true,
-            NoUselessSprintfFixer::name() => true,
             PhpUnitNoUselessReturnFixer::name() => true,
             NoDuplicatedImportsFixer::name() => true,
             DataProviderReturnTypeFixer::name() => true,
@@ -968,6 +991,8 @@ final class ConfigTest extends TestCase
             CommentedOutFunctionFixer::name() => false,
             NoDuplicatedArrayKeyFixer::name() => true,
             NumericLiteralSeparatorFixer::name() => true,
+            NoUselessStrlenFixer::name() => true,
+            NoUselessParenthesisFixer::name() => true,
         ];
     }
 
@@ -997,7 +1022,7 @@ final class ConfigTest extends TestCase
          * @psalm-suppress MixedArgument
          * @psalm-suppress MixedMethodCall
          */
-        return array_keys(RuleSet::create($rules)->getRules());
+        return array_keys((new RuleSet($rules))->getRules());
     }
 
     /**
@@ -1042,6 +1067,8 @@ final class ConfigTest extends TestCase
             'PhpCsFixerCustomFixers/nullable_param_style',
             'PhpCsFixerCustomFixers/single_line_throw',
             'PhpCsFixerCustomFixers/phpdoc_var_annotation_correct_order',
+            'PhpCsFixerCustomFixers/no_useless_sprintf',
+            'PhpCsFixerCustomFixers/operator_linebreak',
         ];
         $pedroTrollerFixers = [
             'PedroTroller/single_line_comment',
