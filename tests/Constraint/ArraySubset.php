@@ -32,17 +32,13 @@ use function is_array;
 final class ArraySubset extends Constraint
 {
     /** @var mixed[] */
-    private $subset;
-
-    /** @var bool */
-    private $strict;
+    private array $subset;
 
     /**
      * @param ArrayObject|iterable|mixed[]|Traversable $subset
      */
-    public function __construct(iterable $subset, bool $strict = false)
+    public function __construct(iterable $subset, private bool $strict = false)
     {
-        $this->strict = $strict;
         $this->subset = $this->toArray($subset);
     }
 
@@ -55,6 +51,8 @@ final class ArraySubset extends Constraint
      * If $returnResult is true, the result of the evaluation is returned as
      * a boolean value instead: true in case of success, false in case of a
      * failure.
+     *
+     * @param mixed $other
      *
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
@@ -78,7 +76,7 @@ final class ArraySubset extends Constraint
             return $result;
         }
 
-        if ($result === null || $result === false) {
+        if ($result === true) {
             return null;
         }
 

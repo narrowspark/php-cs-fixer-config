@@ -91,10 +91,10 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install highest .build dependencies"
-        run: $COMPOSER_UP --working-dir=./.build --lock
+        run: $COMPOSER_UP --lock
 
       - name: "Run friendsofphp/php-cs-fixer"
-        run: composer --working-dir=./.build cs:check -- --diff --diff-format=udiff --verbose
+        run: composer cs:check -- --diff --diff-format=udiff --verbose
 
       - name: "Open pull request updating license year"
         uses: gr2m/create-or-update-pull-request-action@v1.2.9

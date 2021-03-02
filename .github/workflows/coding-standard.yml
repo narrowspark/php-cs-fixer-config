@@ -97,7 +97,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install highest .build dependencies"
-        run: $COMPOSER_UP --working-dir=./.build --lock
+        run: $COMPOSER_UP
 
       - name: "lint php code"
-        run: composer --working-dir=./.build cs:check -- --format=checkstyle | cs2pr
+        run: composer cs:check -- --format=checkstyle | cs2pr

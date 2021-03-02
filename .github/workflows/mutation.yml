@@ -99,7 +99,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install highest dependencies"
-        run: $COMPOSER_UP --lock
+        run: $COMPOSER_UP
 
       - name: "mutation tests"
-        run: composer --working-dir=./.build infection -- --ignore-msi-with-no-mutations --min-covered-msi=${{ env.min-covered-msi }} --min-msi=${{ env.min-msi }}
+        run: composer infection -- --ignore-msi-with-no-mutations --min-covered-msi=${{ env.min-covered-msi }} --min-msi=${{ env.min-msi }}

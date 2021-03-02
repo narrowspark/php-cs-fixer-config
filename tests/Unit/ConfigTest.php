@@ -28,6 +28,7 @@ use PedroTroller\CS\Fixer\Comment\SingleLineCommentFixer;
 use PedroTroller\CS\Fixer\Comment\UselessCommentFixer;
 use PedroTroller\CS\Fixer\DeadCode\UselessCodeAfterReturnFixer;
 use PedroTroller\CS\Fixer\DoctrineMigrationsFixer;
+use PedroTroller\CS\Fixer\Fixers;
 use PedroTroller\CS\Fixer\Phpspec\OrderedSpecElementsFixer;
 use PedroTroller\CS\Fixer\Phpspec\PhpspecScenarioReturnTypeDeclarationFixer;
 use PedroTroller\CS\Fixer\Phpspec\PhpspecScenarioScopeFixer;
@@ -266,7 +267,7 @@ final class ConfigTest extends TestCase
         );
 
         /** @var \PedroTroller\CS\Fixer\AbstractFixer $fixer */
-        foreach (new \PedroTroller\CS\Fixer\Fixers() as $fixer) {
+        foreach (new Fixers() as $fixer) {
             $testRules[$fixer->getName()] = true;
         }
 
@@ -326,7 +327,7 @@ final class ConfigTest extends TestCase
         $pedroTrollerRules = [];
 
         /** @var \PedroTroller\CS\Fixer\AbstractFixer $fixer */
-        foreach (new \PedroTroller\CS\Fixer\Fixers() as $fixer) {
+        foreach (new Fixers() as $fixer) {
             if ($fixer->isDeprecated()) {
                 continue;
             }
@@ -360,7 +361,7 @@ final class ConfigTest extends TestCase
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
      */
-    public function testDoesNotHaveRulesEnabled(string $fixer, $reason): void
+    public function testDoesNotHaveRulesEnabled(string $fixer, array|string $reason): void
     {
         $config = new Config();
         $rule = [
@@ -384,10 +385,64 @@ final class ConfigTest extends TestCase
         }
     }
 
+    public function testHeaderCommentFixerIsDisabledByDefault(): void
+    {
+        $rules = (new Config())->getRules();
+
+        self::assertArrayHasKey('header_comment', $rules);
+        self::assertFalse($rules['header_comment']);
+    }
+
     /**
-     * @return string[][][]
+     * @dataProvider provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases
+     */
+    public function testHeaderCommentFixerIsEnabledIfHeaderIsProvided(string $header): void
+    {
+        $rules = (new Config($header))->getRules();
+
+        self::assertArrayHasKey('header_comment', $rules);
+        $expected = [
+            'comment_type' => 'PHPDoc',
+            'header' => trim($header),
+            'location' => 'after_declare_strict',
+            'separate' => 'both',
+        ];
+        self::assertSame($expected, $rules['header_comment']);
+    }
+
+    /**
+     * @return bool[][]|string[][]
      *
-     * @psalm-return list<array{0: string, 1: array{long: string}|string}>
+     * @psalm-return array{final_static_access: true, final_public_method_for_abstract_class: true, lowercase_constants: false, global_namespace_import: array{import_classes: true, import_constants: true, import_functions: true}, nullable_type_declaration_for_default_null_value: true, phpdoc_line_span: array{const: string, method: string, property: string}, phpdoc_to_param_type: false, self_static_accessor: true}
+     */
+    public function getNoGroupRules(): array
+    {
+        return [
+            'final_static_access' => true,
+            'final_public_method_for_abstract_class' => true,
+            'lowercase_constants' => false,
+            'global_namespace_import' => [
+                'import_classes' => true,
+                'import_constants' => true,
+                'import_functions' => true,
+            ],
+            'nullable_type_declaration_for_default_null_value' => true,
+            'phpdoc_line_span' => [
+                'const' => 'multi',
+                'method' => 'multi',
+                'property' => 'multi',
+            ],
+            'phpdoc_to_param_type' => false,
+            'self_static_accessor' => true,
+            'no_useless_sprintf' => true,
+            'operator_linebreak' => true,
+        ];
+    }
+
+    /**
+     * @return array<int, array<array<string, string>|string>>
+     *
+     * @psalm-return array<array-key, array{0: string, 1: array{long: string}|string}>
      */
     public static function provideDoesNotHaveRulesEnabledCases(): iterable
     {
@@ -426,31 +481,6 @@ final class ConfigTest extends TestCase
         return $data;
     }
 
-    public function testHeaderCommentFixerIsDisabledByDefault(): void
-    {
-        $rules = (new Config())->getRules();
-
-        self::assertArrayHasKey('header_comment', $rules);
-        self::assertFalse($rules['header_comment']);
-    }
-
-    /**
-     * @dataProvider provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases
-     */
-    public function testHeaderCommentFixerIsEnabledIfHeaderIsProvided(string $header): void
-    {
-        $rules = (new Config($header))->getRules();
-
-        self::assertArrayHasKey('header_comment', $rules);
-        $expected = [
-            'comment_type' => 'PHPDoc',
-            'header' => trim($header),
-            'location' => 'after_declare_strict',
-            'separate' => 'both',
-        ];
-        self::assertSame($expected, $rules['header_comment']);
-    }
-
     /**
      * @psalm-return \Generator<string, array{0: string}, mixed, void>
      *
@@ -474,35 +504,6 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return bool[][]|string[][]
-     *
-     * @psalm-return array{final_static_access: true, final_public_method_for_abstract_class: true, lowercase_constants: false, global_namespace_import: array{import_classes: true, import_constants: true, import_functions: true}, nullable_type_declaration_for_default_null_value: true, phpdoc_line_span: array{const: string, method: string, property: string}, phpdoc_to_param_type: false, self_static_accessor: true}
-     */
-    public function getNoGroupRules(): array
-    {
-        return [
-            'final_static_access' => true,
-            'final_public_method_for_abstract_class' => true,
-            'lowercase_constants' => false,
-            'global_namespace_import' => [
-                'import_classes' => true,
-                'import_constants' => true,
-                'import_functions' => true,
-            ],
-            'nullable_type_declaration_for_default_null_value' => true,
-            'phpdoc_line_span' => [
-                'const' => 'multi',
-                'method' => 'multi',
-                'property' => 'multi',
-            ],
-            'phpdoc_to_param_type' => false,
-            'self_static_accessor' => true,
-            'no_useless_sprintf' => true,
-            'operator_linebreak' => true,
-        ];
-    }
-
-    /**
      * Asserts that an array has a specified subset.
      *
      * @param ArrayObject|iterable|mixed[]|Traversable $subset
@@ -513,8 +514,8 @@ final class ConfigTest extends TestCase
      * @throws Exception
      */
     public static function assertArraySubset(
-        $subset,
-        $array,
+        ArrayObject | iterable $subset,
+        ArrayObject | iterable $array,
         bool $checkForObjectIdentity = false,
         string $message = ''
     ): void {
@@ -997,6 +998,36 @@ final class ConfigTest extends TestCase
     }
 
     /**
+     * @return string[]
+     *
+     * @psalm-return string[]
+     */
+    private function getDeprecatedFixer(): array
+    {
+        $phpCsFixerCustomFixers = [
+            'PhpCsFixerCustomFixers/implode_call',
+            'PhpCsFixerCustomFixers/no_two_consecutive_empty_lines',
+            'PhpCsFixerCustomFixers/no_unneeded_concatenation',
+            'PhpCsFixerCustomFixers/no_useless_class_comment',
+            'PhpCsFixerCustomFixers/no_useless_constructor_comment',
+            'PhpCsFixerCustomFixers/nullable_param_style',
+            'PhpCsFixerCustomFixers/single_line_throw',
+            'PhpCsFixerCustomFixers/phpdoc_var_annotation_correct_order',
+            'PhpCsFixerCustomFixers/no_useless_sprintf',
+            'PhpCsFixerCustomFixers/operator_linebreak',
+        ];
+        $pedroTrollerFixers = [
+            'PedroTroller/single_line_comment',
+            'PedroTroller/useless_comment',
+            'PedroTroller/ordered_spec_elements',
+            'PedroTroller/phpspec_scenario_return_type_declaration',
+            'PedroTroller/phpspec_scenario_scope',
+        ];
+
+        return array_merge($phpCsFixerCustomFixers, $pedroTrollerFixers);
+    }
+
+    /**
      * @return array-key[]
      *
      * @psalm-return list<array-key>
@@ -1012,9 +1043,7 @@ final class ConfigTest extends TestCase
          *
          * @psalm-suppress TooManyArguments
          */
-        $rules = array_map(static function (): bool {
-            return true;
-        }, $config->getRules());
+        $rules = array_map(static fn (): bool => true, $config->getRules());
 
         /**
          * @psalm-suppress InternalClass
@@ -1043,41 +1072,9 @@ final class ConfigTest extends TestCase
             $fixerFactory = FixerFactory::create();
             $fixerFactory->registerBuiltInFixers();
 
-            $builtInFixers = array_map(static function (FixerInterface $fixer): string {
-                return $fixer->getName();
-            }, $fixerFactory->getFixers());
+            $builtInFixers = array_map(static fn (FixerInterface $fixer): string => $fixer->getName(), $fixerFactory->getFixers());
         }
 
         return $builtInFixers;
-    }
-
-    /**
-     * @return string[]
-     *
-     * @psalm-return string[]
-     */
-    private function getDeprecatedFixer(): array
-    {
-        $phpCsFixerCustomFixers = [
-            'PhpCsFixerCustomFixers/implode_call',
-            'PhpCsFixerCustomFixers/no_two_consecutive_empty_lines',
-            'PhpCsFixerCustomFixers/no_unneeded_concatenation',
-            'PhpCsFixerCustomFixers/no_useless_class_comment',
-            'PhpCsFixerCustomFixers/no_useless_constructor_comment',
-            'PhpCsFixerCustomFixers/nullable_param_style',
-            'PhpCsFixerCustomFixers/single_line_throw',
-            'PhpCsFixerCustomFixers/phpdoc_var_annotation_correct_order',
-            'PhpCsFixerCustomFixers/no_useless_sprintf',
-            'PhpCsFixerCustomFixers/operator_linebreak',
-        ];
-        $pedroTrollerFixers = [
-            'PedroTroller/single_line_comment',
-            'PedroTroller/useless_comment',
-            'PedroTroller/ordered_spec_elements',
-            'PedroTroller/phpspec_scenario_return_type_declaration',
-            'PedroTroller/phpspec_scenario_scope',
-        ];
-
-        return array_merge($phpCsFixerCustomFixers, $pedroTrollerFixers);
     }
 }

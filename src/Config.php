@@ -70,22 +70,15 @@ final class Config extends CsConfig
 {
     public const VERSION = '';
 
-    /**
-     * A list of override rules.
-     *
-     * @var array<string, array<string, mixed>|bool|string>
-     */
-    private $overwriteRules;
-
     /** @var array<string, array<string, string>> */
-    private $headerRules = [];
+    private array $headerRules = [];
 
     /**
      * Create new Config instance.
      *
-     * @param array<string, array<string, mixed>|bool|string> $overwriteConfig
+     * @param array<string, mixed>[]|bool[]|string[] $overwriteRules
      */
-    public function __construct(?string $header = null, array $overwriteConfig = [])
+    public function __construct(?string $header = null, private array $overwriteRules = [])
     {
         parent::__construct('narrowspark');
 
@@ -154,8 +147,6 @@ final class Config extends CsConfig
             new NoDuplicatedArrayKeyFixer(),
             new NumericLiteralSeparatorFixer(),
         ]);
-
-        $this->overwriteRules = $overwriteConfig;
     }
 
     /**
