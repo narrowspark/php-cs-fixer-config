@@ -36,7 +36,7 @@ jobs:
           key: ${{ env.key }}
 
       - name: "Cache extensions"
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.cache-env.outputs.dir }}
           key: ${{ steps.cache-env.outputs.key }}
@@ -56,8 +56,6 @@ jobs:
           NARROWSPARK_EMAIL: ${{ secrets.NARROWSPARK_EMAIL }}
           NARROWSPARK_USERNAME: ${{ secrets.NARROWSPARK_USERNAME }}
         run: |
-          echo "::set-env name=COMPOSER_UP::composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi"
-
           EMAIL=${NARROWSPARK_EMAIL:-"d.bannert@anolilab.de"}
           NAME=${NARROWSPARK_USERNAME:-"prisis"}
 
@@ -84,28 +82,22 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: "Cache dependencies"
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install highest .build dependencies"
-        run: $COMPOSER_UP --lock
+        run: composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi
 
       - name: "Run friendsofphp/php-cs-fixer"
-        run: composer cs:check -- --diff --diff-format=udiff --verbose
+        run: composer cs -- --diff --diff-format=udiff --verbose
 
-      - name: "Open pull request updating license year"
-        uses: gr2m/create-or-update-pull-request-action@v1.2.9
+      - name: "Commit modified files"
+        uses: "stefanzweifel/git-auto-commit-action@v4.9.1"
         with:
-          author: "Daniel Bannert <d.bannert@anolilab.de>"
-          branch: "feature/license-year"
-          body: |
-            This PR
-            * [x] updates the license year
-          commit-message: "Enhancement: Update license year"
-          path: "."
-          title: "Enhancement: Update license year"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          commit_author: "Daniel Bannert <d.banner@anolilab.de>"
+          commit_message: "Enhancement: Update license year"
+          commit_user_email: "d.banner@anolilab.de"
+          commit_user_name: "prisis"

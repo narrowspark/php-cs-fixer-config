@@ -20,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        php-versions: ["7.3"]
+        php-versions: ["8.0"]
 
     env:
       key: "mutation-v4" # change key (version) to clear cache
@@ -64,8 +64,6 @@ jobs:
           NARROWSPARK_EMAIL: ${{ secrets.NARROWSPARK_EMAIL }}
           NARROWSPARK_USERNAME: ${{ secrets.NARROWSPARK_USERNAME }}
         run: |
-          echo "::set-env name=COMPOSER_UP::composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi"
-
           EMAIL=${NARROWSPARK_EMAIL:-"d.bannert@anolilab.de"}
           NAME=${NARROWSPARK_USERNAME:-"prisis"}
 
@@ -92,14 +90,14 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: "Cache dependencies"
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/.build/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: "Install highest dependencies"
-        run: $COMPOSER_UP
+        run: composer update --no-progress --no-suggest --no-interaction --prefer-source --ansi
 
       - name: "mutation tests"
         run: composer infection -- --ignore-msi-with-no-mutations --min-covered-msi=${{ env.min-covered-msi }} --min-msi=${{ env.min-msi }}
