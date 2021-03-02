@@ -25,7 +25,7 @@ jobs:
     env:
       key: "code-coverage-v4" # change key (version) to clear cache
       extensions: "mbstring"
-      ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, serialize_precision=14, pcov.directory=api"
+      ini-values: "date.timezone=Europe/Berlin, serialize_precision=14, pcov.directory=api"
       tools: "composer, cs2pr"
 
     steps:
