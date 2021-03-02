@@ -43,14 +43,8 @@
         "vimeo/psalm": "^4.6.2"
     },
     "config": {
+        "preferred-install": "dist",
         "sort-packages": true
-    },
-    "extra": {
-        "prefetcher": {
-            "require": {
-                "phpunit/phpunit": "^8.5"
-            }
-        }
     },
     "autoload": {
         "psr-4": {
@@ -71,10 +65,10 @@
         ],
         "cs": "php-cs-fixer fix --config=\"./.php_cs\" --ansi",
         "cs:check": "php-cs-fixer fix --config=\"./.php_cs\" --ansi --dry-run",
+        "infection": "infection --configuration=\"./infection.json\" -j$(nproc) --ansi",
         "phpstan": "phpstan analyse -c ./phpstan.neon --ansi",
         "psalm": "psalm --threads=$(nproc)",
         "psalm:fix": "psalm --alter --issues=all --threads=$(nproc) --ansi",
-        "infection": "infection --configuration=\"./infection.json\" -j$(nproc) --ansi",
         "rector": "rector process --ansi --dry-run",
         "rector:fix": "rector process --ansi",
         "test": "phpunit"

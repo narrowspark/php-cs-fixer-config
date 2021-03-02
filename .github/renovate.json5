@@ -1,0 +1,71 @@
+{
+    $schema: "https://docs.renovatebot.com/renovate-schema.json",
+    extends: ["config:base", ":semanticCommits", ":preserveSemverRanges", ":ignoreModulesAndTests", "group:allNonMajor"],
+    labels: ["dependency", "Changed"],
+    lockFileMaintenance: {
+        "enabled": true
+    },
+    semanticCommitType: "chore",
+    semanticCommitScope: "deps",
+    rebaseWhen: "behind-base-branch",
+    timezone: "Europe/Berlin",
+    dependencyDashboard: true,
+    packageRules: [
+        {
+            groupName: "dependencies (major)",
+            automerge: false,
+            depTypeList: ["dependencies"],
+            updateTypes: ["major"],
+            labels: ["dependency", "Changed"],
+            semanticCommitType: "chore",
+            semanticCommitScope: "deps",
+            rangeStrategy: "replace",
+            vulnerabilityAlerts: {
+                labels: ["Security"],
+                assignees: ["@prisis"]
+            }
+        },
+        {
+            groupName: "dependencies (non-major)",
+            automerge: true,
+            depTypeList: ["dependencies"],
+            updateTypes: ["minor", "patch", "digest"],
+            labels: ["dependency", "Changed"],
+            semanticCommitType: "chore",
+            semanticCommitScope: "deps",
+            rangeStrategy: "replace",
+            vulnerabilityAlerts: {
+                labels: ["Security"],
+                assignees: ["@prisis"]
+            }
+        },
+        {
+            groupName: "devDependencies (major)",
+            automerge: false,
+            depTypeList: ["devDependencies"],
+            updateTypes: ["major"],
+            labels: ["dependency", "Changed"],
+            semanticCommitType: "chore",
+            semanticCommitScope: "deps",
+            rangeStrategy: "replace",
+            vulnerabilityAlerts: {
+                labels: ["Security"],
+                assignees: ["@prisis"]
+            }
+        },
+        {
+            groupName: "devDependencies (non-major)",
+            automerge: true,
+            depTypeList: ["devDependencies"],
+            updateTypes: ["minor", "patch", "digest"],
+            labels: ["dependency", "Changed"],
+            semanticCommitType: "chore",
+            semanticCommitScope: "deps",
+            rangeStrategy: "replace",
+            vulnerabilityAlerts: {
+                labels: ["Security"],
+                assignees: ["@prisis"]
+            }
+        }
+    ]
+}
