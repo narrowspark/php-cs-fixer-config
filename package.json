@@ -9,6 +9,7 @@
     },
     "scripts": {
         "lint": "textlint ./.build/ISSUE_TEMPLATE/** ./src/** ./docs/** ./README.md --dry-run",
-        "lint:fix": "textlint ./.build/ISSUE_TEMPLATE/** ./src/** ./docs/** ./README.md --fix"
+        "lint:fix": "textlint ./.build/ISSUE_TEMPLATE/** ./src/** ./docs/** ./README.md --fix",
+        "prepublishOnly": "if [ \"$CI\" = '' ]; then node -p 'JSON.parse(process.env.npm_package_config_manualPublishMessage)'; exit 1; fi"
     }
 }
