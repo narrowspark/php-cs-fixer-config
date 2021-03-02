@@ -2,7 +2,7 @@
     "name": "php-library-template",
     "private": true,
     "engines": {
-        "node": "^10.16.0 || ^11.3.0"
+        "node": "^14.0.0"
     },
     "dependencies": {
         "@anolilab/textlint-config": "^1.0.1"
