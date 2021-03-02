@@ -52,8 +52,6 @@ final class ArraySubset extends Constraint
      * a boolean value instead: true in case of success, false in case of a
      * failure.
      *
-     * @param mixed $other
-     *
      * @throws ExpectationFailedException
      * @throws InvalidArgumentException
      */
