@@ -27,7 +27,7 @@ jobs:
       min-covered-msi: 100
       min-msi: 100
       extensions: "mbstring"
-      ini-values: "date.timezone=Europe/Berlin, opcache.enable_cli=1, pcov.directory=api"
+      ini-values: "date.timezone=Europe/Berlin, pcov.directory=api"
       tools: "composer, cs2pr"
 
     steps:
