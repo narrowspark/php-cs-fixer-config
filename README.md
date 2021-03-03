@@ -2,7 +2,7 @@
 <p align="center">
     <a href="https://github.com/narrowspark/php-cs-fixer-config/releases"><img src="https://img.shields.io/packagist/v/narrowspark/php-cs-fixer-config.svg?style=flat-square"></a>
     <a href="https://php.net/"><img src="https://img.shields.io/badge/php-%5E8.0.0-8892BF.svg?style=flat-square"></a>
-    <a href="https://codecov.io/gh/narrowspark/php-cs-fixer-config"><img src="https://img.shields.io/codecov/c/github/narrowspark/php-cs-fixer-config/master.svg?style=flat-square"></a>
+    <a href="https://codecov.io/gh/narrowspark/php-cs-fixer-config"><img src="https://img.shields.io/codecov/c/github/narrowspark/php-cs-fixer-config/main.svg?style=flat-square"></a>
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
 </p>
 This repository provides a configuration for https://github.com/FriendsOfPHP/PHP-CS-Fixer, which

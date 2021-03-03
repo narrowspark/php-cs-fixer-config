@@ -91,4 +91,5 @@ jobs:
 
       - name: "Send code coverage report to Codecov.io"
         uses: codecov/codecov-action@v1
-
+        with:
+          files: ./.build/phpunit/coverage/clover.xml
