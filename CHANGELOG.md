@@ -1,3 +1,10 @@
+### [6.3.2](https://github.com/narrowspark/php-cs-fixer-config/compare/v6.3.1...v6.3.2) (2021-03-03)
+
+
+### Bug Fixes
+
+* fixed php version in license-update.yml ([7aa054d](https://github.com/narrowspark/php-cs-fixer-config/commit/7aa054d12194724de56713c6934ec448527145a1))
+
 ### [6.3.1](https://github.com/narrowspark/php-cs-fixer-config/compare/v6.3.0...v6.3.1) (2021-03-02)
 
 
