@@ -1,3 +1,10 @@
+### [6.3.3](https://github.com/narrowspark/php-cs-fixer-config/compare/v6.3.2...v6.3.3) (2021-03-15)
+
+
+### Bug Fixes
+
+* rename branch alias from master to main ([1304eff](https://github.com/narrowspark/php-cs-fixer-config/commit/1304eff06d6c64804a27123a90f919aa373a2147))
+
 ### [6.3.2](https://github.com/narrowspark/php-cs-fixer-config/compare/v6.3.1...v6.3.2) (2021-03-03)
 
 
