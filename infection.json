@@ -6,10 +6,11 @@
         ]
     },
     "logs": {
-        "text": "./.build/infection/infection-log.txt"
+        "text": ".build/infection/infection-log.txt"
     },
     "phpUnit": {
-        "configDir": ""
+        "configDir": "./",
+        "customPath": "./vendor/phpunit/phpunit/phpunit"
     },
     "mutators": {
         "@default": true,

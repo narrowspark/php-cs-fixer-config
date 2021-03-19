@@ -30,7 +30,7 @@ module.exports = {
                             "composer.json"
                         ],
                         "from": "\"dev-main\": \".*\"",
-                        "to": "\"dev-main\": \"${nextRelease.version.replace(/\\.\\w+$/, '-dev')}\"",
+                        "to": "\"dev-main\": \"${nextRelease.version.replace(/\\.\\w+$/, '-dev')}\""
                     }
                 ]
             }
@@ -42,16 +42,18 @@ module.exports = {
             }
         ],
         "@semantic-release/changelog",
-        "@semantic-release/github",
         [
-            "@semantic-release/git",
+            "@semantic-release/github",
             {
                 "assets": [
+                    "docs/**",
+                    "src/**",
+                    "CHANGELOG.md",
                     "composer.json",
-                    "src/*",
-                    "UPGRADE.md",
+                    "composer.lock",
                     "LICENSE.md",
-                    "CHANGELOG.md"
+                    "README.md",
+                    "UPGRADE.md"
                 ],
                 "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
             }

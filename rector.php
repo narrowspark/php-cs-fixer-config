@@ -11,6 +11,8 @@ declare(strict_types=1);
  * @see https://github.com/narrowspark/php-cs-fixer-config
  */
 
+use Nette\Utils\FileSystem;
+use Nette\Utils\Strings;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\PhpVersion;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -36,8 +38,22 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // Run Rector only on changed files
     $parameters->set(Option::ENABLE_CACHE, true);
 
-    // Path to phpstan with extensions, that PHPSTan in Rector uses to determine types
-    $parameters->set(Option::PHPSTAN_FOR_RECTOR_PATH, getcwd() . '/phpstan.neon');
+    $phpstanPath = getcwd() . '/phpstan.neon';
+    $phpstanNeonContent = FileSystem::read($phpstanPath);
+    $bleedingEdgePattern = '#\n\s+-(.*?)bleedingEdge\.neon[\'|"]?#';
+
+    // bleeding edge clean out, see https://github.com/rectorphp/rector/issues/2431
+    if (Strings::match($phpstanNeonContent, $bleedingEdgePattern)) {
+        $temporaryPhpstanNeon = getcwd() . '/rector-temp-phpstan.neon';
+        $clearedPhpstanNeonContent = Strings::replace($phpstanNeonContent, $bleedingEdgePattern);
+
+        FileSystem::write($temporaryPhpstanNeon, $clearedPhpstanNeonContent);
+
+        $phpstanPath = $temporaryPhpstanNeon;
+    }
+
+    // Path to phpstan with extensions, that PHPStan in Rector uses to determine types
+    $parameters->set(Option::PHPSTAN_FOR_RECTOR_PATH, $phpstanPath);
 
     $parameters->set(Option::SETS, [
         'action-injection-to-constructor-injection', 'array-str-functions-to-static-call', 'early-return', 'doctrine-code-quality', 'dead-code', 'code-quality', 'type-declaration', 'order', 'psr4', 'type-declaration', 'type-declaration-strict', 'php71', 'php72', 'php73', 'php74', 'php80', 'phpunit91', 'phpunit-code-quality', 'phpunit-exception', 'phpunit-yield-data-provider',
