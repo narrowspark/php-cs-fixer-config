@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-    bootstrap="./vendor/autoload.php"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
     cacheResult="true"
-    cacheResultFile="./.build/phpunit/phpunit.cache"
+    cacheResultFile=".build/phpunit/phpunit.cache"
     colors="true"
     verbose="true"
     failOnRisky="true"
@@ -34,9 +34,19 @@
     </php>
 
     <testsuites>
-        <testsuite name="Narrowspark CS Config Test Suite">
+        <testsuite name="Narrowspark Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
 
+    <coverage cacheDirectory="./.build/phpunit/coverage_cache" processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <directory>./.build</directory>
+            <directory>./vendor</directory>
+            <directory>./tests</directory>
+        </exclude>
+    </coverage>
 </phpunit>

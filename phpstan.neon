@@ -37,8 +37,12 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
 
     paths:
-        - src
-        - tests
+        -  %currentWorkingDirectory%/src
+        -  %currentWorkingDirectory%/tests
+
+    tmpDir: %currentWorkingDirectory%/.build/phpstan
 
     excludes_analyse:
         - vendor
+
+    ignoreErrors:
