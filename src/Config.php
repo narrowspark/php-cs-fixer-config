@@ -66,6 +66,7 @@ use function array_merge;
 use function is_string;
 use function trim;
 
+/** @noRector ArgumentAdderRector */
 final class Config extends CsConfig
 {
     /** @var array<string, array<string, string>> */
@@ -171,7 +172,7 @@ final class Config extends CsConfig
     }
 
     /**
-     * @return bool[][]|string[][]
+     * @return array<string, array<string, bool>>|array<string, array<string, string>>|array<string, bool>
      *
      * @psalm-return array{final_static_access: true, final_public_method_for_abstract_class: true, lowercase_constants: false, global_namespace_import: array{import_classes: true, import_constants: true, import_functions: true}, nullable_type_declaration_for_default_null_value: true, phpdoc_line_span: array{const: string, method: string, property: string}, phpdoc_to_param_type: false, self_static_accessor: true}
      */

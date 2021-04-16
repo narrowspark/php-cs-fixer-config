@@ -70,7 +70,7 @@ use PhpCsFixerCustomFixers\Fixer\PhpdocTypesTrimFixer;
 use PhpCsFixerCustomFixers\Fixer\PhpUnitNoUselessReturnFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceAfterStatementFixer;
 use PhpCsFixerCustomFixers\Fixer\SingleSpaceBeforeStatementFixer;
-use PHPUnit\Framework\Assert as PhpUnitAssert;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 use function array_diff;
@@ -82,7 +82,7 @@ use function count;
 use function implode;
 use function is_array;
 use function is_string;
-use function sprintf;
+use function Safe\sprintf;
 use function str_replace;
 use function trim;
 use function var_export;
@@ -96,6 +96,65 @@ use function var_export;
  */
 final class ConfigTest extends TestCase
 {
+    /** @var string */
+    private const HEADER = 'foo';
+
+    /** @var array<string, string> */
+    private const SYMFONY_FIXERS = [
+        'self_accessor' => 'it causes an edge case error',
+    ];
+
+    /** @var array<string, array<string, string>|string> */
+    private const CONTRIB_FIXERS = [
+        'header_comment' => 'it is not enabled by default',
+        'array_syntax' => [
+            'long' => 'it conflicts with short array syntax (which is enabled)',
+        ],
+        'no_php4_constructor' => 'it changes behaviour',
+        'not_operator_with_space' => 'we do not need leading and trailing whitespace before !',
+        'php_unit_strict' => 'it changes behaviour',
+        'psr0' => 'we are using PSR-4',
+        'no_homoglyph_names' => 'renames classes and cannot rename the files. You might have string references to renamed code (``$$name``)',
+        'simplified_null_return' => 'it changes behaviour on void return',
+    ];
+
+    /** @var array<string, string> */
+    private const PHP73_FIXERS = [
+        'heredoc_indentation' => 'Is destroying Heredoc/nowdoc',
+    ];
+
+    /** @var array<string, string> */
+    private const VALUES = [
+        'string-empty' => '',
+        'string-not-empty' => 'foo',
+        'string-with-line-feed-only' => "\n",
+        'string-with-spaces-only' => ' ',
+        'string-with-tab-only' => "\t",
+    ];
+
+    /** @var string[] */
+    private const PHP_CS_FIXER_CUSTOM_FIXERS = [
+        'PhpCsFixerCustomFixers/implode_call',
+        'PhpCsFixerCustomFixers/no_two_consecutive_empty_lines',
+        'PhpCsFixerCustomFixers/no_unneeded_concatenation',
+        'PhpCsFixerCustomFixers/no_useless_class_comment',
+        'PhpCsFixerCustomFixers/no_useless_constructor_comment',
+        'PhpCsFixerCustomFixers/nullable_param_style',
+        'PhpCsFixerCustomFixers/single_line_throw',
+        'PhpCsFixerCustomFixers/phpdoc_var_annotation_correct_order',
+        'PhpCsFixerCustomFixers/no_useless_sprintf',
+        'PhpCsFixerCustomFixers/operator_linebreak',
+    ];
+
+    /** @var string[] */
+    private const PEDRO_TROLLER_FIXERS = [
+        'PedroTroller/single_line_comment',
+        'PedroTroller/useless_comment',
+        'PedroTroller/ordered_spec_elements',
+        'PedroTroller/phpspec_scenario_return_type_declaration',
+        'PedroTroller/phpspec_scenario_scope',
+    ];
+
     public function testImplementsInterface(): void
     {
         self::assertInstanceOf(ConfigInterface::class, new Config());
@@ -305,15 +364,14 @@ final class ConfigTest extends TestCase
 
     public function testHasHeaderCommentFixerIfProvided(): void
     {
-        $header = 'foo';
-        $config = new Config($header);
+        $config = new Config(self::HEADER);
         $rules = $config->getRules();
 
         self::assertArrayHasKey('header_comment', $rules);
 
         $expected = [
             'comment_type' => 'PHPDoc',
-            'header' => $header,
+            'header' => self::HEADER,
             'location' => 'after_declare_strict',
             'separate' => 'both',
         ];
@@ -361,7 +419,7 @@ final class ConfigTest extends TestCase
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws Exception
      */
-    public function testDoesNotHaveRulesEnabled(string $fixer, array|string $reason): void
+    public function testDoesNotHaveRulesEnabled(string $fixer, array | string $reason): void
     {
         $config = new Config();
         $rule = [
@@ -411,7 +469,7 @@ final class ConfigTest extends TestCase
     }
 
     /**
-     * @return bool[][]|string[][]
+     * @return array<string, array<string, bool>>|array<string, array<string, string>>|array<string, bool>
      *
      * @psalm-return array{final_static_access: true, final_public_method_for_abstract_class: true, lowercase_constants: false, global_namespace_import: array{import_classes: true, import_constants: true, import_functions: true}, nullable_type_declaration_for_default_null_value: true, phpdoc_line_span: array{const: string, method: string, property: string}, phpdoc_to_param_type: false, self_static_accessor: true}
      */
@@ -446,28 +504,7 @@ final class ConfigTest extends TestCase
      */
     public static function provideDoesNotHaveRulesEnabledCases(): iterable
     {
-        $symfonyFixers = [
-            'self_accessor' => 'it causes an edge case error',
-        ];
-
-        $contribFixers = [
-            'header_comment' => 'it is not enabled by default',
-            'array_syntax' => [
-                'long' => 'it conflicts with short array syntax (which is enabled)',
-            ],
-            'no_php4_constructor' => 'it changes behaviour',
-            'not_operator_with_space' => 'we do not need leading and trailing whitespace before !',
-            'php_unit_strict' => 'it changes behaviour',
-            'psr0' => 'we are using PSR-4',
-            'no_homoglyph_names' => 'renames classes and cannot rename the files. You might have string references to renamed code (``$$name``)',
-            'simplified_null_return' => 'it changes behaviour on void return',
-        ];
-
-        $php73Fixers = [
-            'heredoc_indentation' => 'Is destroying Heredoc/nowdoc',
-        ];
-
-        $fixers = array_merge($contribFixers, $symfonyFixers, $php73Fixers);
+        $fixers = array_merge(self::CONTRIB_FIXERS, self::SYMFONY_FIXERS, self::PHP73_FIXERS);
 
         $data = [];
 
@@ -488,15 +525,7 @@ final class ConfigTest extends TestCase
      */
     public static function provideHeaderCommentFixerIsEnabledIfHeaderIsProvidedCases(): iterable
     {
-        $values = [
-            'string-empty' => '',
-            'string-not-empty' => 'foo',
-            'string-with-line-feed-only' => "\n",
-            'string-with-spaces-only' => ' ',
-            'string-with-tab-only' => "\t",
-        ];
-
-        foreach ($values as $key => $value) {
+        foreach (self::VALUES as $key => $value) {
             yield $key => [
                 $value,
             ];
@@ -519,140 +548,7 @@ final class ConfigTest extends TestCase
         bool $checkForObjectIdentity = false,
         string $message = ''
     ): void {
-        PhpUnitAssert::assertThat($array, new ArraySubset($subset, $checkForObjectIdentity), $message);
-    }
-
-    /**
-     * @return ((string|string[])[]|true)[]
-     *
-     * @psalm-return array{combine_nested_dirname: true, list_syntax: array{syntax: string}, pow_to_exponentiation: true, random_api_migration: true, return_assignment: true, visibility_required: array{elements: array{0: string, 1: string, 2: string}}, void_return: true}
-     */
-    protected function getPhp71Rules(): array
-    {
-        return [
-            'combine_nested_dirname' => true,
-            'list_syntax' => [
-                'syntax' => 'short',
-            ],
-            'pow_to_exponentiation' => true,
-            'random_api_migration' => true,
-            'return_assignment' => true,
-            'visibility_required' => [
-                'elements' => [
-                    'const',
-                    'method',
-                    'property',
-                ],
-            ],
-            'void_return' => true,
-        ];
-    }
-
-    /**
-     * @return bool[]
-     *
-     * @psalm-return array{heredoc_indentation: false}
-     */
-    protected function getPhp73Rules(): array
-    {
-        return ['heredoc_indentation' => false];
-    }
-
-    /**
-     * @return ((bool|string|string[])[]|bool)[]
-     *
-     * @psalm-return array{@DoctrineAnnotation: true, align_multiline_comment: array{comment_type: string}, no_binary_string: true, no_unset_on_property: false, array_indentation: true, array_syntax: array{syntax: string}, logical_operators: true, pre_increment: false, backtick_to_shell_exec: true, blank_line_before_return: true, class_keyword_remove: false, combine_consecutive_issets: true, combine_consecutive_unsets: true, comment_to_phpdoc: false, compact_nullable_typehint: true, date_time_immutable: true, declare_strict_types: true, dir_constant: true, ereg_to_preg: true, escape_implicit_backslashes: true, explicit_indirect_variable: true, explicit_string_variable: true, ordered_class_elements: true, ordered_imports: array{importsOrder: array{0: string, 1: string, 2: string}}, final_class: true, final_internal_class: true, fully_qualified_strict_types: true, general_phpdoc_annotation_remove: false, hash_to_slash_comment: true, header_comment: false, linebreak_after_opening_tag: true, magic_constant_casing: true, mb_str_functions: false, method_argument_space: array{ensure_fully_multiline: true, keep_multiple_spaces_after_comma: false}, static_lambda: true, string_line_ending: true, method_chaining_indentation: true, modernize_types_casting: true, multiline_comment_opening_closing: true, multiline_whitespace_before_semicolons: array{strategy: string}, no_alternative_syntax: true, no_blank_lines_before_namespace: false, no_multiline_whitespace_before_semicolons: false, no_php4_constructor: false, no_short_echo_tag: true, no_useless_else: true, no_useless_return: true, no_superfluous_elseif: true, phpdoc_to_return_type: true, phpdoc_var_annotation_correct_order: true, no_superfluous_phpdoc_tags: true, not_operator_with_space: false, not_operator_with_successor_space: true, no_homoglyph_names: false, no_unset_cast: true, ordered_interfaces: true, phpdoc_add_missing_param_annotation: array{only_untyped: true}, phpdoc_order: true, phpdoc_types_order: array{null_adjustment: string, sort_algorithm: string}, protected_to_private: true, psr0: false, psr4: true, semicolon_after_instruction: true, simplified_null_return: false, strict_comparison: true, strict_param: true}
-     */
-    protected function getContribRules(): array
-    {
-        return [
-            '@DoctrineAnnotation' => true,
-            'align_multiline_comment' => [
-                'comment_type' => 'all_multiline',
-            ],
-            'no_binary_string' => true,
-            'no_unset_on_property' => false,
-            'array_indentation' => true,
-            'array_syntax' => [
-                'syntax' => 'short',
-            ],
-            'logical_operators' => true,
-            'pre_increment' => false,
-            'backtick_to_shell_exec' => true,
-            'blank_line_before_return' => true,
-            'class_keyword_remove' => false,
-            'combine_consecutive_issets' => true,
-            'combine_consecutive_unsets' => true,
-            'comment_to_phpdoc' => false,
-            'compact_nullable_typehint' => true,
-            'date_time_immutable' => true,
-            'declare_strict_types' => true,
-            'dir_constant' => true,
-            'ereg_to_preg' => true,
-            'escape_implicit_backslashes' => true,
-            'explicit_indirect_variable' => true,
-            'explicit_string_variable' => true,
-            'ordered_class_elements' => true,
-            'ordered_imports' => [
-                'importsOrder' => [
-                    'class',
-                    'const',
-                    'function',
-                ],
-            ],
-            'final_class' => true,
-            'final_internal_class' => true,
-            'fully_qualified_strict_types' => true,
-            'general_phpdoc_annotation_remove' => false,
-            'hash_to_slash_comment' => true,
-            'header_comment' => false,
-            'linebreak_after_opening_tag' => true,
-            'magic_constant_casing' => true,
-            'mb_str_functions' => false,
-            'method_argument_space' => [
-                'ensure_fully_multiline' => true,
-                'keep_multiple_spaces_after_comma' => false,
-            ],
-            'static_lambda' => true,
-            'string_line_ending' => true,
-            'method_chaining_indentation' => true,
-            'modernize_types_casting' => true,
-            'multiline_comment_opening_closing' => true,
-            'multiline_whitespace_before_semicolons' => [
-                'strategy' => 'no_multi_line',
-            ],
-            'no_alternative_syntax' => true,
-            'no_blank_lines_before_namespace' => false,
-            'no_multiline_whitespace_before_semicolons' => false,
-            'no_php4_constructor' => false,
-            'no_short_echo_tag' => true,
-            'no_useless_else' => true,
-            'no_useless_return' => true,
-            'no_superfluous_elseif' => true,
-            'phpdoc_to_return_type' => true,
-            'phpdoc_var_annotation_correct_order' => true,
-            'no_superfluous_phpdoc_tags' => true,
-            'not_operator_with_space' => false,
-            'not_operator_with_successor_space' => true,
-            'no_homoglyph_names' => false,
-            'no_unset_cast' => true,
-            'ordered_interfaces' => true,
-            'phpdoc_add_missing_param_annotation' => [
-                'only_untyped' => true,
-            ],
-            'phpdoc_order' => true,
-            'phpdoc_types_order' => [
-                'null_adjustment' => 'always_first',
-                'sort_algorithm' => 'alpha',
-            ],
-            'protected_to_private' => true,
-            'psr0' => false,
-            'psr4' => true,
-            'semicolon_after_instruction' => true,
-            'simplified_null_return' => false,
-            'strict_comparison' => true,
-            'strict_param' => true,
-        ];
+        Assert::assertThat($array, new ArraySubset($subset, $checkForObjectIdentity), $message);
     }
 
     /**
@@ -660,7 +556,7 @@ final class ConfigTest extends TestCase
      *
      * @psalm-return array{@PSR2: true}
      */
-    protected function getPsr2Rules(): array
+    private function getPsr2Rules(): array
     {
         return [
             '@PSR2' => true,
@@ -670,115 +566,9 @@ final class ConfigTest extends TestCase
     /**
      * @return ((bool|string|string[])[]|bool)[]
      *
-     * @psalm-return array<string, array<string, array<int, string>|bool|string>|bool>
-     */
-    protected function getPsr12Rules(): array
-    {
-        return [
-            'binary_operator_spaces' => [
-                'default' => 'single_space',
-                'operators' => [],
-            ], // Symfony Rule
-            'blank_line_after_opening_tag' => true, // Symfony Rule
-            'braces' => [
-                'allow_single_line_closure' => false,
-                'position_after_anonymous_constructs' => 'same',
-                'position_after_control_structures' => 'same',
-                'position_after_functions_and_oop_constructs' => 'next',
-            ],
-            'concat_space' => ['spacing' => 'one'],
-            'declare_equal_normalize' => [
-                'space' => 'none',
-            ], // Symfony Rule
-            'lowercase_cast' => true,
-            'new_with_braces' => true,
-            'no_blank_lines_after_class_opening' => true,
-            'no_extra_blank_lines' => [
-                'tokens' => [
-                    'break',
-                    'case',
-                    'continue',
-                    'curly_brace_block',
-                    'default',
-                    'extra',
-                    'parenthesis_brace_block',
-                    'return',
-                    'square_brace_block',
-                    'switch',
-                    'throw',
-                    'use',
-                    'use_trait',
-                ],
-            ],
-            'no_leading_import_slash' => true,
-            'no_singleline_whitespace_before_semicolons' => true,
-            'no_trailing_whitespace' => true,
-            'no_whitespace_before_comma_in_array' => true,
-            'return_type_declaration' => true,
-            'short_scalar_cast' => true,
-            'single_import_per_statement' => false,
-            'space_after_semicolon' => [
-                'remove_in_empty_for_expressions' => true,
-            ], // Symfony Rule
-            'ternary_operator_spaces' => true,
-            'unary_operator_spaces' => true,
-            'visibility_required' => [
-                'elements' => ['const', 'method', 'property'],
-            ],
-            'whitespace_after_comma_in_array' => true,
-        ];
-    }
-
-    /**
-     * @return ((string|string[]|true)[]|bool)[]
-     *
-     * @psalm-return array<string, array<string, array<int, string>|bool|string>|bool>
-     */
-    protected function getPHPUnitRules(): array
-    {
-        return [
-            'php_unit_expectation' => [
-                'target' => 'newest',
-            ],
-            'php_unit_dedicate_assert_internal_type' => true,
-            'php_unit_mock' => true,
-            'php_unit_mock_short_will_return' => true,
-            'php_unit_namespaced' => [
-                'target' => 'newest',
-            ],
-            'php_unit_no_expectation_annotation' => [
-                'target' => 'newest',
-                'use_class_const' => true,
-            ],
-            'php_unit_test_case_static_method_calls' => [
-                'call_type' => 'self',
-            ],
-            'php_unit_internal_class' => [
-                'types' => [
-                    'abstract',
-                    'final',
-                    'normal',
-                ],
-            ],
-            'php_unit_ordered_covers' => true,
-            'php_unit_set_up_tear_down_visibility' => true,
-            'php_unit_strict' => false,
-            'php_unit_size_class' => true,
-            'php_unit_test_annotation' => true,
-            'php_unit_test_class_requires_covers' => true,
-            'php_unit_method_casing' => true,
-            'php_unit_construct' => true,
-            'php_unit_dedicate_assert' => true,
-            'php_unit_fqcn_annotation' => true,
-        ];
-    }
-
-    /**
-     * @return ((bool|string|string[])[]|bool)[]
-     *
      * @psalm-return array<string, array<string, array<int|string, string>|bool|string>|bool>
      */
-    protected function getSymfonyRules(): array
+    private function getSymfonyRules(): array
     {
         return [
             'set_type_to_cast' => true,
@@ -1223,6 +1013,245 @@ final class ConfigTest extends TestCase
     }
 
     /**
+     * @return ((bool|string|string[])[]|bool)[]
+     *
+     * @psalm-return array{@DoctrineAnnotation: true, align_multiline_comment: array{comment_type: string}, no_binary_string: true, no_unset_on_property: false, array_indentation: true, array_syntax: array{syntax: string}, logical_operators: true, pre_increment: false, backtick_to_shell_exec: true, blank_line_before_return: true, class_keyword_remove: false, combine_consecutive_issets: true, combine_consecutive_unsets: true, comment_to_phpdoc: false, compact_nullable_typehint: true, date_time_immutable: true, declare_strict_types: true, dir_constant: true, ereg_to_preg: true, escape_implicit_backslashes: true, explicit_indirect_variable: true, explicit_string_variable: true, ordered_class_elements: true, ordered_imports: array{importsOrder: array{0: string, 1: string, 2: string}}, final_class: true, final_internal_class: true, fully_qualified_strict_types: true, general_phpdoc_annotation_remove: false, hash_to_slash_comment: true, header_comment: false, linebreak_after_opening_tag: true, magic_constant_casing: true, mb_str_functions: false, method_argument_space: array{ensure_fully_multiline: true, keep_multiple_spaces_after_comma: false}, static_lambda: true, string_line_ending: true, method_chaining_indentation: true, modernize_types_casting: true, multiline_comment_opening_closing: true, multiline_whitespace_before_semicolons: array{strategy: string}, no_alternative_syntax: true, no_blank_lines_before_namespace: false, no_multiline_whitespace_before_semicolons: false, no_php4_constructor: false, no_short_echo_tag: true, no_useless_else: true, no_useless_return: true, no_superfluous_elseif: true, phpdoc_to_return_type: true, phpdoc_var_annotation_correct_order: true, no_superfluous_phpdoc_tags: true, not_operator_with_space: false, not_operator_with_successor_space: true, no_homoglyph_names: false, no_unset_cast: true, ordered_interfaces: true, phpdoc_add_missing_param_annotation: array{only_untyped: true}, phpdoc_order: true, phpdoc_types_order: array{null_adjustment: string, sort_algorithm: string}, protected_to_private: true, psr0: false, psr4: true, semicolon_after_instruction: true, simplified_null_return: false, strict_comparison: true, strict_param: true}
+     */
+    private function getContribRules(): array
+    {
+        return [
+            '@DoctrineAnnotation' => true,
+            'align_multiline_comment' => [
+                'comment_type' => 'all_multiline',
+            ],
+            'no_binary_string' => true,
+            'no_unset_on_property' => false,
+            'array_indentation' => true,
+            'array_syntax' => [
+                'syntax' => 'short',
+            ],
+            'logical_operators' => true,
+            'pre_increment' => false,
+            'backtick_to_shell_exec' => true,
+            'blank_line_before_return' => true,
+            'class_keyword_remove' => false,
+            'combine_consecutive_issets' => true,
+            'combine_consecutive_unsets' => true,
+            'comment_to_phpdoc' => false,
+            'compact_nullable_typehint' => true,
+            'date_time_immutable' => true,
+            'declare_strict_types' => true,
+            'dir_constant' => true,
+            'ereg_to_preg' => true,
+            'escape_implicit_backslashes' => true,
+            'explicit_indirect_variable' => true,
+            'explicit_string_variable' => true,
+            'ordered_class_elements' => true,
+            'ordered_imports' => [
+                'importsOrder' => [
+                    'class',
+                    'const',
+                    'function',
+                ],
+            ],
+            'final_class' => true,
+            'final_internal_class' => true,
+            'fully_qualified_strict_types' => true,
+            'general_phpdoc_annotation_remove' => false,
+            'hash_to_slash_comment' => true,
+            'header_comment' => false,
+            'linebreak_after_opening_tag' => true,
+            'magic_constant_casing' => true,
+            'mb_str_functions' => false,
+            'method_argument_space' => [
+                'ensure_fully_multiline' => true,
+                'keep_multiple_spaces_after_comma' => false,
+            ],
+            'static_lambda' => true,
+            'string_line_ending' => true,
+            'method_chaining_indentation' => true,
+            'modernize_types_casting' => true,
+            'multiline_comment_opening_closing' => true,
+            'multiline_whitespace_before_semicolons' => [
+                'strategy' => 'no_multi_line',
+            ],
+            'no_alternative_syntax' => true,
+            'no_blank_lines_before_namespace' => false,
+            'no_multiline_whitespace_before_semicolons' => false,
+            'no_php4_constructor' => false,
+            'no_short_echo_tag' => true,
+            'no_useless_else' => true,
+            'no_useless_return' => true,
+            'no_superfluous_elseif' => true,
+            'phpdoc_to_return_type' => true,
+            'phpdoc_var_annotation_correct_order' => true,
+            'no_superfluous_phpdoc_tags' => true,
+            'not_operator_with_space' => false,
+            'not_operator_with_successor_space' => true,
+            'no_homoglyph_names' => false,
+            'no_unset_cast' => true,
+            'ordered_interfaces' => true,
+            'phpdoc_add_missing_param_annotation' => [
+                'only_untyped' => true,
+            ],
+            'phpdoc_order' => true,
+            'phpdoc_types_order' => [
+                'null_adjustment' => 'always_first',
+                'sort_algorithm' => 'alpha',
+            ],
+            'protected_to_private' => true,
+            'psr0' => false,
+            'psr4' => true,
+            'semicolon_after_instruction' => true,
+            'simplified_null_return' => false,
+            'strict_comparison' => true,
+            'strict_param' => true,
+        ];
+    }
+
+    /**
+     * @return ((bool|string|string[])[]|bool)[]
+     *
+     * @psalm-return array<string, array<string, array<int, string>|bool|string>|bool>
+     */
+    private function getPsr12Rules(): array
+    {
+        return [
+            'binary_operator_spaces' => [
+                'default' => 'single_space',
+                'operators' => [],
+            ], // Symfony Rule
+            'blank_line_after_opening_tag' => true, // Symfony Rule
+            'braces' => [
+                'allow_single_line_closure' => false,
+                'position_after_anonymous_constructs' => 'same',
+                'position_after_control_structures' => 'same',
+                'position_after_functions_and_oop_constructs' => 'next',
+            ],
+            'concat_space' => ['spacing' => 'one'],
+            'declare_equal_normalize' => [
+                'space' => 'none',
+            ], // Symfony Rule
+            'lowercase_cast' => true,
+            'new_with_braces' => true,
+            'no_blank_lines_after_class_opening' => true,
+            'no_extra_blank_lines' => [
+                'tokens' => [
+                    'break',
+                    'case',
+                    'continue',
+                    'curly_brace_block',
+                    'default',
+                    'extra',
+                    'parenthesis_brace_block',
+                    'return',
+                    'square_brace_block',
+                    'switch',
+                    'throw',
+                    'use',
+                    'use_trait',
+                ],
+            ],
+            'no_leading_import_slash' => true,
+            'no_singleline_whitespace_before_semicolons' => true,
+            'no_trailing_whitespace' => true,
+            'no_whitespace_before_comma_in_array' => true,
+            'return_type_declaration' => true,
+            'short_scalar_cast' => true,
+            'single_import_per_statement' => false,
+            'space_after_semicolon' => [
+                'remove_in_empty_for_expressions' => true,
+            ], // Symfony Rule
+            'ternary_operator_spaces' => true,
+            'unary_operator_spaces' => true,
+            'visibility_required' => [
+                'elements' => ['const', 'method', 'property'],
+            ],
+            'whitespace_after_comma_in_array' => true,
+        ];
+    }
+
+    /**
+     * @return ((string|string[])[]|true)[]
+     *
+     * @psalm-return array{combine_nested_dirname: true, list_syntax: array{syntax: string}, pow_to_exponentiation: true, random_api_migration: true, return_assignment: true, visibility_required: array{elements: array{0: string, 1: string, 2: string}}, void_return: true}
+     */
+    private function getPhp71Rules(): array
+    {
+        return [
+            'combine_nested_dirname' => true,
+            'list_syntax' => [
+                'syntax' => 'short',
+            ],
+            'pow_to_exponentiation' => true,
+            'random_api_migration' => true,
+            'return_assignment' => true,
+            'visibility_required' => [
+                'elements' => [
+                    'const',
+                    'method',
+                    'property',
+                ],
+            ],
+            'void_return' => true,
+        ];
+    }
+
+    /**
+     * @return bool[]
+     *
+     * @psalm-return array{heredoc_indentation: false}
+     */
+    private function getPhp73Rules(): array
+    {
+        return ['heredoc_indentation' => false];
+    }
+
+    /**
+     * @return ((string|string[]|true)[]|bool)[]
+     *
+     * @psalm-return array<string, array<string, array<int, string>|bool|string>|bool>
+     */
+    private function getPHPUnitRules(): array
+    {
+        return [
+            'php_unit_expectation' => [
+                'target' => 'newest',
+            ],
+            'php_unit_dedicate_assert_internal_type' => true,
+            'php_unit_mock' => true,
+            'php_unit_mock_short_will_return' => true,
+            'php_unit_namespaced' => [
+                'target' => 'newest',
+            ],
+            'php_unit_no_expectation_annotation' => [
+                'target' => 'newest',
+                'use_class_const' => true,
+            ],
+            'php_unit_test_case_static_method_calls' => [
+                'call_type' => 'self',
+            ],
+            'php_unit_internal_class' => [
+                'types' => [
+                    'abstract',
+                    'final',
+                    'normal',
+                ],
+            ],
+            'php_unit_ordered_covers' => true,
+            'php_unit_set_up_tear_down_visibility' => true,
+            'php_unit_strict' => false,
+            'php_unit_size_class' => true,
+            'php_unit_test_annotation' => true,
+            'php_unit_test_class_requires_covers' => true,
+            'php_unit_method_casing' => true,
+            'php_unit_construct' => true,
+            'php_unit_dedicate_assert' => true,
+            'php_unit_fqcn_annotation' => true,
+        ];
+    }
+
+    /**
      * @return ((int|true)[]|bool)[]
      *
      * @psalm-return array{PedroTroller/comment_line_to_phpdoc_block: true, PedroTroller/exceptions_punctuation: true, PedroTroller/forbidden_functions: false, PedroTroller/ordered_with_getter_and_setter_first: true, PedroTroller/line_break_between_method_arguments: array{max-args: int, max-length: int, automatic-argument-merge: true}, PedroTroller/line_break_between_statements: true, PedroTroller/useless_code_after_return: true, PedroTroller/phpspec: false, PedroTroller/doctrine_migrations: true, PedroTroller/order_behat_steps: false}
@@ -1298,27 +1327,7 @@ final class ConfigTest extends TestCase
      */
     private function getDeprecatedFixer(): array
     {
-        $phpCsFixerCustomFixers = [
-            'PhpCsFixerCustomFixers/implode_call',
-            'PhpCsFixerCustomFixers/no_two_consecutive_empty_lines',
-            'PhpCsFixerCustomFixers/no_unneeded_concatenation',
-            'PhpCsFixerCustomFixers/no_useless_class_comment',
-            'PhpCsFixerCustomFixers/no_useless_constructor_comment',
-            'PhpCsFixerCustomFixers/nullable_param_style',
-            'PhpCsFixerCustomFixers/single_line_throw',
-            'PhpCsFixerCustomFixers/phpdoc_var_annotation_correct_order',
-            'PhpCsFixerCustomFixers/no_useless_sprintf',
-            'PhpCsFixerCustomFixers/operator_linebreak',
-        ];
-        $pedroTrollerFixers = [
-            'PedroTroller/single_line_comment',
-            'PedroTroller/useless_comment',
-            'PedroTroller/ordered_spec_elements',
-            'PedroTroller/phpspec_scenario_return_type_declaration',
-            'PedroTroller/phpspec_scenario_scope',
-        ];
-
-        return array_merge($phpCsFixerCustomFixers, $pedroTrollerFixers);
+        return array_merge(self::PHP_CS_FIXER_CUSTOM_FIXERS, self::PEDRO_TROLLER_FIXERS);
     }
 
     /**

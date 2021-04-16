@@ -22,6 +22,7 @@ use SebastianBergmann\Comparator\ComparisonFailure;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use Traversable;
 use function is_array;
+use function Safe\array_replace_recursive;
 
 /**
  * Constraint that asserts that the array it is evaluated for has a specified subset.
@@ -32,7 +33,7 @@ use function is_array;
 final class ArraySubset extends Constraint
 {
     /** @var mixed[] */
-    private array $subset;
+    private array $subset = [];
 
     /**
      * @param ArrayObject|iterable|mixed[]|Traversable $subset
@@ -80,14 +81,14 @@ final class ArraySubset extends Constraint
             return null;
         }
 
-        $f = new ComparisonFailure(
+        $comparisonFailure = new ComparisonFailure(
             $patched,
             $arr,
             var_export($patched, true),
             var_export($arr, true)
         );
 
-        $this->fail($arr, $description, $f);
+        $this->fail($arr, $description, $comparisonFailure);
     }
 
     /**
@@ -124,7 +125,7 @@ final class ArraySubset extends Constraint
      *
      * @return mixed[]
      */
-    protected function toArray(iterable $other): array
+    private function toArray(iterable $other): array
     {
         if (is_array($other)) {
             return $other;

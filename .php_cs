@@ -28,6 +28,8 @@ $config->getFinder()
         '.dependabot',
         '.github',
     ])
+    // php_unit_namespaced rule thinks than the const are some namespaces
+    ->notPath('rector.php')
     ->name('*.php')
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
