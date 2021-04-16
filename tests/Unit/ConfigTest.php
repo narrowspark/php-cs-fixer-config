@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Narrowspark\CS\Config\Tests\Unit;
 
-use function Safe\sprintf;
 use ArrayObject;
 use Exception;
 use Narrowspark\CS\Config\Config;
@@ -83,6 +82,7 @@ use function count;
 use function implode;
 use function is_array;
 use function is_string;
+use function Safe\sprintf;
 use function str_replace;
 use function trim;
 use function var_export;
@@ -562,6 +562,7 @@ final class ConfigTest extends TestCase
             '@PSR2' => true,
         ];
     }
+
     /**
      * @return ((bool|string|string[])[]|bool)[]
      *
@@ -1010,6 +1011,7 @@ final class ConfigTest extends TestCase
             'whitespace_after_comma_in_array' => true,
         ];
     }
+
     /**
      * @return ((bool|string|string[])[]|bool)[]
      *
@@ -1168,6 +1170,7 @@ final class ConfigTest extends TestCase
             'whitespace_after_comma_in_array' => true,
         ];
     }
+
     /**
      * @return ((string|string[])[]|true)[]
      *
@@ -1193,6 +1196,7 @@ final class ConfigTest extends TestCase
             'void_return' => true,
         ];
     }
+
     /**
      * @return bool[]
      *
