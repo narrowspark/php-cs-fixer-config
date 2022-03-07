@@ -1,7 +1,8 @@
 {
     "name": "narrowspark/php-cs-fixer-config",
-    "type": "library",
     "description": "Provides a configuration for friendsofphp/php-cs-fixer, used within Narrowspark and Anolilab.",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "narrowspark",
         "cs",
@@ -9,8 +10,6 @@
         "config",
         "php-cs-fixer"
     ],
-    "homepage": "https://github.com/narrowspark/php-cs-fixer-config",
-    "license": "MIT",
     "authors": [
         {
             "name": "Daniel Bannert",
@@ -19,6 +18,11 @@
             "role": "Developer"
         }
     ],
+    "homepage": "https://github.com/narrowspark/php-cs-fixer-config",
+    "support": {
+        "issues": "https://github.com/narrowspark/php-cs-fixer-config/issues",
+        "source": "https://github.com/narrowspark/php-cs-fixer-config"
+    },
     "require": {
         "php": "^8.0",
         "ergebnis/license": "~1.2.0",
@@ -43,15 +47,8 @@
         "thecodingmachine/phpstan-strict-rules": "^0.12.1",
         "vimeo/psalm": "^4.6.2"
     },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-main": "6.3-dev"
-        }
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Narrowspark\\CS\\Config\\": "src"
@@ -62,8 +59,15 @@
             "Narrowspark\\CS\\Config\\Tests\\": "tests"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "6.3-dev"
+        }
+    },
     "scripts": {
         "coverage": [
             "phpunit --dump-xdebug-filter=./.build/phpunit/.xdebug-filter.php",
@@ -78,9 +82,5 @@
         "rector": "rector process --ansi --dry-run",
         "rector:fix": "rector process --ansi",
         "test": "phpunit"
-    },
-    "support": {
-        "issues": "https://github.com/narrowspark/php-cs-fixer-config/issues",
-        "source": "https://github.com/narrowspark/php-cs-fixer-config"
     }
 }
