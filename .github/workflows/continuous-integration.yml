@@ -238,7 +238,7 @@ jobs:
 
             - name: "Download php coverage result"
               id: "download"
-              uses: "actions/download-artifact@v2"
+              uses: actions/download-artifact@v3
               with:
                   path: "./clover"
 
